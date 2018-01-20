@@ -1,0 +1,198 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Addr_Read	control.c	202;"	function	signature:(u16 *address)
+Addr_Read	type.h	13;"	prototype	signature:(u16 *address)
+BIT	main.h	18;"	macro
+BSP_Init	control.c	64;"	function	signature:(void)
+BSP_Init	type.h	12;"	prototype	signature:(void)
+Back_zero	main.h	24;"	macro
+Button_detection	main.h	33;"	macro
+Button_enabled	main.h	31;"	macro
+Button_not_enabled	main.h	32;"	macro
+Check_num	main.h	34;"	macro
+Check_num_zero	main.h	35;"	macro
+DEF_16BIT_REG_AT	stm8s103k.h	20;"	macro
+DEF_16BIT_REG_AT	stm8s103k.h	25;"	macro
+DEF_8BIT_REG_AT	stm8s103k.h	19;"	macro
+DEF_8BIT_REG_AT	stm8s103k.h	24;"	macro
+Detection_barrier	main.h	22;"	macro
+Drawer_back	main.h	28;"	macro
+Drawer_back_place	main.h	29;"	macro
+Drawer_out	main.h	26;"	macro
+Drawer_out_place	main.h	27;"	macro
+Duty_Val	main.c	35;"	variable
+ERROR	main.h	37;"	macro
+Eeprom_Init	control.c	334;"	function	signature:(void)
+Eeprom_Init	type.h	21;"	prototype	signature:(void)
+Eeprom_Read	control.c	364;"	function	signature:(u8 addr)
+Eeprom_Read	type.h	22;"	prototype	signature:(u8 addr)
+Eeprom_Write	control.c	350;"	function	signature:(u8 addr,u8 dat)
+Eeprom_Write	type.h	24;"	prototype	signature:(u8 addr,u8 dat)
+MAIN_H_	main.h	8;"	macro
+Motor_rotation	main.h	25;"	macro
+NonHandledInterrupt	stm8_interrupt_vector.c	12;"	function	signature:(void)
+OPEN_LOGIHT	main.h	36;"	macro
+PA_IDR	stm8s103k.h	734;"	variable
+PA_IDR	stm8s103k.h	735;"	variable
+PA_IDR	stm8s103k.h	736;"	variable
+PA_IDR	stm8s103k.h	737;"	variable
+PA_IDR	stm8s103k.h	738;"	variable
+PA_IDR	stm8s103k.h	739;"	variable
+PA_IDR	stm8s103k.h	740;"	variable
+PA_IDR	stm8s103k.h	741;"	variable
+PA_ODR	stm8s103k.h	725;"	variable
+PA_ODR	stm8s103k.h	726;"	variable
+PA_ODR	stm8s103k.h	727;"	variable
+PA_ODR	stm8s103k.h	728;"	variable
+PA_ODR	stm8s103k.h	729;"	variable
+PA_ODR	stm8s103k.h	730;"	variable
+PA_ODR	stm8s103k.h	731;"	variable
+PA_ODR	stm8s103k.h	732;"	variable
+PB_IDR	stm8s103k.h	752;"	variable
+PB_IDR	stm8s103k.h	753;"	variable
+PB_IDR	stm8s103k.h	754;"	variable
+PB_IDR	stm8s103k.h	755;"	variable
+PB_IDR	stm8s103k.h	756;"	variable
+PB_IDR	stm8s103k.h	757;"	variable
+PB_IDR	stm8s103k.h	758;"	variable
+PB_IDR	stm8s103k.h	759;"	variable
+PB_ODR	stm8s103k.h	743;"	variable
+PB_ODR	stm8s103k.h	744;"	variable
+PB_ODR	stm8s103k.h	745;"	variable
+PB_ODR	stm8s103k.h	746;"	variable
+PB_ODR	stm8s103k.h	747;"	variable
+PB_ODR	stm8s103k.h	748;"	variable
+PB_ODR	stm8s103k.h	749;"	variable
+PB_ODR	stm8s103k.h	750;"	variable
+PC_IDR	stm8s103k.h	770;"	variable
+PC_IDR	stm8s103k.h	771;"	variable
+PC_IDR	stm8s103k.h	772;"	variable
+PC_IDR	stm8s103k.h	773;"	variable
+PC_IDR	stm8s103k.h	774;"	variable
+PC_IDR	stm8s103k.h	775;"	variable
+PC_IDR	stm8s103k.h	776;"	variable
+PC_IDR	stm8s103k.h	777;"	variable
+PC_ODR	stm8s103k.h	761;"	variable
+PC_ODR	stm8s103k.h	762;"	variable
+PC_ODR	stm8s103k.h	763;"	variable
+PC_ODR	stm8s103k.h	764;"	variable
+PC_ODR	stm8s103k.h	765;"	variable
+PC_ODR	stm8s103k.h	766;"	variable
+PC_ODR	stm8s103k.h	767;"	variable
+PC_ODR	stm8s103k.h	768;"	variable
+PD_IDR	stm8s103k.h	788;"	variable
+PD_IDR	stm8s103k.h	789;"	variable
+PD_IDR	stm8s103k.h	790;"	variable
+PD_IDR	stm8s103k.h	791;"	variable
+PD_IDR	stm8s103k.h	792;"	variable
+PD_IDR	stm8s103k.h	793;"	variable
+PD_IDR	stm8s103k.h	794;"	variable
+PD_IDR	stm8s103k.h	795;"	variable
+PD_ODR	stm8s103k.h	779;"	variable
+PD_ODR	stm8s103k.h	780;"	variable
+PD_ODR	stm8s103k.h	781;"	variable
+PD_ODR	stm8s103k.h	782;"	variable
+PD_ODR	stm8s103k.h	783;"	variable
+PD_ODR	stm8s103k.h	784;"	variable
+PD_ODR	stm8s103k.h	785;"	variable
+PD_ODR	stm8s103k.h	786;"	variable
+PE_IDR	stm8s103k.h	806;"	variable
+PE_IDR	stm8s103k.h	807;"	variable
+PE_IDR	stm8s103k.h	808;"	variable
+PE_IDR	stm8s103k.h	809;"	variable
+PE_IDR	stm8s103k.h	810;"	variable
+PE_IDR	stm8s103k.h	811;"	variable
+PE_IDR	stm8s103k.h	812;"	variable
+PE_IDR	stm8s103k.h	813;"	variable
+PE_ODR	stm8s103k.h	797;"	variable
+PE_ODR	stm8s103k.h	798;"	variable
+PE_ODR	stm8s103k.h	799;"	variable
+PE_ODR	stm8s103k.h	800;"	variable
+PE_ODR	stm8s103k.h	801;"	variable
+PE_ODR	stm8s103k.h	802;"	variable
+PE_ODR	stm8s103k.h	803;"	variable
+PE_ODR	stm8s103k.h	804;"	variable
+PF_IDR	stm8s103k.h	819;"	variable
+PF_ODR	stm8s103k.h	828;"	variable
+R_MaxNumberofCom	main.h	39;"	macro
+R_RsBuffer	main.c	24;"	variable
+R_TsBuffer	main.c	25;"	variable
+Reboot	main.h	23;"	macro
+STM8S103K	stm8s103k.h	12;"	macro
+SetLed	control.c	323;"	function	signature:(u8 cmd)
+SetLed	type.h	25;"	prototype	signature:(u8 cmd)
+T1msFlg	main.c	32;"	variable
+T2msFlg	main.c	33;"	variable
+TIM1_UPD_OVF_IRQHandler	main.c	221;"	function	signature:(void)
+TIM1_UPD_OVF_IRQHandler	stm8_interrupt_vector.c	19;"	prototype	file:	signature:(void)
+TRUE	main.h	38;"	macro
+TS_count	main.c	36;"	variable
+TYPE_H_	type.h	8;"	macro
+UART1_Init	type.h	16;"	prototype	signature:(void)
+UART1_Init	usart.c	15;"	function	signature:(void)
+UART1_Recv_IRQHandler	main.c	231;"	function	signature:(void)
+UART1_Recv_IRQHandler	stm8_interrupt_vector.c	21;"	prototype	file:	signature:(void)
+UART1_Send	type.h	18;"	prototype	signature:(u8 *Array,u8 command,u8 situ)
+UART1_Send	usart.c	55;"	function	signature:(u8 *Array,u8 command,u8 situ)
+UART1_Sendint	type.h	17;"	prototype	signature:(u8 ch)
+UART1_Sendint	usart.c	43;"	function	signature:(u8 ch)
+UART1_Txcv_IRQHandler	main.c	280;"	function	signature:(void)
+UART1_Txcv_IRQHandler	stm8_interrupt_vector.c	20;"	prototype	file:	signature:(void)
+WDT	main.h	20;"	macro
+Whether_receipt	main.h	30;"	macro
+__MODS0__	..\..\..\..\..\program files (x86)\cosmic\cxstm8_eval\hstm8\mods0.h	11;"	macro
+__STM8S103K__	stm8s103k.h	6;"	macro
+_stext	stm8_interrupt_vector.c	22;"	prototype	file:
+_vectab	stm8_interrupt_vector.c	24;"	variable
+addre	main.c	28;"	variable
+adr_1	control.c	9;"	macro	file:
+adr_10	control.c	18;"	macro	file:
+adr_2	control.c	10;"	macro	file:
+adr_3	control.c	11;"	macro	file:
+adr_4	control.c	12;"	macro	file:
+adr_5	control.c	13;"	macro	file:
+adr_6	control.c	14;"	macro	file:
+adr_7	control.c	15;"	macro	file:
+adr_8	control.c	16;"	macro	file:
+adr_9	control.c	17;"	macro	file:
+back_seat	control.c	22;"	macro	file:
+back_seat	main.c	38;"	macro	file:
+c_head	main.h	41;"	macro
+c_last	main.h	42;"	macro
+c_ok_Flag	main.c	26;"	variable
+com_Flag	main.c	29;"	variable
+com_i	main.c	27;"	variable
+delayms	control.c	37;"	function	signature:(u16 ms)
+delayms	type.h	14;"	prototype	signature:(u16 ms)
+delayus	control.c	53;"	function	signature:(u16 us)
+eeprom_count	control.c	371;"	function	signature:(u8 ad)
+eeprom_count	type.h	23;"	prototype	signature:(u8 ad)
+en_seat	control.c	21;"	macro	file:
+fs_i	main.c	278;"	variable
+fs_ok	main.c	279;"	variable
+interrupt_handler	stm8_interrupt_vector.c	9;"	member	struct:interrupt_vector	file:
+interrupt_handler_t	stm8_interrupt_vector.c	5;"	typedef	file:
+interrupt_instruction	stm8_interrupt_vector.c	8;"	member	struct:interrupt_vector	file:
+interrupt_vector	stm8_interrupt_vector.c	7;"	struct	file:
+main	main.c	44;"	function
+moto_dir	control.c	26;"	macro	file:
+moto_step	control.c	25;"	macro	file:
+out_seat	control.c	23;"	macro	file:
+out_seat	main.c	39;"	macro	file:
+r_Flag	main.c	30;"	variable
+r_num	main.c	31;"	variable
+robot_mode	control.c	246;"	function	signature:(u8 mode)
+robot_mode	type.h	20;"	prototype	signature:(u8 mode)
+rs485_dr1	main.c	37;"	macro	file:
+rs485_dr1	usart.c	9;"	macro	file:
+run_Falg	main.c	34;"	variable
+s16	main.h	15;"	typedef
+s32	main.h	16;"	typedef
+s8	main.h	14;"	typedef
+u16	main.h	12;"	typedef
+u32	main.h	13;"	typedef
+u8	main.h	11;"	typedef

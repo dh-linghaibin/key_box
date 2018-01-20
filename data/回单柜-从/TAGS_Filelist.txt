@@ -1,0 +1,8 @@
+control.c
+main.c
+stm8_interrupt_vector.c
+usart.c
+main.h
+stm8s103k.h
+type.h
+..\..\..\..\..\program files (x86)\cosmic\cxstm8_eval\hstm8\mods0.h

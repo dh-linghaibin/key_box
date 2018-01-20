@@ -1,0 +1,365 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Addr_Read	control.c	221;"	function	signature:(u8 *address)
+Addr_Read	type.h	29;"	prototype	signature:(u8 *address)
+Average_Pulse	main.h	56;"	macro
+BIT	main.h	20;"	macro
+BSP_Init	control.c	89;"	function	signature:(void)
+BSP_Init	type.h	25;"	prototype	signature:(void)
+Back_Zero	control.c	660;"	function	signature:(u8 *Dr_Num_Save)
+Back_Zero	type.h	32;"	prototype	signature:(u8 *Dr_Num_Save)
+Back_zero	main.h	28;"	macro
+Bar_Read	control.c	279;"	function	signature:(u8 *Array)
+Bar_Read	type.h	30;"	prototype	signature:(u8 *Array)
+Button_detection	main.h	37;"	macro
+Button_enabled	main.h	35;"	macro
+Button_not_enabled	main.h	36;"	macro
+CORRECT	main.h	39;"	macro
+CS_H	lcd.c	10;"	macro	file:
+CS_L	lcd.c	11;"	macro	file:
+Check_num	main.h	43;"	macro
+Check_num_zero	main.h	44;"	macro
+Com_Check	control.c	410;"	function	signature:(u8 *place,u8 ad)
+Com_Check	type.h	31;"	prototype	signature:(u8 *place,u8 ad)
+DEF_16BIT_REG_AT	stm8s207c_s.h	20;"	macro
+DEF_16BIT_REG_AT	stm8s207c_s.h	25;"	macro
+DEF_8BIT_REG_AT	stm8s207c_s.h	19;"	macro
+DEF_8BIT_REG_AT	stm8s207c_s.h	24;"	macro
+Detection_barrier	main.h	25;"	macro
+Disp_HZ	lcd.c	171;"	function	signature:(u8 X,const u8 * pt,u8 num)
+Disp_HZ	type.h	18;"	prototype	signature:(u8 X,const u8 * pt,u8 num)
+Display_LCD_Num	lcd.c	236;"	function	signature:(u8 x,u16 num,u8 time)
+Display_LCD_Num	type.h	20;"	prototype	signature:(u8 x,u16 num,u8 time)
+Display_LCD_Pos	lcd.c	150;"	function	signature:(u8 x,u8 y)
+Display_LCD_String	lcd.c	187;"	function	signature:(u8 x,u8 *p,u8 time)
+Display_LCD_String	type.h	19;"	prototype	signature:(u8 x,u8 *p,u8 time)
+Display_LCD_String_XY	lcd.c	209;"	function	signature:(u8 x,u8 y,u8 *p,u8 time)
+Display_LCD_String_XY	type.h	22;"	prototype	signature:(u8 x,u8 y,u8 *p,u8 time)
+Display_String	lcd.c	223;"	function	signature:(u8 *p,u8 time)
+Display_String	type.h	23;"	prototype	signature:(u8 *p,u8 time)
+Dr_Num_Save	main.c	42;"	variable
+Draw_PM	lcd.c	264;"	function	signature:(const u8 *ptr)
+Draw_PM	type.h	21;"	prototype	signature:(const u8 *ptr)
+Drawer_back	main.h	32;"	macro
+Drawer_back_place	main.h	33;"	macro
+Drawer_cont	type.h	36;"	prototype	signature:(u8 *rb_Flag,u8 *R_ts,u8 *R_rs, u8 *ts,u8 *rs,u8 mode,u8 *ts_flag)
+Drawer_cont	uart.c	200;"	function	signature:(u8 *rb_Flag,u8 *R_ts,u8 *R_rs, u8 *ts,u8 *rs,u8 mode,u8 *ts_flag)
+Drawer_out	main.h	30;"	macro
+Drawer_out_place	main.h	31;"	macro
+ERROR	main.h	40;"	macro
+Eeprom_Init	control.c	429;"	function	signature:(void)
+Eeprom_Init	type.h	39;"	prototype	signature:(void)
+Eeprom_Read	control.c	459;"	function	signature:(u8 addr)
+Eeprom_Read	type.h	41;"	prototype	signature:(u8 addr)
+Eeprom_Write	control.c	445;"	function	signature:(u8 addr,u8 dat)
+Eeprom_Write	type.h	40;"	prototype	signature:(u8 addr,u8 dat)
+Encoder	main.c	46;"	variable
+Encoder_bz	main.c	50;"	variable
+Encoder_count	main.c	53;"	variable
+Encoder_hz	main.h	74;"	macro
+FALSE	main.h	42;"	macro
+Found_Receipt	control.c	490;"	function	signature:(u8 *Array_R,u8 *wr_Flag,u8 *sta_Flag)
+Found_Receipt	type.h	35;"	prototype	signature:(u8 *Array_R,u8 *wr_Flag,u8 *sta_Flag)
+LCD12864_Init	lcd.c	30;"	function	signature:(void)
+LCD12864_Init	type.h	14;"	prototype	signature:(void)
+LCD_Clear_BMP	lcd.c	118;"	function	signature:( void )
+LCD_Clear_BMP	type.h	16;"	prototype	signature:(void)
+LCD_Clear_TXT	lcd.c	103;"	function	signature:(void)
+LCD_Clear_TXT	type.h	15;"	prototype	signature:(void)
+MAIN_H_	main.h	8;"	macro
+MaxNumberofCom	main.h	46;"	macro
+Menu_Host	app.c	11;"	function	signature:(u8 status,u8 address,u8 *Array_R,u8 dr_num,page_num *page_n)
+Menu_Host	type.h	53;"	prototype	signature:(u8 status,u8 address,u8 *Array_R,u8 dr_num,page_num *page_n)
+Moto_Hz	control.c	472;"	function	signature:(u32 hz)
+Moto_Hz	type.h	33;"	prototype	signature:(u32 hz)
+Motor_rotation	main.h	29;"	macro
+NULL	..\..\..\..\cxstm8\hstm8\string.h	8;"	macro
+NonHandledInterrupt	stm8_interrupt_vector.c	12;"	function	signature:(void)
+PA_IDR	stm8s207c_s.h	721;"	variable
+PA_IDR	stm8s207c_s.h	722;"	variable
+PA_IDR	stm8s207c_s.h	723;"	variable
+PA_IDR	stm8s207c_s.h	724;"	variable
+PA_IDR	stm8s207c_s.h	725;"	variable
+PA_IDR	stm8s207c_s.h	726;"	variable
+PA_IDR	stm8s207c_s.h	727;"	variable
+PA_IDR	stm8s207c_s.h	728;"	variable
+PA_ODR	stm8s207c_s.h	712;"	variable
+PA_ODR	stm8s207c_s.h	713;"	variable
+PA_ODR	stm8s207c_s.h	714;"	variable
+PA_ODR	stm8s207c_s.h	715;"	variable
+PA_ODR	stm8s207c_s.h	716;"	variable
+PA_ODR	stm8s207c_s.h	717;"	variable
+PA_ODR	stm8s207c_s.h	718;"	variable
+PA_ODR	stm8s207c_s.h	719;"	variable
+PB_IDR	stm8s207c_s.h	739;"	variable
+PB_IDR	stm8s207c_s.h	740;"	variable
+PB_IDR	stm8s207c_s.h	741;"	variable
+PB_IDR	stm8s207c_s.h	742;"	variable
+PB_IDR	stm8s207c_s.h	743;"	variable
+PB_IDR	stm8s207c_s.h	744;"	variable
+PB_IDR	stm8s207c_s.h	745;"	variable
+PB_IDR	stm8s207c_s.h	746;"	variable
+PB_ODR	stm8s207c_s.h	730;"	variable
+PB_ODR	stm8s207c_s.h	731;"	variable
+PB_ODR	stm8s207c_s.h	732;"	variable
+PB_ODR	stm8s207c_s.h	733;"	variable
+PB_ODR	stm8s207c_s.h	734;"	variable
+PB_ODR	stm8s207c_s.h	735;"	variable
+PB_ODR	stm8s207c_s.h	736;"	variable
+PB_ODR	stm8s207c_s.h	737;"	variable
+PC_IDR	stm8s207c_s.h	757;"	variable
+PC_IDR	stm8s207c_s.h	758;"	variable
+PC_IDR	stm8s207c_s.h	759;"	variable
+PC_IDR	stm8s207c_s.h	760;"	variable
+PC_IDR	stm8s207c_s.h	761;"	variable
+PC_IDR	stm8s207c_s.h	762;"	variable
+PC_IDR	stm8s207c_s.h	763;"	variable
+PC_IDR	stm8s207c_s.h	764;"	variable
+PC_ODR	stm8s207c_s.h	748;"	variable
+PC_ODR	stm8s207c_s.h	749;"	variable
+PC_ODR	stm8s207c_s.h	750;"	variable
+PC_ODR	stm8s207c_s.h	751;"	variable
+PC_ODR	stm8s207c_s.h	752;"	variable
+PC_ODR	stm8s207c_s.h	753;"	variable
+PC_ODR	stm8s207c_s.h	754;"	variable
+PC_ODR	stm8s207c_s.h	755;"	variable
+PD_IDR	stm8s207c_s.h	775;"	variable
+PD_IDR	stm8s207c_s.h	776;"	variable
+PD_IDR	stm8s207c_s.h	777;"	variable
+PD_IDR	stm8s207c_s.h	778;"	variable
+PD_IDR	stm8s207c_s.h	779;"	variable
+PD_IDR	stm8s207c_s.h	780;"	variable
+PD_IDR	stm8s207c_s.h	781;"	variable
+PD_IDR	stm8s207c_s.h	782;"	variable
+PD_ODR	stm8s207c_s.h	766;"	variable
+PD_ODR	stm8s207c_s.h	767;"	variable
+PD_ODR	stm8s207c_s.h	768;"	variable
+PD_ODR	stm8s207c_s.h	769;"	variable
+PD_ODR	stm8s207c_s.h	770;"	variable
+PD_ODR	stm8s207c_s.h	771;"	variable
+PD_ODR	stm8s207c_s.h	772;"	variable
+PD_ODR	stm8s207c_s.h	773;"	variable
+PE_IDR	stm8s207c_s.h	793;"	variable
+PE_IDR	stm8s207c_s.h	794;"	variable
+PE_IDR	stm8s207c_s.h	795;"	variable
+PE_IDR	stm8s207c_s.h	796;"	variable
+PE_IDR	stm8s207c_s.h	797;"	variable
+PE_IDR	stm8s207c_s.h	798;"	variable
+PE_IDR	stm8s207c_s.h	799;"	variable
+PE_IDR	stm8s207c_s.h	800;"	variable
+PE_ODR	stm8s207c_s.h	784;"	variable
+PE_ODR	stm8s207c_s.h	785;"	variable
+PE_ODR	stm8s207c_s.h	786;"	variable
+PE_ODR	stm8s207c_s.h	787;"	variable
+PE_ODR	stm8s207c_s.h	788;"	variable
+PE_ODR	stm8s207c_s.h	789;"	variable
+PE_ODR	stm8s207c_s.h	790;"	variable
+PE_ODR	stm8s207c_s.h	791;"	variable
+PG_IDR	stm8s207c_s.h	805;"	variable
+PG_IDR	stm8s207c_s.h	806;"	variable
+PG_ODR	stm8s207c_s.h	802;"	variable
+PG_ODR	stm8s207c_s.h	803;"	variable
+R_MaxNumberofCom	main.h	47;"	macro
+R_RsBuffer	main.c	28;"	variable
+R_TsBuffer	main.c	29;"	variable
+Rc_ok_Flag	main.c	36;"	variable
+Rcom_Flag	main.c	38;"	variable
+Rcom_i	main.c	37;"	variable
+Reboot	main.h	27;"	macro
+RsBuffer	main.c	26;"	variable
+SCLK_H	lcd.c	14;"	macro	file:
+SCLK_L	lcd.c	15;"	macro	file:
+SDr_Num_Save	main.c	39;"	variable
+SID_H	lcd.c	12;"	macro	file:
+SID_L	lcd.c	13;"	macro	file:
+STM8S207C_S	stm8s207c_s.h	12;"	macro
+S_buf	main.c	49;"	variable
+Send_Byte	lcd.c	56;"	function	signature:(u8 zdata)
+Shield	main.c	48;"	variable
+Shield_sava	control.c	255;"	function	signature:(u8 *Array)
+Shield_sava	type.h	28;"	prototype	signature:(u8 *Array)
+T1msFlg	main.c	62;"	variable
+T2msFlg	main.c	63;"	variable
+TIM1_UPD_OVF_IRQHandler	main.c	765;"	function	signature:(void)
+TIM1_UPD_OVF_IRQHandler	stm8_interrupt_vector.c	23;"	prototype	file:	signature:(void)
+TIM2_UPD_OVF_IRQHandler	main.c	929;"	function	signature:(void)
+TIM2_UPD_OVF_IRQHandler	stm8_interrupt_vector.c	24;"	prototype	file:	signature:(void)
+TIM3_UPD_OVF_IRQHandler	main.c	952;"	function	signature:(void)
+TIM3_UPD_OVF_IRQHandler	stm8_interrupt_vector.c	25;"	prototype	file:	signature:(void)
+TRUE	main.h	41;"	macro
+TYPE_H_	type.h	8;"	macro
+Total_Circle	main.h	55;"	macro
+TsBuffer	main.c	27;"	variable
+UART1_Init	type.h	43;"	prototype	signature:(void)
+UART1_Init	uart.c	16;"	function	signature:(void)
+UART1_Recv_IRQHandler	main.c	794;"	function	signature:(void)
+UART1_Recv_IRQHandler	stm8_interrupt_vector.c	19;"	prototype	file:	signature:(void)
+UART1_Send	type.h	48;"	prototype	signature:(u8 *Array,u8 command,u8 situ)
+UART1_Send	uart.c	57;"	function	signature:(u8 *Array,u8 command,u8 situ)
+UART1_Sendint	type.h	47;"	prototype	signature:(unsigned char ch)
+UART1_Sendint	uart.c	45;"	function	signature:(unsigned char ch)
+UART1_Txcv_IRQHandler	main.c	876;"	function	signature:(void)
+UART1_Txcv_IRQHandler	stm8_interrupt_vector.c	21;"	prototype	file:	signature:(void)
+UART3_Init	type.h	44;"	prototype	signature:(void)
+UART3_Init	uart.c	76;"	function	signature:(void)
+UART3_Recv_IRQHandler	main.c	829;"	function	signature:(void)
+UART3_Recv_IRQHandler	stm8_interrupt_vector.c	20;"	prototype	file:	signature:(void)
+UART3_Send	type.h	46;"	prototype	signature:(u8 *Array,u8 command,u8 situ)
+UART3_Send	uart.c	148;"	function	signature:(u8 *Array,u8 command,u8 situ)
+UART3_Sendint	type.h	45;"	prototype	signature:(unsigned char ch)
+UART3_Sendint	uart.c	104;"	function	signature:(unsigned char ch)
+UART3_Txcv_IRQHandler	main.c	903;"	function	signature:(void)
+UART3_Txcv_IRQHandler	stm8_interrupt_vector.c	22;"	prototype	file:	signature:(void)
+UART_interrupt	type.h	49;"	prototype	signature:(u8 uart,u8 mode)
+UART_interrupt	uart.c	116;"	function	signature:(u8 uart,u8 mode)
+WDT	main.h	22;"	macro
+Whether_receipt	main.h	34;"	macro
+Write_LCD_Command	lcd.c	18;"	prototype	file:	signature:(u8 cmdcode)
+Write_LCD_Command	lcd.c	75;"	function	signature:(u8 cmdcode)
+Write_LCD_Data	lcd.c	89;"	function	signature:(u8 Dispdata)
+Write_LCD_Data	type.h	17;"	prototype	signature:(u8 Dispdata)
+_Servo_C	control.c	836;"	function	signature:(u8 Dr_Num,u8 *Dr_Num_Save)
+_Servo_C	type.h	34;"	prototype	signature:(u8 Dr_Num,u8 *Dr_Num_Save)
+__MODS0__	..\..\..\..\cxstm8\hstm8\mods0.h	11;"	macro
+__STM8S207C_S__	stm8s207c_s.h	6;"	macro
+__STRING__	..\..\..\..\cxstm8\hstm8\string.h	6;"	macro
+_stext	stm8_interrupt_vector.c	26;"	prototype	file:
+_vectab	stm8_interrupt_vector.c	28;"	variable
+abs	app.c	436;"	function	signature:(int x)
+abs	type.h	56;"	prototype	signature:(int x)
+addre	main.c	34;"	variable
+adr_1	control.c	13;"	macro	file:
+adr_2	control.c	12;"	macro	file:
+adr_3	control.c	11;"	macro	file:
+adr_4	control.c	10;"	macro	file:
+ask_count	main.h	38;"	macro
+b_sar	control.c	27;"	macro	file:
+bu_Encoder	main.c	72;"	macro	file:
+bu_Flag	main.c	44;"	variable
+but_Flag	main.c	31;"	variable
+but_led	control.c	32;"	macro	file:
+but_led	main.c	69;"	macro	file:
+but_sw	main.c	70;"	macro	file:
+buzzer	control.c	30;"	macro	file:
+bz_wait	main.h	57;"	macro
+c_head	main.h	49;"	macro
+c_last	main.h	50;"	macro
+c_ok_Flag	main.c	30;"	variable
+cheak_wait	uart.c	304;"	variable
+cheak_wait_count	main.c	59;"	variable
+com_Flag	main.c	35;"	variable
+com_i	main.c	33;"	variable
+delay_ms	lcd.c	20;"	function	signature:(u16 ms)
+delayms	control.c	62;"	function	signature:(u16 ms)
+delayms	type.h	26;"	prototype	signature:(u16 ms)
+delayus	control.c	78;"	function	signature:(u16 us)
+delayus	type.h	27;"	prototype	signature:(u16 us)
+direction	control.c	37;"	variable
+dis_play	main.c	51;"	variable
+dr_num	main.h	64;"	member	struct:page_num
+eeprom_cle	app.c	427;"	function	signature:(u8 ad)
+eeprom_cle	type.h	55;"	prototype	signature:(u8 ad)
+eeprom_count	app.c	373;"	function	signature:(u8 ad)
+eeprom_count	type.h	54;"	prototype	signature:(u8 ad)
+fr_Flag	main.c	43;"	variable
+half_over	control.c	36;"	variable
+hd_num	control.c	489;"	variable
+ins_row	main.h	63;"	member	struct:page_num
+interrupt_handler	stm8_interrupt_vector.c	9;"	member	struct:interrupt_vector	file:
+interrupt_handler_t	stm8_interrupt_vector.c	5;"	typedef	file:
+interrupt_instruction	stm8_interrupt_vector.c	8;"	member	struct:interrupt_vector	file:
+interrupt_vector	stm8_interrupt_vector.c	7;"	struct	file:
+jm_a	lcd.c	291;"	variable
+jxs_out	main.c	54;"	variable
+k	control.c	34;"	variable
+ksteps	control.c	39;"	variable
+ksteps_inc	control.c	40;"	variable
+ksteps_save	control.c	41;"	variable
+led_os	type.h	58;"	macro
+main	main.c	84;"	function
+memchr	..\..\..\..\cxstm8\hstm8\string.h	26;"	prototype	signature:(void *s, char c, unsigned int n)
+memcmp	..\..\..\..\cxstm8\hstm8\string.h	20;"	prototype	signature:(void *s1, void *s2, unsigned int n)
+memcpy	..\..\..\..\cxstm8\hstm8\string.h	27;"	prototype	signature:(void *s1, void *s2, unsigned int n)
+memmove	..\..\..\..\cxstm8\hstm8\string.h	28;"	prototype	signature:(void *s1, void *s2, unsigned int n)
+memset	..\..\..\..\cxstm8\hstm8\string.h	29;"	prototype	signature:(void *s, char c, unsigned int n)
+mirro	main.c	45;"	variable
+moto_dr	control.c	28;"	macro	file:
+moto_hz	control.c	29;"	macro	file:
+moto_hz	main.c	950;"	macro	file:
+n_max	control.c	38;"	variable
+no	main.h	53;"	macro
+ok	main.h	52;"	macro
+page	main.h	61;"	member	struct:page_num
+page_n	main.c	79;"	variable
+page_num	main.h	59;"	struct
+page_num	main.h	70;"	typedef	typeref:struct:page_num
+pla_0	control.c	15;"	macro	file:
+pla_1	control.c	16;"	macro	file:
+pla_2	control.c	17;"	macro	file:
+pla_3	control.c	18;"	macro	file:
+pla_4	control.c	19;"	macro	file:
+pla_5	control.c	20;"	macro	file:
+pla_6	control.c	21;"	macro	file:
+pla_7	control.c	22;"	macro	file:
+pla_8	control.c	23;"	macro	file:
+pla_9	control.c	24;"	macro	file:
+pla_dc	control.c	25;"	macro	file:
+place_sava	main.c	47;"	variable
+r_sive_n	main.h	72;"	macro
+rawer_back_judge	type.h	50;"	prototype	signature:(u8 *rb_Flag,u8 *R_ts,u8 *R_rs, u8 i,u8 *ts_flag,u8 *place_flag)
+rawer_back_judge	uart.c	305;"	function	signature:(u8 *rb_Flag,u8 *R_ts,u8 *R_rs, u8 i,u8 *ts_flag,u8 *place_flag)
+rawer_back_sta	main.h	26;"	macro
+rb_Flag	main.c	40;"	variable
+rb_num	main.h	65;"	member	struct:page_num
+rebot_dr	main.c	32;"	variable
+result_move	control.c	47;"	variable
+row	main.h	62;"	member	struct:page_num
+rs485_dr1	main.c	67;"	macro	file:
+rs485_dr1	uart.c	9;"	macro	file:
+rs485_dr2	main.c	66;"	macro	file:
+rs485_dr2	uart.c	10;"	macro	file:
+s16	main.h	17;"	typedef
+s32	main.h	18;"	typedef
+s8	main.h	16;"	typedef
+steps	control.c	42;"	variable
+steps_count	control.c	44;"	variable
+steps_count2	control.c	45;"	variable
+steps_half	control.c	43;"	variable
+steps_keep_count	control.c	46;"	variable
+strcat	..\..\..\..\cxstm8\hstm8\string.h	12;"	prototype	signature:(char *s1, char *s2)
+strchr	..\..\..\..\cxstm8\hstm8\string.h	13;"	prototype	signature:(char *s, char c)
+strcmp	..\..\..\..\cxstm8\hstm8\string.h	21;"	prototype	signature:(char *s1, char *s2)
+strcpy	..\..\..\..\cxstm8\hstm8\string.h	14;"	prototype	signature:(char *s1, char *s2)
+strcspn	..\..\..\..\cxstm8\hstm8\string.h	23;"	prototype	signature:(char *s1, char *s2)
+strlen	..\..\..\..\cxstm8\hstm8\string.h	24;"	prototype	signature:(char *s)
+strncat	..\..\..\..\cxstm8\hstm8\string.h	15;"	prototype	signature:(char *s1, char *s2, unsigned int n)
+strncmp	..\..\..\..\cxstm8\hstm8\string.h	22;"	prototype	signature:(char *s1, char *s2, unsigned int n)
+strncpy	..\..\..\..\cxstm8\hstm8\string.h	16;"	prototype	signature:(char *s1, char *s2, unsigned int n)
+strpbrk	..\..\..\..\cxstm8\hstm8\string.h	17;"	prototype	signature:(char *s1, char *s2)
+strrchr	..\..\..\..\cxstm8\hstm8\string.h	18;"	prototype	signature:(char *s, char c)
+strspn	..\..\..\..\cxstm8\hstm8\string.h	25;"	prototype	signature:(char *s1, char *s2)
+strstr	..\..\..\..\cxstm8\hstm8\string.h	19;"	prototype	signature:(char *s1, char *s2)
+timerlow	control.c	832;"	variable
+ts1_count	main.c	874;"	variable
+ts1_ok	main.c	875;"	variable
+ts3_count	main.c	901;"	variable
+ts3_ok	main.c	902;"	variable
+ts_next	main.c	75;"	macro	file:
+ts_next_cnt	main.h	66;"	member	struct:page_num
+ts_ok	app.c	9;"	macro	file:
+ts_ok	main.c	76;"	macro	file:
+ts_ok_cnt	main.h	68;"	member	struct:page_num
+ts_page	main.c	77;"	macro	file:
+ts_page_cnt	main.h	69;"	member	struct:page_num
+ts_up	main.c	74;"	macro	file:
+ts_up_cnt	main.h	67;"	member	struct:page_num
+u16	main.h	14;"	typedef
+u32	main.h	15;"	typedef
+u8	main.h	13;"	typedef
+ua_count	main.c	793;"	variable
+up_or_down	control.c	35;"	variable
+wr_new	main.c	41;"	variable
