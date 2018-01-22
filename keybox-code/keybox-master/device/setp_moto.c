@@ -13,6 +13,17 @@
 #define MOTO_DR         PD_ODR_ODR2/*电机方向*/
 #define MOTO_SETP       PA_ODR_ODR3 /*电机速度*/
 
+void(*complete)(void);
+
+typedef struct _moto_obj {
+    uint16_t position_to;
+    uint16_t position_now;
+    uint16_t sleep;
+    uint8_t even_flag;
+}moto_obj;
+
+static moto_obj moto;
+
 static int setp_moto_num_to_setp(struct _setp_moto_obj * moto,uint16_t to_position) {
     int result_move = 0;
     uint16_t angle_now = moto->stop_arr[moto->now_position-1];
@@ -33,6 +44,11 @@ static int setp_moto_num_to_setp(struct _setp_moto_obj * moto,uint16_t to_positi
         }
     } 
     return result_move* PULSE *2;
+}
+
+static inline void setp_moto_set_sleep(uint16_t sleep) {
+    TIM3_ARRH=sleep>>8;           
+    TIM3_ARRL=sleep;
 }
 
 void setp_moto_init(struct _setp_moto_obj * moto) {
@@ -56,20 +72,36 @@ void setp_moto_init(struct _setp_moto_obj * moto) {
     PC_CR1 |= BIT(4); 
     PC_CR2 &= ~BIT(4);
     
-    TIM3_PSCR  =0x00; /* 1ms */ 
-    TIM3_EGR = 0x01; 
-    TIM3_CNTRH = 0x0;
-    TIM3_CNTRL = 0x0;     
-    TIM3_ARRH = 0X40;
-    TIM3_ARRL = 0X01;
-    TIM3_IER = 0X01;
-    TIM3_CR1 = 0X00;
+    TIM3_PSCR   = 0x00; /* 1ms */ 
+    TIM3_EGR    = 0x01; 
+    TIM3_CNTRH  = 0x0;
+    TIM3_CNTRL  = 0x0;     
+    TIM3_ARRH   = 0x40;
+    TIM3_ARRL   = 0x01;
+    TIM3_IER    = 0x01;
+    TIM3_CR1    = 0x00;
 }
 
-void(*complete)(void);
-
-static uint16_t position_to;
-static uint16_t position_now;
+int setp_moto_rotate(struct _setp_moto_obj * moto_s,uint16_t to_position) {
+    if(to_position > BEST_DRAW) {
+        return SM_ERROR;
+    }
+    int need_num = setp_moto_num_to_setp(moto_s,to_position);
+    if(need_num == 0) {
+        return SM_OK;
+    } else if(need_num > 0) {
+        MOTO_DR = 0;
+        moto.position_to = need_num;
+        TIM3_CR1 = 0x01;
+        return SM_WAIT;
+    } else if(need_num < 0) {
+        MOTO_DR = 1;
+        moto.position_to = 0-need_num;
+        TIM3_CR1 = 0x01;
+        return SM_WAIT;
+    }
+    return SM_ERROR;
+}
 
 #pragma vector=0x11
 __interrupt void TIM3_UPD_OVF_BRK_IRQHandler(void) {
@@ -77,15 +109,21 @@ __interrupt void TIM3_UPD_OVF_BRK_IRQHandler(void) {
     TIM3_SR1 &= (~0x01); 
     
     MOTO_SETP =!MOTO_SETP;
-    position_now++;
+    moto.position_now++;
     
-    if((position_to - position_now) > 500) { /* 提速 */
-//        TIM3_ARRH=timerlow[k]>>8;           
-//        TIM3_ARRL=timerlow[k];
-    } else if((position_to - position_now) < 500) { /* 降速 */
-        
-    } else if(position_to == position_now) { /* 结束 */
-        complete(); /* 回掉 */
+    if((moto.position_to - moto.position_now) > 500) { /* 提速 */
+        if(moto.sleep > 5000) {
+            moto.sleep--;
+            setp_moto_set_sleep(moto.sleep);
+        }
+    } else if((moto.position_to - moto.position_now) < 500) { /* 降速 */
+        if(moto.sleep < 65000) {
+            moto.sleep++;
+            setp_moto_set_sleep(moto.sleep);
+        }
+    } else if(moto.position_to == moto.position_now) { /* 结束 */
+        TIM3_CR1 = 0x00;
+        moto.even_flag = E_ENABLE;
     }
     
     asm("rim");

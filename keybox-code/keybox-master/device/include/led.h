@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef _LCD_H_
-#define _LCD_H_
+#ifndef _LED_H_
+#define _LED_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -17,6 +17,8 @@ extern "C" {
 #include <assert.h>  
 #include "fsm.h"
 
+void led_init(void);
+void led_taggle(void);
 
 #ifdef __cplusplus
 }

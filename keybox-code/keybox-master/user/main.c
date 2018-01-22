@@ -1,35 +1,82 @@
 /*
- * This file is part of the 
- *
- * Copyright (c) 2016-2017 linghaibin
- *
- */
+* This file is part of the 
+*
+* Copyright (c) 2016-2017 linghaibin
+*
+*/
 #include "stime.h"
+#include "l_os.h"
+#include "uart.h"
 
 void time(void) {
     int i = 0;
     i++;
 }
 
-void Task_Led(void);
-void Task_Led1(void);
 static unsigned char Task0Stack[100];
 static unsigned char Task1Stack[100];
-extern void Task_Create(void (*function)(void),unsigned char* StackTop,unsigned char priority);
-extern void Tim2_Init(void);
-extern void OutPut_IO_Init(void);
-extern void Delay_Time(unsigned char time);
-extern void OS_Start(void);
-extern void CLK_Init(void);
+void task_led(void) {
+    while(1) {
+        PC_ODR_ODR1=~PC_IDR_IDR1;
+        los_delay(200);
+        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+//        los_delay(200);
+        usart_tx_msg_obj msg;
+        msg.id = 0x01;
+        msg.cmd = 0x01;
+        msg.len = 0x01;
+        msg.data[0] = 0x01;
+        uart_send_pc(msg);
+    }
+}
+void task_led2(void) {
+    while(1) {
+        los_delay(20);
+    }
+}
 
 int main( void ) {
-    CLK_Init();
-    Tim2_Init();
-    OutPut_IO_Init();
-    Task_Create(Task_Led,&Task0Stack[99],1);
-    Task_Create(Task_Led1,&Task1Stack[99],2);  
-    OS_Start();
-  
+    los_init();
+    usart_init();
+    PA_DDR |= BIT(1);
+    PA_CR1 |= BIT(1); 
+    PA_CR2 |= BIT(1);
+    
+    PC_DDR |= BIT(1);
+    PC_CR1 |= BIT(1); 
+    PC_CR2 |= BIT(1);
+    
+    PA_ODR_ODR1 = 0;/*¹Ø±Õ·äÃùÆ÷*/
+    
+    los_create(task_led,&Task0Stack[99],1);
+    los_create(task_led2,&Task1Stack[99],2);  
+    los_start();
+    
     create_stime(5,time);
     while(1) {
         input_loop();
@@ -37,23 +84,3 @@ int main( void ) {
 }
 
 
-void Task_Led(void)
-{
-  while(1)
-  {
-    PC_ODR_ODR1=~PC_IDR_IDR1;
-    Delay_Time(50);
-  }
-}
-void Task_Led1(void)
-{
- while(1)
- {
-  PG_ODR_ODR1=~PG_IDR_IDR1;
-  Delay_Time(20);
- }
-}
-void Task_Idle(void)
-{
- while(1); 
-}
