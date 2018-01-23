@@ -5,7 +5,7 @@
  *
  */
 
-#include "lcd.h"
+#include "led.h"
 
 void led_init(void) {
     PC_DDR |= BIT(1);

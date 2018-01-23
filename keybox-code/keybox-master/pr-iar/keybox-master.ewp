@@ -1585,6 +1585,9 @@
       <name>$PROJ_DIR$\..\device\lcd.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\device\led.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\device\receipt.c</name>
     </file>
     <file>
@@ -1592,6 +1595,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\device\uart.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\device\voice.c</name>
     </file>
   </group>
   <group>

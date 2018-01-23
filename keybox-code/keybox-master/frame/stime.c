@@ -11,12 +11,24 @@
 static struct _stime_obj list_time[BEST_STIME];
 static uint16_t timeslice = 0;
 
-int create_stime(uint8_t sec, void (*time_up)(void)) {
+void stime_init(void) {
+    CLK_CKDIVR=0x00;
+    TIM2_PSCR=0x04;//1/4prescale
+    TIM2_ARRH=0x3;
+    TIM2_ARRL=0xE8;
+    TIM2_CNTRH=0x00;
+    TIM2_CNTRL=0x00;
+    TIM2_CR1=MASK_TIM2_CR1_ARPE|MASK_TIM2_CR1_CEN;
+    TIM2_IER=0x01;
+    asm("rim");
+}
+
+int stime_create(uint16_t sec, void (*time_up)(void)) {
     register uint8_t i = 0;
     for(i = 0;i < BEST_STIME;i++) {
         if(list_time[i].is_enable == ST_DISABLE) {
             list_time[i].time_up = time_up;
-            list_time[i].end_t = timeslice+sec*60;
+            list_time[i].end_t = sec;
             list_time[i].is_enable = ST_ENABLE;
             return i;
         }
@@ -24,23 +36,40 @@ int create_stime(uint8_t sec, void (*time_up)(void)) {
     return -1;
 }
 
-void input_loop(void) {
-    static uint16_t loop = 0;
-    if(loop < 500) {
-        loop++;
-    } else {
-        loop = 0;
-        if(timeslice < 65000) timeslice++; else timeslice = 0;
-        register uint8_t i = 0;
-        for(i = 0;i < BEST_STIME;i++) {
-            if(list_time[i].is_enable == ST_ENABLE) {
-                if(list_time[i].end_t == timeslice) {
-                    if(list_time[i].time_up != null) {
-                        list_time[i].is_enable = ST_DISABLE;
-                        list_time[i].time_up();
-                    }
+int stime_delet(uint8_t id) {
+    if(id < BEST_STIME) {
+        list_time[id].is_enable = ST_DISABLE;
+        return id;
+    }
+    return id;
+}
+
+void stime_loop(void) {
+    register uint8_t i = 0;
+    for(i = 0;i < BEST_STIME;i++) {
+        if(list_time[i].is_enable == ST_ENABLE) {
+            if(list_time[i].end_t == 0) {
+                if(list_time[i].time_up != null) {
+                    list_time[i].is_enable = ST_DISABLE;
+                    list_time[i].time_up();
                 }
             }
         }
     }
 }
+
+
+#pragma vector=TIM2_OVR_UIF_vector
+__interrupt void Tim2_Overflow(void) {
+    TIM2_SR1=0;//清楚中断标志位
+    timeslice++;
+    register uint8_t i = 0;
+    for(i = 0;i < BEST_STIME;i++) {
+        if(list_time[i].is_enable == ST_ENABLE) {
+            if(list_time[i].end_t > 0) {
+               list_time[i].end_t--; 
+            }
+        }
+    }
+}
+

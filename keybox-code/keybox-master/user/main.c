@@ -7,79 +7,64 @@
 #include "stime.h"
 #include "l_os.h"
 #include "uart.h"
+#include "event.h"
+#include "led.h"
+#include "voice.h"
 
 void time(void) {
-    int i = 0;
-    i++;
+    stime_create(500,time);
+    led_taggle();
 }
 
-static unsigned char Task0Stack[100];
-static unsigned char Task1Stack[100];
-void task_led(void) {
-    while(1) {
-        PC_ODR_ODR1=~PC_IDR_IDR1;
-        los_delay(200);
-        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-//        los_delay(200);
-        usart_tx_msg_obj msg;
-        msg.id = 0x01;
-        msg.cmd = 0x01;
-        msg.len = 0x01;
-        msg.data[0] = 0x01;
-        uart_send_pc(msg);
-    }
+uint8_t adr = 0;
+
+void send_ok(void *);
+void usart_callback(void) {
+    usart_tx_msg_obj msg;
+    msg.id = adr;
+    msg.cmd = 0x01;
+    msg.len = 0x01;
+    msg.data[0] = 0x01;
+    msg.data[1] = 0xf1;
+    msg.call_back = send_ok;
+    uart_send_pc(msg);
+    adr++;
 }
-void task_led2(void) {
-    while(1) {
-        los_delay(20);
+void send_ok(void * pd) {
+    stime_create(5000,usart_callback);
+}
+
+int rec_i = 0;
+
+void usart_rec_callback(void *pd) {
+    usart_rx_packet_obj *dat = (usart_rx_packet_obj *)pd;
+    switch(dat->cmd) {
+        case 0x01: {
+            rec_i++;
+        } break;
     }
 }
 
 int main( void ) {
-    los_init();
+    stime_init();  
+    event_init();
+    
+    led_init();
+    voice_init();
     usart_init();
-    PA_DDR |= BIT(1);
-    PA_CR1 |= BIT(1); 
-    PA_CR2 |= BIT(1);
+    uart_receive_pc(usart_rec_callback);
+//    usart_tx_msg_obj msg;
+//    msg.id = 0x01;
+//    msg.cmd = 0x01;
+//    msg.len = 0x01;
+//    msg.data[0] = 0x01;
+//    msg.call_back = send_ok;
+//    uart_send_pc(msg);
     
-    PC_DDR |= BIT(1);
-    PC_CR1 |= BIT(1); 
-    PC_CR2 |= BIT(1);
-    
-    PA_ODR_ODR1 = 0;/*¹Ø±Õ·äÃùÆ÷*/
-    
-    los_create(task_led,&Task0Stack[99],1);
-    los_create(task_led2,&Task1Stack[99],2);  
-    los_start();
-    
-    create_stime(5,time);
+    stime_create(5,time);
     while(1) {
-        input_loop();
+        stime_loop();
+        event_loop();
     }
 }
 

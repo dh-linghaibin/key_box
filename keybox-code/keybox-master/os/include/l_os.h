@@ -16,16 +16,16 @@ extern "C" {
 #include "stdint.h"
 #include "fsm.h"
 
-typedef struct _task_tcb_obj{
-  uint16_t StackTop;
-  uint8_t priority;
-  uint8_t Remain_Time;
-}task_tcb_obj;
-
-void los_init(void);
-void los_create(void (*function)(void),uint8_t* StackTop,uint8_t priority);
-void los_delay(uint8_t time);
-void los_start(void);
+//typedef struct _task_tcb_obj{
+//  uint16_t StackTop;
+//  uint8_t priority;
+//  uint16_t Remain_Time;
+//}task_tcb_obj;
+//
+//void los_init(void);
+//void los_create(void (*function)(void),uint8_t* StackTop,uint8_t priority);
+//void los_delay(uint8_t time);
+//void los_start(void);
 
 #ifdef __cplusplus
 }

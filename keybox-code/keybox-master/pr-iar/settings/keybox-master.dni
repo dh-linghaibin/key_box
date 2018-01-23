@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-2075953355
+Checksum=-1772232635
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -50,7 +50,18 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [struct_types]
-Fmt0=usart_tx_packet_obj-flag	4	0
+Fmt0=usart_rx_packet_obj-cmd	4	0
+Fmt1=usart_rx_packet_obj-flag	4	0
+Fmt2=usart_rx_packet_obj-len	4	0
+Fmt3=usart_rx_packet_obj-ts_flag	3	0
+Fmt4=usart_tx_packet_obj-flag	4	0
+[array_types]
+Fmt0=uint8_t[20]	4	0
+[watch_formats]
+Fmt0={W}0:data	4	0
+Fmt1={W}0:time	3	0
+Fmt2={W}42:linghaibin	4	0
+Fmt3={W}42:rs485_address	4	0
 [DataSample]
 LogEnabled=0
 GraphEnabled=0

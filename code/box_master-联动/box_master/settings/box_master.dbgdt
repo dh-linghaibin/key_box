@@ -34,7 +34,7 @@
         
         
       <ShowCodeCoverage>1</ShowCodeCoverage><ShowInstrProfiling>1</ShowInstrProfiling></Disassembly>
-    <StaticWatch><expressions><item>steps</item><item>R_TsBuffer</item><item>Rc_ok_Flag</item><item>Rcom_Flag</item><item>R_RsBuffer</item><item>led_ask</item><item>c_ok_Flag</item><item>TsBuffer</item><item>RsBuffer</item><item>Rc_ok_Flag</item><item>rb_Flag</item><item>R_TsBuffer</item><item>rb_Flag</item><item></item></expressions><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>100</item><item>150</item><item>100</item><item>100</item></col-widths></StaticWatch></Static>
+    <StaticWatch><expressions><item>steps</item><item>R_TsBuffer</item><item>Rc_ok_Flag</item><item>Rcom_Flag</item><item>R_RsBuffer</item><item>led_ask</item><item>c_ok_Flag</item><item>TsBuffer</item><item>RsBuffer</item><item>Rc_ok_Flag</item><item>rb_Flag</item><item>R_TsBuffer</item><item>rb_Flag</item><item/></expressions><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>100</item><item>150</item><item>100</item><item>100</item></col-widths></StaticWatch></Static>
     <Windows>
       
       

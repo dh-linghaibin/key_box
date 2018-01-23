@@ -27,8 +27,10 @@ typedef struct _stime_obj {
     void (*time_up)(void);
 }stime_obj;
 
-int create_stime(uint8_t sec, void (*time_up)(void));
-void input_loop(void);
+void stime_init(void);
+int stime_create(uint16_t sec, void (*time_up)(void));
+int stime_delet(uint8_t id);
+void stime_loop(void);
 
 #ifdef __cplusplus
 }

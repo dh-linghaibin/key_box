@@ -19,12 +19,14 @@ void event_init(void) {
     }
 }
 
-int event_create(uint8_t *flag_addr,void(*call_back)(void *)) {
+int event_create(uint8_t *flag_addr,event_type_e type,void(*call_back)(void *),void * pd) {
     assert(flag_addr != null && call_back != null);
     register int i;
     for(i = 0;i < BEST_EVENT;i++) {
         if(event[i].is_enable == E_DISABLE) {
             event[i].flag_addr = flag_addr;
+            event[i].type = type;
+            event[i].call_dat = pd;
             event[i].call_back = call_back;
             event[i].is_enable = E_ENABLE;
             return i;
@@ -47,8 +49,12 @@ void event_loop(void) {
     for(i = 0;i < BEST_EVENT;i++) {
         if(event[i].is_enable == E_ENABLE) {
             if(*event[i].flag_addr == E_ENABLE) {
-                event[i].is_enable = E_DISABLE;
-                 event[i].call_back(null);
+                if(event[i].type == ET_ONCE) {
+                    event[i].is_enable = E_DISABLE;
+                } else {
+                    *event[i].flag_addr = E_DISABLE;
+                }
+                event[i].call_back(event[i].call_dat);
             }
         }
     }
