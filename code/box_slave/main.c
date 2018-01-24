@@ -53,6 +53,9 @@ int main(void)
     asm("rim");//开中断，sim为关中断
     //robot_mode(0);
     SetLed(0);
+    
+    robot_mode(1);
+    
     while (1) {
         static u16 count = 0;
         if(count > 600) {

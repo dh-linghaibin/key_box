@@ -38,13 +38,11 @@ static uint8_t read_adr(void) {
     return address;
 }
 
-uint8_t linghaibin = 0;
-
 void usart_init(void) {
      /***485_PA4****/
-    PA_DDR |= BIT(5);
+   PA_DDR &= ~BIT(5);
     PA_CR1 |= BIT(5); 
-    PA_CR2 |= BIT(5);
+    PA_CR2 &= ~BIT(5);
     /***485_PA5****/
     PA_DDR &= ~BIT(4);
     PA_CR1 |= BIT(4); 
@@ -58,13 +56,14 @@ void usart_init(void) {
     UART1_CR3=0x00; 
     UART1_BRR2=0x02;
     UART1_BRR1=0x68;
-    UART1_CR2=0x2c;//允许接收，发送，开接收中断
-    UART1_CR2 |= BIT(2);/*使能接收中断*/
+    
+    UART1_CR2_REN=1;//使能接收
+    UART1_CR2_RIEN=1;//打开接收中断
     
      /***485_PD5****/
-    PD_DDR |= BIT(5);
+    PD_DDR &= ~BIT(5);
     PD_CR1 |= BIT(5); 
-    PD_CR2 |= BIT(5);
+    PD_CR2 &= ~BIT(5);
     /***485_PD6****/
     PD_DDR &= ~BIT(6);
     PD_CR1 |= BIT(6); 
@@ -92,8 +91,9 @@ void usart_init(void) {
     UART3_CR3=0x00; 
     UART3_BRR2=0x02;
     UART3_BRR1=0x68;
-    UART3_CR2=0x2c;//允许接收，发送，开接收中断
-    UART3_CR2 |= BIT(2);/*使能接收中断*/
+
+    UART3_CR2_REN=1;//使能接收
+    UART3_CR2_RIEN=1;//打开接收中断
     
     RS485_DR_1 = 0;
     RS485_DR_3 = 0;
@@ -106,14 +106,15 @@ void usart_init(void) {
 
 void uart_send_draw(usart_tx_msg_obj msg) {
     if(msg.len+5 <= BEST_TX_PACK){
-        draw_tx_packet.data[0] = msg.id;
-        draw_tx_packet.data[1] = msg.len;
-        draw_tx_packet.data[2] = msg.cmd;
+        draw_tx_packet.data[0] = 0x3a;
+        draw_tx_packet.data[1] = msg.id;
+        draw_tx_packet.data[2] = msg.len;
+        draw_tx_packet.data[3] = msg.cmd;
         register int i = 0;
         for(i = 0;i < msg.len;i++) {
-            draw_tx_packet.data[3+i] = msg.data[i];
+            draw_tx_packet.data[4+i] = msg.data[i];
         }
-        draw_tx_packet.len = msg.len+5;
+        draw_tx_packet.len = msg.len+6;
         draw_tx_packet.data[draw_tx_packet.len-2] = 0x00;
         for(i = 0;i < draw_tx_packet.len-2;i++) {
             draw_tx_packet.data[draw_tx_packet.len-2] += (uint8_t)draw_tx_packet.data[i];
@@ -122,23 +123,23 @@ void uart_send_draw(usart_tx_msg_obj msg) {
         draw_tx_packet.flag = 0;
         draw_tx_packet.ts_flag = E_DISABLE;
         event_create(&draw_tx_packet.ts_flag,ET_ONCE,msg.call_back,null);
-        UART3_SR&= ~BIT(6); 
-        UART3_CR2 |= BIT(6);
-        RS485_DR_3 = 1;
-        UART3_DR = 0x3a;
+        UART1_CR2_TEN=1;//打开发送
+        UART1_CR2_TIEN=1;//打开发送中断
+        RS485_DR_1 = 1;
     }
 }
 
 void uart_send_pc(usart_tx_msg_obj msg) {
     if(msg.len+5 <= BEST_TX_PACK){
-        pc_tx_packet.data[0] = msg.id;
-        pc_tx_packet.data[1] = msg.len;
-        pc_tx_packet.data[2] = msg.cmd;
+        pc_tx_packet.data[0] = 0x3a;
+        pc_tx_packet.data[1] = msg.id;
+        pc_tx_packet.data[2] = msg.len;
+        pc_tx_packet.data[3] = msg.cmd;
         register int i = 0;
         for(i = 0;i < msg.len;i++) {
-            pc_tx_packet.data[3+i] = msg.data[i];
+            pc_tx_packet.data[4+i] = msg.data[i];
         }
-        pc_tx_packet.len = msg.len+5;
+        pc_tx_packet.len = msg.len+6;
         pc_tx_packet.data[pc_tx_packet.len-2] = 0x00;
         for(i = 0;i < pc_tx_packet.len-2;i++) {
             pc_tx_packet.data[pc_tx_packet.len-2] += (uint8_t)pc_tx_packet.data[i];
@@ -147,10 +148,9 @@ void uart_send_pc(usart_tx_msg_obj msg) {
         pc_tx_packet.flag = 0;
         pc_tx_packet.ts_flag = E_DISABLE;
         event_create(&pc_tx_packet.ts_flag,ET_ONCE,msg.call_back,null);
-        UART3_SR&= ~BIT(6); 
-        UART3_CR2 |= BIT(6);
+        UART3_CR2_TEN=1;//打开发送
+        UART3_CR2_TIEN=1;//打开发送中断
         RS485_DR_3 = 1;
-        UART3_DR = 0x3a;
     }
 }
 
@@ -174,44 +174,45 @@ static void draw_rx_overtime(void) {
 __interrupt void UART1_RX_IRQHandler(void) {
     static uint8_t get_len = 0; /* 接收标记 */
     static uint8_t overtime_id = 0; /* 定时器id */
-    uint8_t data = UART1_DR;
-    while((UART1_SR & 0x80) == 0x00);
-    switch(draw_rx_packet.flag) {
-        case 0:{
-            if(data == 0x3a) {
-                draw_rx_packet.flag = 1;
-                overtime_id = stime_create(30,draw_rx_overtime);
-            }
-        } break;
-        case 1:{
-            if(data == rs485_address) {
-                draw_rx_packet.flag = 2;
-            } else {
-                draw_rx_packet.flag = 2;
-            }
-        } break;
-        case 2:{
-            draw_rx_packet.len = data;
-            draw_rx_packet.flag = 3;
-        } break;
-        case 3:{
-            draw_rx_packet.cmd = data;
-            draw_rx_packet.flag = 4;
-            get_len = 0;
-        } break;
-        case 4:{
-            draw_rx_packet.data[get_len] = data;
-            get_len++;
-            if(draw_rx_packet.len+2 <= get_len) {
-                if(data == 0x0a) {
-                    draw_rx_packet.ts_flag = E_ENABLE;
-                } else {
-                    draw_rx_packet.ts_flag = E_DISABLE;
+    if(UART1_SR_RXNE == 1) {
+        uint8_t data = UART1_DR;
+        switch(draw_rx_packet.flag) {
+            case 0:{
+                if(data == 0x3a) {
+                    draw_rx_packet.flag = 1;
+                    overtime_id = stime_create(30,draw_rx_overtime);
                 }
-                stime_delet(overtime_id);
-                draw_rx_packet.flag = 0;
-            }
-        } break;
+            } break;
+            case 1:{
+                if(data == 0xff) {
+                    draw_rx_packet.flag = 2;
+                } else {
+                    draw_rx_packet.flag = 0;
+                }
+            } break;
+            case 2:{
+                draw_rx_packet.len = data;
+                draw_rx_packet.flag = 3;
+            } break;
+            case 3:{
+                draw_rx_packet.cmd = data;
+                draw_rx_packet.flag = 4;
+                get_len = 0;
+            } break;
+            case 4:{
+                draw_rx_packet.data[get_len] = data;
+                get_len++;
+                if(draw_rx_packet.len+2 <= get_len) {
+                    if(data == 0x0a) {
+                        draw_rx_packet.ts_flag = E_ENABLE;
+                    } else {
+                        draw_rx_packet.ts_flag = E_DISABLE;
+                    }
+                    stime_delet(overtime_id);
+                    draw_rx_packet.flag = 0;
+                }
+            } break;
+        }
     }
 }
 
@@ -219,61 +220,68 @@ __interrupt void UART1_RX_IRQHandler(void) {
 __interrupt void UART3_RX_IRQHandler(void) {
     static uint8_t get_len = 0; /* 接收标记 */
     static uint8_t overtime_id = 0; /* 定时器id */
-    uint8_t data = UART3_DR;
-    while((UART3_SR & 0x80) == 0x00);
-    switch(pc_rx_packet.flag) {
-        case 0:{
-            if(data == 0x3a) {
-                pc_rx_packet.flag = 1;
-                overtime_id = stime_create(30,pc_rx_overtime);
-            }
-            pc_rx_packet.ts_flag = E_DISABLE;
-        } break;
-        case 1:{
-            if(data == rs485_address) {
-                pc_rx_packet.flag = 2;
-            } else {
-                pc_rx_packet.flag = 2;
-            }
-        } break;
-        case 2:{
-            pc_rx_packet.len = data;
-            pc_rx_packet.flag = 3;
-        } break;
-        case 3:{
-            pc_rx_packet.cmd = data;
-            pc_rx_packet.flag = 4;
-            get_len = 0;
-        } break;
-        case 4:{
-            pc_rx_packet.data[get_len] = data;
-            get_len++;
-            if(pc_rx_packet.len+2 <= get_len) {
-                if(data == 0x0a) {
-                    pc_rx_packet.ts_flag = E_ENABLE;
-                } else {
-                    pc_rx_packet.ts_flag = E_DISABLE;
+    if(UART3_SR_RXNE == 1) {
+        uint8_t data = UART3_DR;
+        switch(pc_rx_packet.flag) {
+            case 0:{
+                if(data == 0x3a) {
+                    pc_rx_packet.flag = 1;
+                    overtime_id = stime_create(30,pc_rx_overtime);
                 }
-                stime_delet(overtime_id);
-                pc_rx_packet.flag = 0;
-            }
-        } break;
+                pc_rx_packet.ts_flag = E_DISABLE;
+            } break;
+            case 1:{
+                if(data == rs485_address) {
+                    pc_rx_packet.flag = 2;
+                } else {
+                    pc_rx_packet.flag = 0;
+                }
+            } break;
+            case 2:{
+                pc_rx_packet.len = data;
+                pc_rx_packet.flag = 3;
+            } break;
+            case 3:{
+                pc_rx_packet.cmd = data;
+                pc_rx_packet.flag = 4;
+                get_len = 0;
+            } break;
+            case 4:{
+                pc_rx_packet.data[get_len] = data;
+                get_len++;
+                if(pc_rx_packet.len+2 <= get_len) {
+                    if(data == 0x0a) {
+                        pc_rx_packet.ts_flag = E_ENABLE;
+                    } else {
+                        pc_rx_packet.ts_flag = E_DISABLE;
+                    }
+                    stime_delet(overtime_id);
+                    pc_rx_packet.flag = 0;
+                }
+            } break;
+        }
     }
 }
 
 #pragma vector=0x13
 __interrupt void UART1_TX_IRQHandler(void) {
     asm("sim");
-    
-    UART1_SR &= ~(1<<6);
-    if(draw_tx_packet.len > draw_tx_packet.flag) {
-        UART1_DR =  draw_tx_packet.data[draw_tx_packet.flag];
-        draw_tx_packet.flag++;
-    } else {
-        draw_tx_packet.flag = 0;
+
+    static uint8_t bTX_finished=0;
+    if(bTX_finished==1 && UART1_SR_TC==1){
+        bTX_finished=0;
+        UART1_CR2_TIEN=0;//关闭发送中断
+        UART1_CR2_TEN=0;//关闭发送
         RS485_DR_1 = 0;
-        UART1_CR2 &= ~BIT(6);
-        draw_tx_packet.ts_flag = E_ENABLE;
+    } else if(UART1_SR_TC==1) {
+        if(draw_tx_packet.len > draw_tx_packet.flag) {
+            UART1_DR =  draw_tx_packet.data[draw_tx_packet.flag];
+            draw_tx_packet.flag++;
+        } else {
+            draw_tx_packet.flag = 0;
+            bTX_finished = 1;
+            draw_tx_packet.ts_flag = E_ENABLE;
+        }
     }
     
     asm("rim");
@@ -281,16 +289,22 @@ __interrupt void UART1_TX_IRQHandler(void) {
 #pragma vector=0x16
 __interrupt void UART3_TX_IRQHandler(void) {
     asm("sim");
-    
-    UART3_SR &= ~(1<<6);
-    if(pc_tx_packet.len > pc_tx_packet.flag) {
-        UART3_DR =  pc_tx_packet.data[pc_tx_packet.flag];
-        pc_tx_packet.flag++;
-    } else {
-        pc_tx_packet.flag = 0;
+  
+    static uint8_t bTX_finished=0;
+    if(bTX_finished==1 && UART3_SR_TC==1){
+        bTX_finished=0;
+        UART3_CR2_TIEN=0;//关闭发送中断
+        UART3_CR2_TEN=0;//关闭发送
         RS485_DR_3 = 0;
-        UART3_CR2 &= ~BIT(6);
-        pc_tx_packet.ts_flag = E_ENABLE;
+    } else if(UART3_SR_TC==1) {
+        if(pc_tx_packet.len > pc_tx_packet.flag) {
+            UART3_DR =  pc_tx_packet.data[pc_tx_packet.flag];
+            pc_tx_packet.flag++;
+        } else {
+            pc_tx_packet.flag = 0;
+            bTX_finished = 1;
+            pc_tx_packet.ts_flag = E_ENABLE;
+        }
     }
     
     asm("rim");

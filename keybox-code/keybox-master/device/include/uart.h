@@ -72,6 +72,9 @@ void usart_init(void);
 void uart_send_pc(usart_tx_msg_obj msg);
 void uart_receive_pc(void(*call_back)(void *));
 
+void uart_send_draw(usart_tx_msg_obj msg);
+void uart_receive_draw(void(*call_back)(void *));
+
 #ifdef __cplusplus
 }
 #endif
