@@ -11,55 +11,42 @@
 #include "led.h"
 #include "voice.h"
 
+void send_ok(void * pd) {
+
+}
+
+static uint8_t light = 0;
+
 void time(void) {
-    stime_create(500,time);
     led_taggle();
 }
 
-uint8_t adr = 0;
-
-void send_ok(void *);
-void usart_callback(void) {
+void opendoor(void) {
     usart_tx_msg_obj msg;
     msg.id = 0x01;
-    msg.cmd = 0x01;
-    msg.len = 0x01;
-    msg.data[0] = 0x01;
+    msg.cmd = 0x06;
+    msg.len = 0x00;
+    msg.data[0] = light;
     msg.call_back = send_ok;
     uart_send_draw(msg);
 }
 
-int chaoshi_id = 0;
-
-void send_ok(void * pd) {
-    chaoshi_id = stime_create(200,usart_callback); /* 1S ³¬Ê±*/
-}
-
-void usart_callback2(void) {
-
-}
-
-void send_ok2(void * pd) {
-    chaoshi_id = stime_create(5000,usart_callback2); /* 1S ³¬Ê±*/
-}
-
 void usart_draw_rec_callback(void *pd) {
     usart_rx_packet_obj *dat = (usart_rx_packet_obj *)pd;
-//    switch(dat->cmd) {
-//        case 0x01: {
-//            stime_delet(chaoshi_id);
-//            usart_tx_msg_obj msg;
-//            msg.id = 0x01;
-//            msg.cmd = 0x02;
-//            msg.len = 0x01;
-//            msg.data[0] = 0x01;
-//            msg.call_back = send_ok2;
-//            uart_send_draw(msg);
-//        } break;
-//        case 0x02: {
-//            stime_delet(chaoshi_id);
-//        }
-//    }
+    switch(dat->cmd) {
+        case 0x05: {
+            stime_create(2000,ST_ONCE,opendoor);
+        } break;
+        case 0x06: {
+            usart_tx_msg_obj msg;
+            msg.id = 0x01;
+            msg.cmd = 0x05;
+            msg.len = 0x00;
+            msg.data[0] = light;
+            msg.call_back = send_ok;
+            uart_send_draw(msg);
+        }
+    }
 }
 
 int main( void ) {
@@ -73,13 +60,13 @@ int main( void ) {
     
     usart_tx_msg_obj msg;
     msg.id = 0x01;
-    msg.cmd = 0x01;
-    msg.len = 0x01;
-    msg.data[0] = 0x01;
+    msg.cmd = 0x05;
+    msg.len = 0x00;
+    msg.data[0] = light;
     msg.call_back = send_ok;
     uart_send_draw(msg);
     
-    stime_create(500,time);
+    stime_create(5000,ST_ALWAYS,time);
     while(1) {
         stime_loop();
         event_loop();

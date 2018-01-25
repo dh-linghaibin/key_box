@@ -30,7 +30,7 @@ static uint8_t read_adr(void) {
     return address;
 }
 
-void usart_init(void) {
+void usart_init(struct _usart_obj * usart) {
     /***485_PD6****/
     PD_DDR &= ~BIT(5);
     PD_CR1 |= BIT(5); 
@@ -90,13 +90,6 @@ void usart_init(void) {
     UART1_CR3=0x00; 
     UART1_BRR2=0x02;
     UART1_BRR1=0x68;
-//    UART1_CR2=0x2c;//允许接收，发送，开接收中断
-//    UART1_CR2 |= BIT(2);/*使能接收中断*/
-//    
-    //    USART1_CR2_TEN=0;//使能发送
-
-//    USART1_CR2_TIEN=0;//打开发送中断
-
     UART1_CR2_REN=1;//使能接收
     UART1_CR2_RIEN=1;//打开接收中断
     RS485_DR_1 = 0; 
@@ -104,7 +97,7 @@ void usart_init(void) {
     rs485_address = read_adr();
 }
 
-void uart_send_draw(usart_tx_msg_obj msg) {
+void uart_send_draw(struct _usart_obj * usart,usart_tx_msg_obj msg) {
     if(msg.len+5 <= BEST_TX_PACK){
         draw_tx_packet.data[0] = 0x3a;
         draw_tx_packet.data[1] = msg.id;
@@ -129,7 +122,7 @@ void uart_send_draw(usart_tx_msg_obj msg) {
     }
 }
 
-void uart_receive_draw(void(*call_back)(void *)) {
+void uart_receive_draw(struct _usart_obj * usart,void(*call_back)(void *)) {
     event_create(&draw_rx_packet.ts_flag,ET_ALWAYS,call_back,&draw_rx_packet,null);
 }
 
@@ -139,11 +132,12 @@ static void draw_rx_overtime(void) {
 
 #pragma vector=UART1_R_RXNE_vector
 __interrupt void UART1_RX_IRQHandler(void) {
+    asm("sim");
+    
     static uint8_t get_len = 0; /* 接收标记 */
     static uint8_t overtime_id = 0; /* 定时器id */
     if(UART1_SR_RXNE == 1) {
         uint8_t data = UART1_DR;
-       // while((UART1_SR & 0x80) == 0x00);
         switch(draw_rx_packet.flag) {
             case 0:{
                 if(data == 0x3a) {
@@ -182,6 +176,8 @@ __interrupt void UART1_RX_IRQHandler(void) {
             } break;
         }
     }
+    
+    asm("rim");
 }
 
 uint8_t bTX_finished=0;
@@ -189,9 +185,7 @@ uint8_t bTX_finished=0;
 #pragma vector=UART1_T_TXE_vector
 __interrupt void UART1_TX_IRQHandler(void) {
     asm("sim");
-    
-    //UART1_SR &= ~(1<<6);
-    
+        
     if(bTX_finished==1 && UART1_SR_TC==1){
         bTX_finished=0;
         UART1_CR2_TIEN=0;//关闭发送中断
@@ -204,8 +198,6 @@ __interrupt void UART1_TX_IRQHandler(void) {
         } else {
             draw_tx_packet.flag = 0;
             bTX_finished = 1;
-            //RS485_DR_1 = 0;
-            //UART1_CR2 &= ~BIT(6);
             draw_tx_packet.ts_flag = E_ENABLE;
         }
     }

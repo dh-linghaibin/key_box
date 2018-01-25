@@ -16,8 +16,19 @@ extern "C" {
 #include "fsm.h"
 #include "event.h"
 
-void light_init(void);
+typedef enum _light_e{
+    L_OPEN = 1,
+    L_CLOSE = 0,
+}light_e;
     
+typedef struct _light_obj {
+    void (*init)(struct _light_obj *);
+    void (*set)(struct _light_obj *,light_e);
+}light_obj;
+    
+void light_init(struct _light_obj * light);
+void light_set(struct _light_obj * light,light_e cmd);
+
 #ifdef __cplusplus
 }
 #endif

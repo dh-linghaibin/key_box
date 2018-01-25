@@ -4,56 +4,116 @@
 * Copyright (c) 2016-2017 linghaibin
 *
 */
+
+#include "register_device.h"
 #include "stime.h"
 #include "event.h"
 #include "uart.h"
 #include "led.h"
 #include "light.h"
+#include "setp_moto.h"
 
 void led_task(void) {
-    led_tager();
+    led_obj *led = device_get("led");
+    led->tager(led);
 }
 
-void send_ok(void * pd);
-void usart_callback(void) {
+void ask_pos_task(void) {
+    setp_moto_obj *moto = device_get("moto");
     usart_tx_msg_obj msg;
     msg.id = 0xff;
     msg.cmd = 0x01;
     msg.len = 0x01;
-    msg.data[0] = 0x01;
-    msg.call_back = send_ok;
-    uart_send_draw(msg);
+    msg.call_back = null;
+    msg.data[0] = moto->position(moto);
+    usart_obj *usart = device_get("usart");
+    usart->draw_send(usart,msg);
 }
 
-int chaoshi_id = 0;
-
-void send_ok(void * pd) {
-    chaoshi_id = stime_create(10,ST_ONCE,usart_callback); /* 1S ³¬Ê±*/
-}
-
-void send_task(void) {
+void open_call(setp_moto_ask_e pd) {
     usart_tx_msg_obj msg;
     msg.id = 0xff;
-    msg.cmd = 0x01;
+    msg.cmd = 0x02;
     msg.len = 0x01;
-    msg.data[0] = 0x55;
-    uart_send_draw(msg);
+    msg.call_back = null;
+    msg.data[0] = pd;
+    usart_obj *usart = device_get("usart");
+    usart->draw_send(usart,msg);
+}
+
+void close_call(setp_moto_ask_e pd) {
+    usart_tx_msg_obj msg;
+    msg.id = 0xff;
+    msg.cmd = 0x03;
+    msg.len = 0x01;
+    msg.call_back = null;
+    msg.data[0] = pd;
+    usart_obj *usart = device_get("usart");
+    usart->draw_send(usart,msg);
+}
+
+void open_call_light(setp_moto_ask_e pd) {
+    light_obj *light = device_get("light");
+    light->set(light,L_OPEN);
+    usart_tx_msg_obj msg;
+    msg.id = 0xff;
+    msg.cmd = 0x05;
+    msg.len = 0x01;
+    msg.call_back = null;
+    msg.data[0] = pd;
+    usart_obj *usart = device_get("usart");
+    usart->draw_send(usart,msg);
+}
+
+void close_call_light(setp_moto_ask_e pd) {
+    usart_tx_msg_obj msg;
+    msg.id = 0xff;
+    msg.cmd = 0x06;
+    msg.len = 0x01;
+    msg.call_back = null;
+    msg.data[0] = pd;
+    usart_obj *usart = device_get("usart");
+    usart->draw_send(usart,msg);
 }
 
 void usart_rec_callback(void *pd) {
     usart_rx_packet_obj *dat = (usart_rx_packet_obj *)pd;
     switch(dat->cmd) {
         case 0x01: {
-            stime_create(60,ST_ONCE,send_task);
+            stime_create(5,ST_ONCE,ask_pos_task);
         } break;
         case 0x02: {
-//            setp_moto_open();
-//            usart_tx_msg_obj msg;
-//            msg.id = 0xff;
-//            msg.cmd = 0x02;
-//            msg.len = 0x01;
-//            msg.data[0] = 0x55;
-//            uart_send_draw(msg);
+            setp_moto_obj *moto = device_get("moto");
+            moto->open(moto,open_call);
+        } break;
+        case 0x03: {
+            setp_moto_obj *moto = device_get("moto");
+            moto->close(moto,close_call);
+        } break;
+        case 0x04: {
+            light_obj *light = device_get("light");
+            if(dat->data[0]) {
+                light->set(light,L_OPEN);
+            } else {
+                light->set(light,L_CLOSE);
+            }
+            usart_tx_msg_obj msg;
+            msg.id = 0xff;
+            msg.cmd = 0x04;
+            msg.len = 0x00;
+            msg.call_back = null;
+            usart_obj *usart = device_get("usart");
+            usart->draw_send(usart,msg);
+        } break;
+        case 0x05:{
+            setp_moto_obj *moto = device_get("moto");
+            moto->open(moto,open_call_light);
+        } break;
+        case 0x06:{
+            light_obj *light = device_get("light");
+            light->set(light,L_CLOSE);
+            setp_moto_obj *moto = device_get("moto");
+            moto->close(moto,close_call_light);
         } break;
     }
 }
@@ -61,26 +121,10 @@ void usart_rec_callback(void *pd) {
 int main( void ) {
     stime_init();  
     event_init();
-    
-    light_init();
-    led_init();
-    
-    usart_init();
-    uart_receive_draw(usart_rec_callback);
-    
+    device_init();
     stime_create(500,ST_ALWAYS,led_task);
-    
-    setp_moto_init();
-    //setp_moto_open();
-    
-    usart_tx_msg_obj msg;
-    msg.id = 0xff;
-    msg.cmd = 0x01;
-    msg.len = 0x01;
-    msg.data[0] = 0x55;
-    msg.call_back = send_ok;
-    uart_send_draw(msg);
-    
+    usart_obj *usart = device_get("usart");
+    usart->receive_draw(usart,usart_rec_callback);    
     while(1) {
         stime_loop();
         event_loop();

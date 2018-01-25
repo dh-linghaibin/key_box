@@ -8,6 +8,9 @@
 #ifndef _FSM_H_
 #define _FSM_H_
 
+
+#include "iostm8s207m8.h"
+
 #define null    0
 #define BIT(x) (1 << (x))
 

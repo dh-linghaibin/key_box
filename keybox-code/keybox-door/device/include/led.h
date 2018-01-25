@@ -15,9 +15,14 @@ extern "C" {
 #include "stdint.h"
 #include "fsm.h"
 #include "event.h"
+    
+typedef struct _led_obj {
+    void (*init)(struct _led_obj *);
+    void (*tager)(struct _led_obj *);
+} led_obj;
 
-void led_init(void);
-void led_tager(void);
+void led_init(struct _led_obj * led);
+void led_tager(struct _led_obj * led);
     
 #ifdef __cplusplus
 }

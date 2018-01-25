@@ -122,7 +122,11 @@ void uart_send_draw(usart_tx_msg_obj msg) {
         draw_tx_packet.data[draw_tx_packet.len-1] = 0x0a;
         draw_tx_packet.flag = 0;
         draw_tx_packet.ts_flag = E_DISABLE;
-        event_create(&draw_tx_packet.ts_flag,ET_ONCE,msg.call_back,null);
+        event_create(&draw_tx_packet.ts_flag,
+                     ET_ONCE,
+                     msg.call_back,
+                     null,
+                     null);
         UART1_CR2_TEN=1;//打开发送
         UART1_CR2_TIEN=1;//打开发送中断
         RS485_DR_1 = 1;
@@ -147,7 +151,11 @@ void uart_send_pc(usart_tx_msg_obj msg) {
         pc_tx_packet.data[pc_tx_packet.len-1] = 0x0a;
         pc_tx_packet.flag = 0;
         pc_tx_packet.ts_flag = E_DISABLE;
-        event_create(&pc_tx_packet.ts_flag,ET_ONCE,msg.call_back,null);
+        event_create(&pc_tx_packet.ts_flag,
+                     ET_ONCE,
+                     msg.call_back,
+                     null,
+                     null);
         UART3_CR2_TEN=1;//打开发送
         UART3_CR2_TIEN=1;//打开发送中断
         RS485_DR_3 = 1;
@@ -155,11 +163,19 @@ void uart_send_pc(usart_tx_msg_obj msg) {
 }
 
 void uart_receive_draw(void(*call_back)(void *)) {
-    event_create(&draw_rx_packet.ts_flag,ET_ALWAYS,call_back,&draw_rx_packet);
+    event_create(&draw_rx_packet.ts_flag,
+                 ET_ALWAYS,
+                 call_back,
+                 &draw_rx_packet,
+                 null);
 }
 
 void uart_receive_pc(void(*call_back)(void *)) {
-    event_create(&pc_rx_packet.ts_flag,ET_ALWAYS,call_back,&pc_rx_packet);
+    event_create(&pc_rx_packet.ts_flag,
+                 ET_ALWAYS,
+                 call_back,
+                 &pc_rx_packet,
+                 null);
 }
 
 static void pc_rx_overtime(void) {
@@ -180,7 +196,7 @@ __interrupt void UART1_RX_IRQHandler(void) {
             case 0:{
                 if(data == 0x3a) {
                     draw_rx_packet.flag = 1;
-                    overtime_id = stime_create(30,draw_rx_overtime);
+                    overtime_id = stime_create(30,ST_ONCE,draw_rx_overtime);
                 }
             } break;
             case 1:{
@@ -226,7 +242,7 @@ __interrupt void UART3_RX_IRQHandler(void) {
             case 0:{
                 if(data == 0x3a) {
                     pc_rx_packet.flag = 1;
-                    overtime_id = stime_create(30,pc_rx_overtime);
+                    overtime_id = stime_create(30,ST_ONCE,pc_rx_overtime);
                 }
                 pc_rx_packet.ts_flag = E_DISABLE;
             } break;
@@ -265,8 +281,6 @@ __interrupt void UART3_RX_IRQHandler(void) {
 
 #pragma vector=0x13
 __interrupt void UART1_TX_IRQHandler(void) {
-    asm("sim");
-
     static uint8_t bTX_finished=0;
     if(bTX_finished==1 && UART1_SR_TC==1){
         bTX_finished=0;
@@ -283,13 +297,9 @@ __interrupt void UART1_TX_IRQHandler(void) {
             draw_tx_packet.ts_flag = E_ENABLE;
         }
     }
-    
-    asm("rim");
 }
 #pragma vector=0x16
 __interrupt void UART3_TX_IRQHandler(void) {
-    asm("sim");
-  
     static uint8_t bTX_finished=0;
     if(bTX_finished==1 && UART3_SR_TC==1){
         bTX_finished=0;
@@ -306,6 +316,4 @@ __interrupt void UART3_TX_IRQHandler(void) {
             pc_tx_packet.ts_flag = E_ENABLE;
         }
     }
-    
-    asm("rim");
 }

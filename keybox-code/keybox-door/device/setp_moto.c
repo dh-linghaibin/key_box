@@ -21,6 +21,12 @@
 #define CLOSE_SIGNAL    PE_IDR_IDR5/*回来限位*/
 #define OPEN_SIGNAL	PB_IDR_IDR0/*出去限位*/
 
+static uint16_t sleep = 500;
+static void (*operation_call)(setp_moto_ask_e pd);
+static uint8_t time_id = 0;
+static uint8_t sleep_time_id = 0;
+static uint8_t is_run = 0;
+
 static void setp_moto_set(setp_moto_e set) {
     if(set == SM_EN) {
         MOTO_EN;
@@ -40,7 +46,23 @@ static inline void setp_moto_set_sleep(uint16_t sleep) {
     TIM1_ARRL=sleep;
 }
 
-void setp_moto_init(void) {
+static event_e open_sign_read(void * pd) {
+    if(OPEN_SIGNAL) {
+        return E_ENABLE;
+    } else {
+        return E_DISABLE;
+    }
+} 
+
+static event_e close_sign_read(void * pd) {
+    if(CLOSE_SIGNAL) {
+        return E_ENABLE;
+    } else {
+        return E_DISABLE;
+    }
+} 
+
+void setp_moto_init(struct _setp_moto_obj * moto) {
     PA_DDR |= BIT(3);
     PA_CR1 |= BIT(3); 
     PA_CR2 |= BIT(3);
@@ -87,38 +109,90 @@ void setp_moto_init(void) {
     SIGNA_EN = 1;
 }
 
-static uint16_t sleep = 500;
-
-void sleep_task(void) {
-    if(sleep < 700)
-    sleep += 5;
+static void sleep_task(void) {
+    if(sleep < 700) sleep += 5; else stime_delet(sleep_time_id);
     setp_moto_set_sleep(sleep);
 }
 
-event_e open_sign_read(void * pd) {
-    if(CLOSE_SIGNAL) {
-        return E_ENABLE;
-    } else {
-        return E_DISABLE;
-    }
-} 
-
-void open_call(void * pd) {
+static void time_out(void) {
+    is_run = 0;
+    stime_delet(sleep_time_id);
     setp_moto_set(SM_CLOSE);
     TIM1_CR1 = 0x00;
+    if(operation_call != null) {
+        operation_call(SA_TIME_OUT);
+    }
 }
 
-void setp_moto_open(void) {
-    event_create(null,
-                 ET_CUSTOM,
-                 open_call,
-                 null,
-                 open_sign_read);
-    
-    setp_moto_set(SM_EN);
-    TIM1_CR1 = 0x01;
-    sleep = 500;
-    stime_create(30,ST_ALWAYS,sleep_task);
+void out_call(void * pd) {
+    is_run = 0;
+    stime_delet(sleep_time_id);
+    stime_delet(time_id);
+    setp_moto_set(SM_CLOSE);
+    TIM1_CR1 = 0x00;
+    if(operation_call != null) {
+        operation_call(SA_OK);
+    }
+}
+
+void setp_moto_open(struct _setp_moto_obj * moto,void (*open_call)(setp_moto_ask_e pd)) {
+    if(is_run == 0) {
+        if(open_sign_read(null) == E_ENABLE) {
+            if(open_call != null) {
+                open_call(SA_OK);
+            }
+        } else {
+            is_run = 1;
+            operation_call = open_call;
+            MOTO_DIR = 1;
+            event_create(null,
+                         ET_CUSTOM,
+                         out_call,
+                         moto,
+                         open_sign_read);
+            time_id = stime_create(2000,ST_ONCE,time_out);
+            sleep_time_id = stime_create(30,ST_ALWAYS,sleep_task);
+            setp_moto_set(SM_EN);
+            TIM1_CR1 = 0x01;
+            sleep = 500;
+        }
+    }
+}
+
+void setp_moto_close(struct _setp_moto_obj * moto,void (*close_call)(setp_moto_ask_e pd)) {
+    if(is_run == 0) {
+        if(close_sign_read(null) == E_ENABLE) {
+            if(close_call != null) {
+                close_call(SA_OK);
+            }
+        } else {
+            is_run = 1;
+            operation_call = close_call;
+            MOTO_DIR = 0;
+            event_create(null,
+                         ET_CUSTOM,
+                         out_call,
+                         moto,
+                         close_sign_read);
+            time_id = stime_create(2000,ST_ONCE,time_out);
+            sleep_time_id = stime_create(30,ST_ALWAYS,sleep_task);
+            setp_moto_set(SM_EN);
+            TIM1_CR1 = 0x01;
+            sleep = 500;
+        }
+    }
+}
+
+setp_moto_pos_e setp_moto_position(struct _setp_moto_obj * moto) {
+    setp_moto_pos_e pos;
+    if(open_sign_read(null) == E_ENABLE) {
+        pos = SP_OPEN;
+    } else if(close_sign_read(null) == E_ENABLE) {
+        pos = SP_CLOSE;
+    } else {
+        pos = SP_NO;
+    }
+    return pos;
 }
 
 #pragma vector=0xD

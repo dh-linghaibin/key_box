@@ -12,7 +12,6 @@
 extern "C" {
 #endif
 
-#include "iostm8s207m8.h"
 #include "stdint.h"
 #include <assert.h>  
 #include "fsm.h"
@@ -24,8 +23,9 @@ typedef enum _event_e{
 }event_e;
 
 typedef enum _event_type_e {
-    ET_ONCE    = 1,
+    ET_ONCE     = 1,
     ET_ALWAYS   = 0,
+    ET_CUSTOM   = 2,
 }event_type_e;
     
 typedef struct _event_obj {
@@ -34,10 +34,15 @@ typedef struct _event_obj {
     uint8_t *flag_addr;
     void * call_dat;
     void(*call_back)(void *);
+    event_e (*call_custom)(void *);
 }event_obj;
 
 void event_init(void);
-int event_create(uint8_t *flag_addr,event_type_e type,void(*call_back)(void *),void * pd);
+int event_create(uint8_t *flag_addr,
+                 event_type_e type,
+                 void(*call_back)(void *),
+                 void * pd,
+                 event_e(*call_custom)(void *) );
 int event_delet(int id);
 void event_loop(void);
 

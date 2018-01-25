@@ -67,6 +67,8 @@ void stime_loop(void) {
 
 #pragma vector=TIM2_OVR_UIF_vector
 __interrupt void Tim2_Overflow(void) {
+    asm("sim");
+    
     TIM2_SR1=0;//清楚中断标志位
     timeslice++;
     register uint8_t i = 0;
@@ -77,5 +79,7 @@ __interrupt void Tim2_Overflow(void) {
             }
         }
     }
+    
+    asm("sim");
 }
 

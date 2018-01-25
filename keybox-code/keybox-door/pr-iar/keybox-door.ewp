@@ -250,6 +250,7 @@
           <name>CCIncludePath2</name>
           <state>..\device\include</state>
           <state>..\frame\include</state>
+          <state>..\user\include</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1573,6 +1574,9 @@
     <name>app</name>
     <file>
       <name>$PROJ_DIR$\main.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\user\register_device.c</name>
     </file>
   </group>
   <group>
