@@ -29,8 +29,12 @@ typedef struct _setp_moto_obj {
     uint16_t now_position;
     uint16_t stop_arr[40];
     void (*init)(struct _setp_moto_obj *);
+    int (*rotate)( struct _setp_moto_obj * moto_s,uint16_t to_position,void (call_back)(void *) );
 }setp_moto_obj;
     
+void setp_moto_init(struct _setp_moto_obj *);
+int setp_moto_rotate( struct _setp_moto_obj * moto_s,uint16_t to_position,void (call_back)(void *) );
+
 #ifdef __cplusplus
 }
 #endif

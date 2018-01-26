@@ -64,16 +64,22 @@ typedef struct _usart_rx_packet_obj {
 }usart_rx_packet_obj;
 
 typedef struct _usart_obj {
-    usart_e name;
-    int baud_rate;
+    void (*init) (struct _usart_obj *);
+    void (*draw_send)(struct _usart_obj *,usart_tx_msg_obj);
+    void (*receive_draw)(struct _usart_obj *,void(*call_back)(void *));
+    void (*pc_send)(struct _usart_obj *,usart_tx_msg_obj);
+    void (*receive_pc)(struct _usart_obj *,void(*call_back)(void *));
 }usart_obj;
 
-void usart_init(void);
-void uart_send_pc(usart_tx_msg_obj msg);
-void uart_receive_pc(void(*call_back)(void *));
-
-void uart_send_draw(usart_tx_msg_obj msg);
-void uart_receive_draw(void(*call_back)(void *));
+void usart_init(struct _usart_obj * uart);
+void uart_send_draw(struct _usart_obj * uart,
+                    usart_tx_msg_obj msg);
+void uart_send_pc(struct _usart_obj * uart,
+                  usart_tx_msg_obj msg);
+void uart_receive_draw(struct _usart_obj * uart,
+                       void(*call_back)(void *));
+void uart_receive_pc(struct _usart_obj * uart,
+                     void(*call_back)(void *));
 
 #ifdef __cplusplus
 }

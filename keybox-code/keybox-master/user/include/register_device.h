@@ -5,18 +5,20 @@
  *
  */
 
-#ifndef _LCD_H_
-#define _LCD_H_
+#ifndef _REGISTER_H_
+#define _REGISTER_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include "stdint.h"
-#include <assert.h>  
 #include "fsm.h"
-
-
+#include "event.h"
+    
+void device_init(void);
+void * device_get(const char * name);
+    
 #ifdef __cplusplus
 }
 #endif

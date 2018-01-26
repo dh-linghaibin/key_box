@@ -17,7 +17,18 @@ extern "C" {
 #include <assert.h>  
 #include "fsm.h"
 
-void voice_init();
+typedef enum _voice_e {
+    V_OPEN = 1,
+    V_CLOSE = 0,
+}voice_e;
+
+typedef struct _voice_obj {
+    void (*init)(struct _voice_obj *);
+    void (*set)(struct _voice_obj *,voice_e);
+} voice_obj;
+
+void voice_init(struct _voice_obj * voice);
+void voice_set(struct _voice_obj * voice,voice_e cmd);
 
 #ifdef __cplusplus
 }

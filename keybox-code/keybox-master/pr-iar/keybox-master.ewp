@@ -251,6 +251,7 @@
           <state>..\device\include</state>
           <state>..\frame\include</state>
           <state>..\os\include</state>
+          <state>..\user\include</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1575,11 +1576,17 @@
     <file>
       <name>$PROJ_DIR$\..\user\main.c</name>
     </file>
+    <file>
+      <name>$PROJ_DIR$\..\user\register_device.c</name>
+    </file>
   </group>
   <group>
     <name>device</name>
     <file>
       <name>$PROJ_DIR$\..\device\button.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\device\eprom.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\device\lcd.c</name>

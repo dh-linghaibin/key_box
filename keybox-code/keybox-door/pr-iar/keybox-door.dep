@@ -6,66 +6,102 @@
   <configuration>
     <name>Debug</name>
     <outputs>
-      <file>$PROJ_DIR$\..\device\include\light.h</file>
-      <file>$TOOLKIT_DIR$\lib\dbgstm8smd.a</file>
-      <file>$PROJ_DIR$\Debug\Obj\setp_moto.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\led.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
-      <file>$PROJ_DIR$\..\device\include\led.h</file>
-      <file>$TOOLKIT_DIR$\config\lnkstm8s003k3.icf</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
-      <file>$TOOLKIT_DIR$\lib\dlstm8smn.h</file>
-      <file>$PROJ_DIR$\..\device\include\uart.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\keybox-door.pbd</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\event.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\setp_moto.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\light.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\iostm8s003k3.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\uart.o</file>
-      <file>$PROJ_DIR$\..\frame\include\fsm.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\stime.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\led.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
-      <file>$PROJ_DIR$\..\device\include\setp_moto.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\stime.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\uart.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\event.pbi</file>
-      <file>$TOOLKIT_DIR$\lib\dlstm8smn.a</file>
-      <file>$PROJ_DIR$\..\frame\include\stime.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\light.o</file>
       <file>$TOOLKIT_DIR$\inc\c\assert.h</file>
-      <file>$PROJ_DIR$\Debug\Exe\templproj.out</file>
-      <file>$PROJ_DIR$\main.c</file>
-      <file>$PROJ_DIR$\..\device\led.c</file>
-      <file>$PROJ_DIR$\..\device\light.c</file>
-      <file>$PROJ_DIR$\..\frame\event.c</file>
-      <file>$PROJ_DIR$\..\frame\stime.c</file>
-      <file>$PROJ_DIR$\..\device\uart.c</file>
-      <file>$PROJ_DIR$\..\frame\include\event.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
-      <file>$PROJ_DIR$\..\device\setp_moto.c</file>
-      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
       <file>$PROJ_DIR$\..\user\include\register_device.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\string.h</file>
-      <file>$PROJ_DIR$\..\user\register_device.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
       <file>$PROJ_DIR$\..\user\register.c</file>
       <file>$PROJ_DIR$\Debug\Obj\register_device.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\register_device.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\register.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\led.o</file>
       <file>$PROJ_DIR$\Debug\Obj\register.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\register.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+      <file>$PROJ_DIR$\..\frame\include\event.h</file>
+      <file>$PROJ_DIR$\Debug\Exe\templproj.out</file>
+      <file>$TOOLKIT_DIR$\inc\c\string.h</file>
+      <file>$TOOLKIT_DIR$\lib\dlstm8smn.a</file>
+      <file>$PROJ_DIR$\Debug\Obj\register_device.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\uart.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\event.pbi</file>
+      <file>$PROJ_DIR$\..\device\include\uart.h</file>
+      <file>$PROJ_DIR$\..\device\include\led.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\light.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+      <file>$PROJ_DIR$\..\device\include\setp_moto.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\light.o</file>
+      <file>$TOOLKIT_DIR$\lib\dlstm8smn.h</file>
+      <file>$PROJ_DIR$\..\frame\include\stime.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
+      <file>$TOOLKIT_DIR$\inc\iostm8s003k3.h</file>
+      <file>$TOOLKIT_DIR$\config\lnkstm8s003k3.icf</file>
+      <file>$PROJ_DIR$\Debug\Obj\keybox-door.pbd</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\stime.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\io_macros.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\event.o</file>
+      <file>$PROJ_DIR$\..\frame\include\fsm.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\setp_moto.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\led.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\setp_moto.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\uart.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\stime.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
+      <file>$PROJ_DIR$\..\user\register_device.c</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\..\frame\event.c</file>
+      <file>$PROJ_DIR$\..\frame\stime.c</file>
+      <file>$PROJ_DIR$\..\device\light.c</file>
+      <file>$PROJ_DIR$\..\device\setp_moto.c</file>
+      <file>$PROJ_DIR$\..\device\include\light.h</file>
+      <file>$PROJ_DIR$\..\device\led.c</file>
+      <file>$TOOLKIT_DIR$\lib\dbgstm8smd.a</file>
+      <file>$PROJ_DIR$\..\device\uart.c</file>
     </outputs>
+    <file>
+      <name>$PROJ_DIR$\..\user\register.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 7</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 8</file>
+        </tool>
+      </outputs>
+    </file>
     <file>
       <name>$PROJ_DIR$\Debug\Exe\templproj.out</name>
       <inputs>
         <tool>
           <name>ILINK</name>
-          <file> 6 14 22 31 7 50 15 21 19 29 1</file>
+          <file> 29 34 6 24 2 15 36 41 17 14 51</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\user\register_device.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 5</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 15</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 1 3 10 40 22 25 31 27 42 35 28 33 11 0 13 9 19 20 49 23</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 1 3 10 40 22 25 31 27 42 35 28 33 11 0 13 9 19 20 49 23</file>
         </tool>
       </inputs>
     </file>
@@ -73,68 +109,22 @@
       <name>$PROJ_DIR$\main.c</name>
       <outputs>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 7</file>
+          <name>BICOMP</name>
+          <file> 16</file>
         </tool>
         <tool>
-          <name>BICOMP</name>
-          <file> 8</file>
+          <name>ICCSTM8</name>
+          <file> 2</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 45 42 41 26 23 9 12 16 13 20 18 4 40 32 30 10 5 0 24</file>
-        </tool>
-        <tool>
           <name>BICOMP</name>
-          <file> 45 42 41 26 23 9 12 16 13 20 18 4 40 32 30 10 5 0 24</file>
+          <file> 1 3 10 40 22 25 31 27 42 35 28 33 11 0 26 19 20 49 23</file>
         </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\device\led.c</name>
-      <outputs>
         <tool>
           <name>ICCSTM8</name>
-          <file> 22</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 3</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 5 42 41 26 23 9 12 16 13 20 18 4 40 32</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 5 42 41 26 23 9 12 16 13 20 18 4 40 32</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\device\light.c</name>
-      <outputs>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 31</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 17</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 0 42 41 26 23 9 12 16 13 20 18 4 40 32</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 0 42 41 26 23 9 12 16 13 20 18 4 40 32</file>
+          <file> 1 3 10 40 22 25 31 27 42 35 28 33 11 0 26 19 20 49 23</file>
         </tool>
       </inputs>
     </file>
@@ -142,22 +132,22 @@
       <name>$PROJ_DIR$\..\frame\event.c</name>
       <outputs>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 14</file>
+          <name>BICOMP</name>
+          <file> 18</file>
         </tool>
         <tool>
-          <name>BICOMP</name>
-          <file> 28</file>
+          <name>ICCSTM8</name>
+          <file> 34</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 40 42 41 26 23 9 12 16 13 32 20 18 4</file>
+          <name>BICOMP</name>
+          <file> 11 3 10 40 22 25 31 27 42 0 35 28 33</file>
         </tool>
         <tool>
-          <name>BICOMP</name>
-          <file> 40 42 41 26 23 9 12 16 13 32 20 18 4</file>
+          <name>ICCSTM8</name>
+          <file> 11 3 10 40 22 25 31 27 42 0 35 28 33</file>
         </tool>
       </inputs>
     </file>
@@ -165,45 +155,45 @@
       <name>$PROJ_DIR$\..\frame\stime.c</name>
       <outputs>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 21</file>
+          <name>BICOMP</name>
+          <file> 32</file>
         </tool>
         <tool>
-          <name>BICOMP</name>
-          <file> 25</file>
+          <name>ICCSTM8</name>
+          <file> 41</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 30 42 41 26 23 9 12 16 13 20 18 4</file>
+          <name>BICOMP</name>
+          <file> 26 3 10 40 22 25 31 27 42 35 28 33</file>
         </tool>
         <tool>
-          <name>BICOMP</name>
-          <file> 30 42 41 26 23 9 12 16 13 20 18 4</file>
+          <name>ICCSTM8</name>
+          <file> 26 3 10 40 22 25 31 27 42 35 28 33</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\device\uart.c</name>
+      <name>$PROJ_DIR$\..\device\light.c</name>
       <outputs>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 19</file>
+          <name>BICOMP</name>
+          <file> 21</file>
         </tool>
         <tool>
-          <name>BICOMP</name>
-          <file> 27</file>
+          <name>ICCSTM8</name>
+          <file> 24</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 10 42 41 26 23 9 12 16 13 20 18 4 40 32 30</file>
+          <name>BICOMP</name>
+          <file> 49 3 10 40 22 25 31 27 42 35 28 33 11 0</file>
         </tool>
         <tool>
-          <name>BICOMP</name>
-          <file> 10 42 41 26 23 9 12 16 13 20 18 4 40 32 30</file>
+          <name>ICCSTM8</name>
+          <file> 49 3 10 40 22 25 31 27 42 35 28 33 11 0</file>
         </tool>
       </inputs>
     </file>
@@ -211,22 +201,68 @@
       <name>$PROJ_DIR$\..\device\setp_moto.c</name>
       <outputs>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 15</file>
+          <name>BICOMP</name>
+          <file> 38</file>
         </tool>
         <tool>
-          <name>BICOMP</name>
-          <file> 2</file>
+          <name>ICCSTM8</name>
+          <file> 36</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
-          <name>ICCSTM8</name>
-          <file> 24 42 41 26 23 9 12 16 13 20 18 4 40 32 30</file>
+          <name>BICOMP</name>
+          <file> 23 3 10 40 22 25 31 27 42 35 28 33 11 0 26</file>
         </tool>
         <tool>
+          <name>ICCSTM8</name>
+          <file> 23 3 10 40 22 25 31 27 42 35 28 33 11 0 26</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\device\led.c</name>
+      <outputs>
+        <tool>
           <name>BICOMP</name>
-          <file> 24 42 41 26 23 9 12 16 13 20 18 4 40 32 30</file>
+          <file> 37</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 6</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 20 3 10 40 22 25 31 27 42 35 28 33 11 0</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 20 3 10 40 22 25 31 27 42 35 28 33 11 0</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\device\uart.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 39</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 17</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 19 3 10 40 22 25 31 27 42 35 28 33 11 0 26</file>
+        </tool>
+        <tool>
+          <name>ICCSTM8</name>
+          <file> 19 3 10 40 22 25 31 27 42 35 28 33 11 0 26</file>
         </tool>
       </inputs>
     </file>
@@ -235,43 +271,7 @@
       <outputs>
         <tool>
           <name>ILINK</name>
-          <file> 33</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\user\register_device.c</name>
-      <outputs>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 50</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 49</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 45 42 41 26 23 9 12 16 13 20 18 4 40 32 46 44 10 5 0 24</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 45 42 41 26 23 9 12 16 13 20 18 4 40 32 46 44 10 5 0 24</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\user\register.c</name>
-      <outputs>
-        <tool>
-          <name>ICCSTM8</name>
-          <file> 51</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 52</file>
+          <file> 12</file>
         </tool>
       </outputs>
     </file>

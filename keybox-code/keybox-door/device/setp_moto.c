@@ -124,7 +124,7 @@ static void time_out(void) {
     }
 }
 
-void out_call(void * pd) {
+static void moto_ok_task(void) {
     is_run = 0;
     stime_delet(sleep_time_id);
     stime_delet(time_id);
@@ -133,6 +133,10 @@ void out_call(void * pd) {
     if(operation_call != null) {
         operation_call(SA_OK);
     }
+}
+
+static void out_call(void * pd) {
+    stime_create(10,ST_ONCE,moto_ok_task);
 }
 
 void setp_moto_open(struct _setp_moto_obj * moto,void (*open_call)(setp_moto_ask_e pd)) {
@@ -151,10 +155,11 @@ void setp_moto_open(struct _setp_moto_obj * moto,void (*open_call)(setp_moto_ask
                          moto,
                          open_sign_read);
             time_id = stime_create(2000,ST_ONCE,time_out);
+            sleep = 500;
+            setp_moto_set_sleep(sleep);
             sleep_time_id = stime_create(30,ST_ALWAYS,sleep_task);
             setp_moto_set(SM_EN);
             TIM1_CR1 = 0x01;
-            sleep = 500;
         }
     }
 }
@@ -175,10 +180,11 @@ void setp_moto_close(struct _setp_moto_obj * moto,void (*close_call)(setp_moto_a
                          moto,
                          close_sign_read);
             time_id = stime_create(2000,ST_ONCE,time_out);
+            sleep = 500;
+            setp_moto_set_sleep(sleep);
             sleep_time_id = stime_create(30,ST_ALWAYS,sleep_task);
             setp_moto_set(SM_EN);
             TIM1_CR1 = 0x01;
-            sleep = 500;
         }
     }
 }

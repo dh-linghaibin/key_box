@@ -53,8 +53,6 @@ void close_call(setp_moto_ask_e pd) {
 }
 
 void open_call_light(setp_moto_ask_e pd) {
-    light_obj *light = device_get("light");
-    light->set(light,L_OPEN);
     usart_tx_msg_obj msg;
     msg.id = 0xff;
     msg.cmd = 0x05;
@@ -66,6 +64,9 @@ void open_call_light(setp_moto_ask_e pd) {
 }
 
 void close_call_light(setp_moto_ask_e pd) {
+    light_obj *light = device_get("light");
+    light->set(light,L_CLOSE);
+    
     usart_tx_msg_obj msg;
     msg.id = 0xff;
     msg.cmd = 0x06;
@@ -106,12 +107,13 @@ void usart_rec_callback(void *pd) {
             usart->draw_send(usart,msg);
         } break;
         case 0x05:{
+            light_obj *light = device_get("light");
+            light->set(light,L_OPEN);
+            
             setp_moto_obj *moto = device_get("moto");
             moto->open(moto,open_call_light);
         } break;
         case 0x06:{
-            light_obj *light = device_get("light");
-            light->set(light,L_CLOSE);
             setp_moto_obj *moto = device_get("moto");
             moto->close(moto,close_call_light);
         } break;

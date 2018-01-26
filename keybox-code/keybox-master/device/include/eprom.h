@@ -5,8 +5,8 @@
  *
  */
 
-#ifndef _LCD_H_
-#define _LCD_H_
+#ifndef _EPROM_H_
+#define _EPROM_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -15,6 +15,7 @@ extern "C" {
 #include "stdint.h"
 #include <assert.h>  
 #include "fsm.h"
+
 
 
 #ifdef __cplusplus

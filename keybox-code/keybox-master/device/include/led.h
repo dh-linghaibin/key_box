@@ -17,8 +17,13 @@ extern "C" {
 #include <assert.h>  
 #include "fsm.h"
 
-void led_init(void);
-void led_taggle(void);
+typedef struct _led_obj {
+    void (*init)(struct _led_obj *);
+    void (*blank)(struct _led_obj *);
+} led_obj;
+
+void led_init(struct _led_obj * led);
+void led_blank(struct _led_obj * led);
 
 #ifdef __cplusplus
 }

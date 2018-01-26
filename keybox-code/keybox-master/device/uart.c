@@ -21,15 +21,7 @@ static uint8_t rs485_address;
 
 static uint8_t read_adr(void) {
     uint8_t address = 0;
-//    address.ad1 = PE_IDR_IDR3;
-//    address.ad2 = PG_IDR_IDR1;
-//    address.ad3 = PG_IDR_IDR0;
-//    address.ad4 = PC_IDR_IDR7;
-//    address.ad5 = 0;
-//    address.ad6 = 0;
-//    address.ad7 = 0;
-//    address.ad8 = 0;
-    
+
     if(PE_IDR_IDR3) address &= ~BIT(0); else address |= BIT(0);
     if(PG_IDR_IDR1) address &= ~BIT(1); else address |= BIT(1);
     if(PG_IDR_IDR0) address &= ~BIT(2); else address |= BIT(2);
@@ -38,7 +30,7 @@ static uint8_t read_adr(void) {
     return address;
 }
 
-void usart_init(void) {
+void usart_init(struct _usart_obj * uart) {
      /***485_PA4****/
    PA_DDR &= ~BIT(5);
     PA_CR1 |= BIT(5); 
@@ -104,7 +96,8 @@ void usart_init(void) {
     pc_tx_packet.flag = 0;
 }
 
-void uart_send_draw(usart_tx_msg_obj msg) {
+void uart_send_draw(struct _usart_obj * uart,
+                    usart_tx_msg_obj msg) {
     if(msg.len+5 <= BEST_TX_PACK){
         draw_tx_packet.data[0] = 0x3a;
         draw_tx_packet.data[1] = msg.id;
@@ -133,7 +126,8 @@ void uart_send_draw(usart_tx_msg_obj msg) {
     }
 }
 
-void uart_send_pc(usart_tx_msg_obj msg) {
+void uart_send_pc(struct _usart_obj * uart,
+                  usart_tx_msg_obj msg) {
     if(msg.len+5 <= BEST_TX_PACK){
         pc_tx_packet.data[0] = 0x3a;
         pc_tx_packet.data[1] = msg.id;
@@ -162,7 +156,8 @@ void uart_send_pc(usart_tx_msg_obj msg) {
     }
 }
 
-void uart_receive_draw(void(*call_back)(void *)) {
+void uart_receive_draw(struct _usart_obj * uart,
+                       void(*call_back)(void *)) {
     event_create(&draw_rx_packet.ts_flag,
                  ET_ALWAYS,
                  call_back,
@@ -170,7 +165,8 @@ void uart_receive_draw(void(*call_back)(void *)) {
                  null);
 }
 
-void uart_receive_pc(void(*call_back)(void *)) {
+void uart_receive_pc(struct _usart_obj * uart,
+                     void(*call_back)(void *)) {
     event_create(&pc_rx_packet.ts_flag,
                  ET_ALWAYS,
                  call_back,

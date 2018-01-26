@@ -6,10 +6,13 @@
  */
 
 #include "receipt.h"
+#include "stime.h"
 
-#define pla_dc PA_ODR_ODR2
+#define REC PA_ODR_ODR2
+static void(*receipt_call_back)(void *);
+static uint8_t is_run = 0;
 
-void receipt_init(void) {
+void receipt_init(struct _receipt_obj * receipt) {
     PB_DDR &= ~( BIT(0)|BIT(1)|BIT(2)|BIT(3)|BIT(4)|BIT(5)|BIT(6)|BIT(7) );
     PB_CR1 |= ( BIT(0)|BIT(1)|BIT(2)|BIT(3)|BIT(4)|BIT(5)|BIT(6)|BIT(7) ); 
     PB_CR2 &= ~( BIT(0)|BIT(1)|BIT(2)|BIT(3)|BIT(4)|BIT(5)|BIT(6)|BIT(7) );
@@ -20,9 +23,11 @@ void receipt_init(void) {
     PC_DDR |= BIT(2);
     PC_CR1 |= BIT(2); 
     PC_CR2 |= BIT(2);
+    
+    PA_ODR_ODR2 = 0;
 }
 
-receipt_bit_e receipt_get(uint8_t layer) {
+static receipt_bit_e receipt_read_bit(uint8_t layer) {
     switch(layer) {
         case 0: {
             return PB_IDR_IDR7;
@@ -56,4 +61,29 @@ receipt_bit_e receipt_get(uint8_t layer) {
         } break;
     }
     return RB_NO_HAVE;
+}
+
+static void receipt_read_call_back(void) {
+    receipt_bit_obj receipt_bit;
+    register int i = 0;
+    for(i = 0; i < 10; i++) {
+        receipt_bit.layer[i] = receipt_read_bit(i);
+    }
+    PA_ODR_ODR2 = 0;
+    is_run = 0;
+    if(receipt_call_back != null) {
+        receipt_call_back(&receipt_bit);
+    }
+}
+
+void receipt_get(struct _receipt_obj * receipt,
+                 uint8_t layer,
+                 void(*call_back)(void *)) {
+    if(is_run == 0) {
+        receipt_call_back = call_back;
+        if(stime_create(100,ST_ONCE,receipt_read_call_back) > 0) {
+            PA_ODR_ODR2 = 1;
+            is_run = 1;
+        }
+    }
 }
