@@ -16,6 +16,10 @@ extern "C" {
 #include <assert.h>  
 #include "fsm.h"
 
+typedef struct _lcd_obj {
+    uint8_t x;
+    uint8_t y;
+}lcd_obj;
 
 #ifdef __cplusplus
 }

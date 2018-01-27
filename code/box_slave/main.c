@@ -54,7 +54,7 @@ int main(void)
     //robot_mode(0);
     SetLed(0);
     
-    robot_mode(1);
+    //robot_mode(1);
     
     while (1) {
         static u16 count = 0;

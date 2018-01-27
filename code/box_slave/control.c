@@ -264,7 +264,7 @@ u8 robot_mode(u8 mode) {
     PB_CR1 &= ~BIT(2); 
     PB_CR2 &= ~BIT(2);
     
-    moto_sleep = 1000;
+    moto_sleep = 1500;
     WDT();//Çå¿´ÃÅ¹·
     en_seat = 1;
     delayms(10);

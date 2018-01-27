@@ -12,7 +12,7 @@
           
           
           
-        <Column0>283</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+        <Column0>167</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
       </Workspace>
       <Build>
         
@@ -24,7 +24,7 @@
     <Windows>
       
       
-    <Wnd2>
+    <Wnd0>
         <Tabs>
           <Tab>
             <Identity>TabID-32748-18472</Identity>
@@ -36,7 +36,7 @@
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd2><Wnd3>
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
         <Tabs>
           <Tab>
             <Identity>TabID-5500-18574</Identity>
@@ -46,20 +46,20 @@
           </Tab>
         <Tab><Identity>TabID-11986-9488</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab><Tab><Identity>TabID-32723-1677</Identity><TabName>Find in Files</TabName><Factory>Find-in-Files</Factory><Session/></Tab><Tab><Identity>TabID-7682-2098</Identity><TabName>Ambiguous Definitions</TabName><Factory>Select-Ambiguous-Definitions</Factory><Session/></Tab></Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd3></Windows>
+      <SelectedTab>0</SelectedTab></Wnd1></Windows>
     <Editor>
       
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\user\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>1</YPos2><SelStart2>1118</SelStart2><SelEnd2>1118</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\user\register_device.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>22</YPos2><SelStart2>515</SelStart2><SelEnd2>515</SelEnd2></Tab><ActiveTab>1</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\device\setp_moto.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>124</YPos2><SelStart2>4509</SelStart2><SelEnd2>4509</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\device\include\setp_moto.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>697</SelStart2><SelEnd2>697</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\device\eprom.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>10</YPos2><SelStart2>1088</SelStart2><SelEnd2>1088</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\device\include\eprom.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>236</SelStart2><SelEnd2>236</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\device\lcd.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>19</YPos2><SelStart2>1245</SelStart2><SelEnd2>1245</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\device\include\lcd.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>302</SelStart2><SelEnd2>302</SelEnd2></Tab><ActiveTab>1</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\frame\include\fsm.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>15</YPos2><SelStart2>134</SelStart2><SelEnd2>134</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Program Files (x86)\IAR Systems\Embedded Workbench 6.5\stm8\inc\iostm8s207m8.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>2595</YPos2><SelStart2>88088</SelStart2><SelEnd2>88088</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\user\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>48</YPos2><SelStart2>1184</SelStart2><SelEnd2>1184</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\user\register_device.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>1183</SelStart2><SelEnd2>1183</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-07a14160><key>iaridepm.enu1</key></Toolbar-07a14160></Sizes></Row0></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>797</Bottom><Right>357</Right><x>-2</x><y>-2</y><xscreen>830</xscreen><yscreen>83</yscreen><sizeHorzCX>324219</sizeHorzCX><sizeHorzCY>82423</sizeHorzCY><sizeVertCX>140234</sizeVertCX><sizeVertCY>793446</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>165</Bottom><Right>2562</Right><x>-2</x><y>-2</y><xscreen>2564</xscreen><yscreen>167</yscreen><sizeHorzCX>1001562</sizeHorzCX><sizeHorzCY>165839</sizeHorzCY><sizeVertCX>324219</sizeVertCX><sizeVertCY>82423</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-07854098><key>iaridepm.enu1</key></Toolbar-07854098></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>458</Bottom><Right>241</Right><x>-2</x><y>-2</y><xscreen>442</xscreen><yscreen>56</yscreen><sizeHorzCX>324523</sizeHorzCX><sizeHorzCY>81871</sizeHorzCY><sizeVertCX>178414</sizeVertCX><sizeVertCY>672515</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>181</Bottom><Right>1364</Right><x>-2</x><y>-2</y><xscreen>1366</xscreen><yscreen>183</yscreen><sizeHorzCX>1002937</sizeHorzCX><sizeHorzCY>267544</sizeHorzCY><sizeVertCX>324523</sizeVertCX><sizeVertCY>81871</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 
