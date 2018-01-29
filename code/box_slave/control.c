@@ -316,7 +316,7 @@ u8 robot_mode(u8 mode) {
                 flag = out_seat;
             }
             if(flag == 1){
-                if(moto_flag < 100) {
+                if(moto_flag < 1) {
                     moto_flag++;
                 } else {
                     moto_en
