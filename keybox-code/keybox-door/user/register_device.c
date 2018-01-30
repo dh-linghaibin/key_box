@@ -11,28 +11,34 @@
 #include "led.h"
 #include "light.h"
 #include "setp_moto.h"
+#include "electromagnet.h"
 
-usart_obj usart = {
+static usart_obj usart = {
     .init               = usart_init,
     .draw_send          = uart_send_draw,
     .receive_draw       = uart_receive_draw,
 };
 
-led_obj led = {
+static led_obj led = {
     .init       = led_init,
     .tager      = led_tager,
 };
 
-light_obj light = {
+static light_obj light = {
     .init       = light_init,
     .set        = light_set,
 };
 
-setp_moto_obj moto = {
+static setp_moto_obj moto = {
     .init       = setp_moto_init,
     .open       = setp_moto_open,
     .close      = setp_moto_close,
     .position   = setp_moto_position,
+};
+
+static elema_obj elema = {
+    .init       = lema_init,
+    .set        = lema_set,
 };
 
 
@@ -41,6 +47,7 @@ void device_init(void) {
     moto.init(&moto);
     led.init(&led);
     usart.init(&usart);
+    elema.init(&elema);
 }
 
 void * device_get(const char * name) {
@@ -52,6 +59,8 @@ void * device_get(const char * name) {
         return &light;
     } else if(strcmp(name,"moto")==0) {
         return &moto;
+    } else if(strcmp(name,"elema")==0) {
+        return &elema;
     }
     return null;
 }
