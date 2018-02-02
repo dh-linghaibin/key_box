@@ -21,6 +21,8 @@ typedef struct _lcd_obj {
     uint8_t y;
 }lcd_obj;
 
+void lcd_init(void);
+
 #ifdef __cplusplus
 }
 #endif

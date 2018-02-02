@@ -7,67 +7,46 @@
 
 #include "eprom.h"
 
-void eprom_read() {
-    
+static void eprom_un_luck(void) {
+    do {
+        FLASH_DUKR = 0xae;
+        FLASH_DUKR = 0x56; 
+    } while(!(FLASH_IAPSR&0X08));
 }
 
-/********************************************************************************************************
-*  Function: Derive_FlashUNLock                                                                        
-*  Object: 解锁ROM
-*  输入： 无
-*  输出： 无                                         
-*  备注:  无
-********************************************************************************************************/
-void Derive_FlashUNLock(void) {
-    do
-    {
-        FLASH_DUKR = 0xae;                    // 写入第一个密钥
-        FLASH_DUKR = 0x56;                    // 写入第二个密钥
+static void eprom_luck(void) {
+    FLASH_IAPSR &= ~BIT(1);
+}
+
+void eprom_init(struct _eprom_obj * eprom) {
+    uint8_t flag = 0x00;
+    eprom->read(eprom,EP_FLAG,&flag,1);
+    if(flag != 0x55) { /* 格式化 */
+        uint8_t cla[1024];
+        for(register int i = 0;i < 1024;i++) cla[i] = 0x00;
+        eprom->write(eprom,EP_MOTO_POS,cla,1024);
+        flag = 0x55;
+        eprom->write(eprom,EP_FLAG,&flag,1);
     } 
-    while(!(FLASH_IAPSR&0X08));                      // 等待解锁
 }
 
-/********************************************************************************************************
-*  Function: Derive_EPWrite                                                                        
-*  Object: 写EEPROM
-*  输入： 头地址(0~1535)  数据指针  数据长
-*  输出： 无                                         
-*  备注: 1.5K EEPROM  不能超过
-********************************************************************************************************/
-void Derive_EPWrite(uint16_t Adr, uint8_t *pData, uint16_t Len) {
+void eprom_write(struct _eprom_obj * eprom,uint16_t Adr, uint8_t *pData, uint16_t Len) {
     uint8_t *p;
-    //p指针指向EEPROM 对应的单元
     p = (uint8_t*)0x4000 + Adr;   
-    //解锁
-    Derive_FlashUNLock();
-    //写数据
-    for( ; Len > 0; Len--)
-    {
+    eprom_un_luck();
+    for( ; Len > 0; Len--) {
         *p++ = *pData++;
-        //等待写完成
         while(!(FLASH_IAPSR&0X40)); 
     } 
-    //加锁
-    FLASH_IAPSR &= ~BIT(1);
+    eprom_luck();
 }
 
-/********************************************************************************************************
-*  Function: Derive_EPRead                                                                         
-*  Object: 读EEPROM
-*  输入： 头地址(0~1535) 数据存放指针 数据长
-*  输出： 无                                         
-*  备注: 1.5K EEPROM
-********************************************************************************************************/
-void Derive_EPRead(uint16_t Adr, uint8_t *pData, uint16_t Len) {
+void eprom_read(struct _eprom_obj * eprom,uint16_t Adr, uint8_t *pData, uint16_t Len) {
     uint8_t *p;
-    //p指针指向EEPROM 对应的单元
     p = (uint8_t*)0x4000 + Adr; 
-    //解锁
-    Derive_FlashUNLock();
-    //读数据
+    eprom_un_luck();
     for( ; Len > 0; Len--)
         *pData++ = *p++;
-    //加锁EEPROM
-    FLASH_IAPSR &= ~BIT(1);
+    eprom_luck();
 }
 

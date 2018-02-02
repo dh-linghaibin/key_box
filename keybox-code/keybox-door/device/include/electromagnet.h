@@ -28,6 +28,7 @@ typedef struct _elema_obj {
     
 void lema_init(struct _elema_obj * elema);
 void lema_set(struct _elema_obj * elema,elema_e cmd);
+void lema_set_a(elema_e cmd);
 
 #ifdef __cplusplus
 }

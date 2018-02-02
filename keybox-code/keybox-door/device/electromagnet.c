@@ -9,7 +9,6 @@
 
 
 void lema_init(struct _elema_obj * elema) {
-    /***ÕÕÃ÷µÆ****/
     PA_DDR |= BIT(2);
     PA_CR1 |= BIT(2); 
     PA_CR2 |= BIT(2);
@@ -20,4 +19,7 @@ void lema_set(struct _elema_obj * elema,elema_e cmd) {
     PA_ODR_ODR2 = cmd;
 }
 
+void lema_set_a(elema_e cmd) {
+    PA_ODR_ODR2 = cmd;
+}
 

@@ -8,6 +8,7 @@
 #include "setp_moto.h"
 #include "stime.h"
 #include "event.h"
+#include "electromagnet.h"
 
 #define MOTO_STEP       PA_ODR_ODR3
 #define MOTO_DIR        PB_ODR_ODR6
@@ -119,6 +120,9 @@ static void time_out(void) {
     stime_delet(sleep_time_id);
     setp_moto_set(SM_CLOSE);
     TIM1_CR1 = 0x00;
+    
+    lema_set_a(E_LOCK); /* 关锁 */
+    
     if(operation_call != null) {
         operation_call(SA_TIME_OUT);
     }
@@ -130,6 +134,9 @@ static void moto_ok_task(void) {
     stime_delet(time_id);
     setp_moto_set(SM_CLOSE);
     TIM1_CR1 = 0x00;
+    
+    lema_set_a(E_LOCK); /* 关锁 */
+    
     if(operation_call != null) {
         operation_call(SA_OK);
     }
@@ -146,6 +153,8 @@ void setp_moto_open(struct _setp_moto_obj * moto,void (*open_call)(setp_moto_ask
                 open_call(SA_OK);
             }
         } else {
+            lema_set_a(E_OPEN); /* 开锁 */
+            
             is_run = 1;
             operation_call = open_call;
             MOTO_DIR = 1;
@@ -171,6 +180,8 @@ void setp_moto_close(struct _setp_moto_obj * moto,void (*close_call)(setp_moto_a
                 close_call(SA_OK);
             }
         } else {
+            lema_set_a(E_OPEN); /* 开锁 */
+            
             is_run = 1;
             operation_call = close_call;
             MOTO_DIR = 0;

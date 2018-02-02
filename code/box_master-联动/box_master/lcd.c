@@ -89,7 +89,7 @@ void Write_LCD_Command(u8 cmdcode)
 void Write_LCD_Data(u8 Dispdata)
 {  
     CS_H;
-    Send_Byte(0xfa);	  //11111,RW(0),RS(1),0
+    Send_Byte(0xfa);
     Send_Byte(Dispdata & 0xf0);
     Send_Byte((Dispdata << 4) & 0xf0);
     delay_ms(2);

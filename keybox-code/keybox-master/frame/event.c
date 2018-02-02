@@ -63,13 +63,13 @@ void event_loop(void) {
                 case ET_ONCE: {
                     if(*event[i].flag_addr == E_ENABLE) {
                         event[i].is_enable = E_DISABLE;
-                        event[i].flag_addr      = null;
-                        event[i].call_back      = null;
-                        event[i].call_custom    = null;
-                        event[i].call_dat       = null;
                         if(event[i].call_back != null) {
                             event[i].call_back(event[i].call_dat);
                         }
+//                        event[i].flag_addr      = null;
+//                        event[i].call_back      = null;
+//                        event[i].call_custom    = null;
+//                        event[i].call_dat       = null;
                     }           
                 } break;
                 case ET_ALWAYS: {
@@ -84,13 +84,13 @@ void event_loop(void) {
                     if(event[i].call_custom != null) {
                         if(event[i].call_custom(null) == E_ENABLE) {
                             event[i].is_enable = E_DISABLE;
-                            event[i].flag_addr      = null;
-                            event[i].call_back      = null;
-                            event[i].call_custom    = null;
-                            event[i].call_dat       = null;
                             if(event[i].call_back != null) {
                                 event[i].call_back(event[i].call_dat);
                             }
+//                            event[i].flag_addr      = null;
+//                            event[i].call_back      = null;
+//                            event[i].call_custom    = null;
+//                            event[i].call_dat       = null;
                         }
                     }
                 } break;

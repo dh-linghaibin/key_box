@@ -7,46 +7,97 @@
 
 #include "lcd.h"
 
-void lcd_init() {    
-    SPI_CR1_SPE=0;//关闭SPI设备
-    //设置串行波特率
-    SPI_CR1_BR=0;//fmaster/2=1M
-    //配置CPOL和CPHA，定义数据传输和串行时钟间的相位关系
-    SPI_CR1_CPHA=0;//数据采样从第一个时钟边沿开始
-    SPI_CR1_CPOL=0;//空闲状态时，SCK保持低电平 
-    //定义帧格式
-    SPI_CR1_LSBFIRST=0;//先发送MSB 
-    //使能从设备管理//主模式需通过改变SSI位 来控制SPI_SEL
-    SPI_CR2_SSM=1;//禁止软件从设备
-    SPI_CR2_SSI=1;
-    //主从设备模式选择
-    SPI_CR1_MSTR=1;//作为主设备
-    SPI_CR2_RXONLY=0;//全双工
-    SPI_CR2_BDM=0;//选择单向数据模式
-    SPI_CR1_SPE=1;//开启SPI设备
+#define CS_H PE_ODR_ODR5=1 
+#define CS_L PE_ODR_ODR5=0
+
+uint8_t spi_write(uint8_t data) {
+    uint8_t byte = 0; 
+    while(!SPI_SR&0x02);
+    SPI_DR = data; 
+    while(!SPI_SR&0x02);
+    SPI_DR = 0x00; 
+    while(!SPI_SR&0x01); 
+    byte = SPI_DR; 
+    return byte;
 }
 
-void spi_write(uint8_t address,uint8_t data) {
-    uint8_t tmp;
-    address |=0x20;
-    SPI_DR=address;//写入需要操作的寄存器地址,
-    while(!(SPI_SR_RXNE));
-    tmp=SPI_DR;   //读取数据，仅仅是为了清除标志位
-    while(!(SPI_SR_TXE));//等待发送寄存器为空
-    SPI_DR=data;
-    while(!(SPI_SR_TXE));
+void delay_ms(uint16_t ms) {						
+    uint16_t i;
+    while(ms--) {
+        for(i=0;i<300;i++);
+    }
 }
 
-uint8_t spi_read(uint8_t address) {
-    volatile uint8_t value=0;
-    value=SPI_DR;//读一次，清除标志位
-    while(!(SPI_SR_TXE));
-    SPI_DR=address;//写入需要操作的寄存器地址,
-    while(!(SPI_SR_RXNE));
-    value=SPI_DR;
-    while(!(SPI_SR_TXE));
-    SPI_DR=0xFF;//写入一个无效值
-    while(!(SPI_SR_RXNE));//准备读数据
-    value=SPI_DR;
-    return value;
+void write_cmd(uint8_t cmd) {
+    CS_H;
+    spi_write(0xf8);
+    spi_write(cmd & 0xf0);
+    spi_write((cmd << 4) & 0xf0);
+    delay_ms(2);
+    CS_L;
 }
+
+void write_dat(uint8_t Dispdata)
+{  
+    CS_H;
+    spi_write(0xfa);	
+    spi_write(Dispdata & 0xf0);
+    spi_write((Dispdata << 4) & 0xf0);
+    delay_ms(2);
+    CS_L;
+}
+
+void Draw_PM(void)
+{
+    uint8_t i,j,k;
+    i = 0x80;            
+    for(j = 0;j < 32;j++) {
+        write_cmd(i++);
+        delay_ms(12);
+        write_cmd(0x80);
+        delay_ms(12);
+        for(k = 0;k < 16;k++) {
+            write_dat(0xff);
+        }
+    }
+    i = 0x80;
+    for(j = 0;j < 32;j++) {
+        write_cmd(i++);
+        delay_ms(12);
+        write_cmd(0x88);	
+        delay_ms(12);
+        for(k = 0;k < 16;k++) {
+            write_dat(0xff);
+        } 
+    }  
+}
+
+void lcd_init(void) {
+    PC_DDR |= ( BIT(6)|BIT(5) ); //6-SPI_MOSI，主设备输出从
+    PC_CR1 |= ( BIT(6)|BIT(5) ); 
+    PC_CR2 |= ( BIT(6)|BIT(5) );
+    
+    PE_DDR |= BIT(5);
+    PE_CR1 |= BIT(5); 
+    PE_CR2 |= BIT(5);
+    
+    SPI_CR1 = 0x04;
+   // SPI_CR1_BR = 0x01;
+    SPI_CR2 = 0x03; 
+    SPI_CRCPR = 0x07; 
+    SPI_ICR = 0x00; 
+    SPI_CR1 |= 0x40;
+   
+    delay_ms(500);
+    
+    write_cmd(0x30);//30--基本指令动作
+    delay_ms(5);
+    write_cmd(0x0c);//光标右移画面不动
+    delay_ms(5);
+    write_cmd(0x06);//显示打开，光标开，反白关
+    delay_ms(10);
+    write_cmd(0x34);//打开扩展指令集
+    write_cmd(0x36);//打开绘图显示
+    Draw_PM();
+}
+
