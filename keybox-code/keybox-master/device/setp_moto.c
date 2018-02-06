@@ -124,7 +124,7 @@ static void find_reset(void *p) {
     moto.zero_flag = 0;
     TIM3_CR1 = 0x00;
     moto.zero_flag = 0;
-    event_delet(moto.sleep_time_id);/* 删除走布时间 */
+    event_delet("z_f_y");//moto.sleep_time_id);/* 删除走布时间 */
     if(moto.zero_call_back != null) { /* 完成回掉 */
         moto.zero_call_back(1);
     }
@@ -132,7 +132,7 @@ static void find_reset(void *p) {
 /* 120 布 没有找到位置错误 */
 static void zero_back_error(void *p) {
     moto.zero_flag = 0;
-    event_delet(moto.zero_even_id); /* 删除寻找位置事件 */
+    event_delet("z_f_s_b");//moto.zero_even_id); /* 删除寻找位置事件 */
     if(moto.zero_call_back != null) { /* 完成回掉 */
         moto.zero_call_back(0);
     }
@@ -147,7 +147,7 @@ static void zero_time(void * p) {
             moto.zero_call_back(0);
         }
     } else {
-        moto.zero_even_id = event_create(null,
+        moto.zero_even_id = event_create("z_f_y",null,
                      ET_CUSTOM,
                      find_reset,
                      null,
@@ -155,7 +155,7 @@ static void zero_time(void * p) {
         setp_moto_set_sleep(65000);
         moto.position_to = 350;/* 暂时100布 */
         moto.even_flag = E_DISABLE;
-        moto.sleep_time_id = event_create(&moto.even_flag, /* 不一定会运行到 需要删除 */
+        moto.sleep_time_id = event_create("z_f_s_b",&moto.even_flag, /* 不一定会运行到 需要删除 */
                      ET_ONCE,
                      zero_back_error,
                      null,
@@ -177,7 +177,7 @@ static void speed_sub_task(void) {
 
 /* 大走找到位置 */
 static void find_reset_big(void *p) {
-    event_delet(moto.zero_even_id2);
+    event_delet("z_z_b");//moto.zero_even_id2);
     stime_delet(moto.sleep_time_id); /* 删除加速度时间 */
     moto.position_to = 1000;
     moto.sleep_time_id = stime_create(5,ST_ALWAYS,speed_sub_task); /* 开始减速 */
@@ -195,7 +195,7 @@ int setp_moto_zero(struct _setp_moto_obj * motox,void (*call_back)(uint8_t flag)
         TIM3_CR1 = 0x01;
         moto.position_to = 300;/* 暂时100布 */
         moto.even_flag = E_DISABLE;
-        event_create(&moto.even_flag, /* 这个肯定会执行到的 */
+        event_create("back_on_z",&moto.even_flag, /* 这个肯定会执行到的 */
                      ET_ONCE,
                      zero_time,
                      null,
@@ -203,14 +203,14 @@ int setp_moto_zero(struct _setp_moto_obj * motox,void (*call_back)(uint8_t flag)
     } else {
         moto.position_to = 65535;//一圈的脉冲
         
-        moto.zero_even_id = event_create(null,
+        moto.zero_even_id = event_create("z_z_b",null,
                      ET_CUSTOM,
                      find_reset_big,
                      null,
                      reset_sign_read);
         
         moto.even_flag = E_DISABLE;
-        moto.zero_even_id2 = event_create(&moto.even_flag, /* 不一定会运行到 需要删除 */
+        moto.zero_even_id2 = event_create("z_f_s_b",&moto.even_flag, /* 不一定会运行到 需要删除 */
                      ET_ONCE,
                      zero_back_error,
                      null,
@@ -236,7 +236,7 @@ int setp_moto_rotate(struct _setp_moto_obj * moto_s,uint16_t to_position,void (c
             moto.run_bit = E_ENABLE;
             
             moto.even_flag = E_DISABLE;
-            event_create(&moto.even_flag,
+            event_create("moto_ok",&moto.even_flag,
                          ET_ONCE,
                          call_back,
                          &moto.position_now,
@@ -253,7 +253,7 @@ int setp_moto_rotate(struct _setp_moto_obj * moto_s,uint16_t to_position,void (c
             moto.run_bit = E_ENABLE;
             
             moto.even_flag = E_DISABLE;
-            event_create(&moto.even_flag,
+            event_create("moto_ok",&moto.even_flag,
                          ET_ONCE,
                          call_back,
                          &moto.position_now,

@@ -32,7 +32,7 @@ static event_e button_task(void * pd) {
 }
 
 void read(struct _button_obj *but,void(*call_back)(void *)) {
-     event_create(null,
+     event_create("button",null,
                  ET_CUSTOM,
                  call_back,
                  null,

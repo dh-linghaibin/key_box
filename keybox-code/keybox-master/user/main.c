@@ -22,6 +22,14 @@ void send_ok(void * pd) {
 void led_task(void) {
     led_obj *led = device_get("led");
     led->blank(led);
+    
+    usart_obj *usart = device_get("usart");
+    usart_tx_msg_obj msg;
+    msg.id = 1;
+    msg.cmd = 0x01; /* 查询位置 */
+    msg.len = 0x00;
+    msg.call_back = send_ok;
+    usart->draw_send(usart,msg);
 }
 
 void opendoor(void) {
@@ -44,7 +52,7 @@ void opendoor2(void) {
     usart->draw_send(usart,msg);
 }
 
-void usart_draw_rec_callback(void *pd) {
+static void usart_draw_rec_callback(void *pd) {
     usart_rx_packet_obj *dat = (usart_rx_packet_obj *)pd;
     switch(dat->cmd) {
         case 0x05: {
@@ -52,7 +60,10 @@ void usart_draw_rec_callback(void *pd) {
         } break;
         case 0x06: {
             stime_create(500,ST_ONCE,opendoor2);
-        }
+        } break;
+        case 0x01: {
+        
+        } break;
     }
 }
 
@@ -91,9 +102,7 @@ int main( void ) {
     stime_init();  
     event_init();
     device_init();
-    
     //lcd_init();
-    
     usart_obj *usart = device_get("usart");
     usart->receive_draw(usart,usart_draw_rec_callback);    
     usart->receive_pc(usart,usart_pc_rec_callback);
@@ -106,7 +115,7 @@ int main( void ) {
     //setp_moto->reset(setp_moto,moto_call_reset);
     door_check_task();
     
-    stime_create(500,ST_ALWAYS,led_task); /* led线程 */       
+    //stime_create(1500,ST_ALWAYS,led_task); /* led线程 */       
     while(1) {
         stime_loop();
         event_loop();

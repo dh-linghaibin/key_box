@@ -20,10 +20,10 @@ static uint8_t id = 0;
 static void ack_out_time(void);
 
 static void sart_draw_s(void *p) {
-   //id = stime_create(1500,ST_ONCE,ack_out_time); /* ³¬Ê±¼ì²â */   
+   id = stime_create(200,ST_ONCE,ack_out_time); /* ³¬Ê±¼ì²â */   
 }
 
-static void usart_draw_rec_callback(void *pd) {
+static void usart_draw_rec_callback_c(void *pd) {
     usart_rx_packet_obj *dat = (usart_rx_packet_obj *)pd;
     switch(dat->cmd) {
         case 0x01: { /* Î»ÖÃ·µ»Ø */
@@ -80,7 +80,7 @@ static void usart_draw_rec_callback(void *pd) {
 
 static void ack_out_time(void) {   
     usart_obj *usart = device_get("usart");
-    usart->receive_draw(usart,usart_draw_rec_callback);
+    usart->receive_draw(usart,usart_draw_rec_callback_c);
     check_num = 1;
     usart_tx_msg_obj msg;
     msg.id = check_num;
@@ -92,7 +92,7 @@ static void ack_out_time(void) {
 
 void door_check_task(void) {
     usart_obj *usart = device_get("usart");
-    usart->receive_draw(usart,usart_draw_rec_callback);
+    usart->receive_draw(usart,usart_draw_rec_callback_c);
     check_num = 1;
     usart_tx_msg_obj msg;
     msg.id = check_num;

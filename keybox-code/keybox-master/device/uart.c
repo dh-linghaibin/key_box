@@ -115,7 +115,7 @@ void uart_send_draw(struct _usart_obj * uart,
         draw_tx_packet.data[draw_tx_packet.len-1] = 0x0a;
         draw_tx_packet.flag = 0;
         draw_tx_packet.ts_flag = E_DISABLE;
-        event_create(&draw_tx_packet.ts_flag,
+        event_create("s_s_d",&draw_tx_packet.ts_flag,
                      ET_ONCE,
                      msg.call_back,
                      null,
@@ -145,7 +145,7 @@ void uart_send_pc(struct _usart_obj * uart,
         pc_tx_packet.data[pc_tx_packet.len-1] = 0x0a;
         pc_tx_packet.flag = 0;
         pc_tx_packet.ts_flag = E_DISABLE;
-        event_create(&pc_tx_packet.ts_flag,
+        event_create("s_s_p",&pc_tx_packet.ts_flag,
                      ET_ONCE,
                      msg.call_back,
                      null,
@@ -158,7 +158,7 @@ void uart_send_pc(struct _usart_obj * uart,
 
 void uart_receive_draw(struct _usart_obj * uart,
                        void(*call_back)(void *)) {
-    event_create(&draw_rx_packet.ts_flag,
+    event_create("u_r_d",&draw_rx_packet.ts_flag,
                  ET_ALWAYS,
                  call_back,
                  &draw_rx_packet,
@@ -167,7 +167,7 @@ void uart_receive_draw(struct _usart_obj * uart,
 
 void uart_receive_pc(struct _usart_obj * uart,
                      void(*call_back)(void *)) {
-    event_create(&pc_rx_packet.ts_flag,
+    event_create("u_r_p",&pc_rx_packet.ts_flag,
                  ET_ALWAYS,
                  call_back,
                  &pc_rx_packet,
