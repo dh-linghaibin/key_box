@@ -12,6 +12,7 @@
 #include "light.h"
 #include "setp_moto.h"
 #include "electromagnet.h"
+#include "iwdg.h"
 
 static usart_obj usart = {
     .init               = usart_init,
@@ -41,6 +42,11 @@ static elema_obj elema = {
     .set        = lema_set,
 };
 
+static iwdg_obj iwdg = {
+    .init       = iwdg_init,
+    .wdt        = iwdg_wdt,
+};
+
 
 void device_init(void) {
     light.init(&light);
@@ -48,6 +54,7 @@ void device_init(void) {
     led.init(&led);
     usart.init(&usart);
     elema.init(&elema);
+    iwdg.init(&iwdg);
 }
 
 void * device_get(const char * name) {
@@ -61,6 +68,8 @@ void * device_get(const char * name) {
         return &moto;
     } else if(strcmp(name,"elema")==0) {
         return &elema;
+    } else if(strcmp(name,"iwdg")==0) {
+        return &iwdg;
     }
     return null;
 }

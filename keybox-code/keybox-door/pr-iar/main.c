@@ -12,10 +12,13 @@
 #include "led.h"
 #include "light.h"
 #include "setp_moto.h"
+#include "iwdg.h"
 
 void led_task(void) {
     led_obj *led = device_get("led");
     led->tager(led);
+    iwdg_obj *iwdg = device_get("iwdg");
+    iwdg->wdt(iwdg);
 }
 
 void ask_pos_task(void) {
@@ -42,6 +45,9 @@ void open_call(setp_moto_ask_e pd) {
 }
 
 void close_call(setp_moto_ask_e pd) {
+    light_obj *light = device_get("light");
+    light->set(light,L_CLOSE);
+    
     usart_tx_msg_obj msg;
     msg.id = 0xff;
     msg.cmd = 0x03;

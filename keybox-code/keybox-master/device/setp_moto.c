@@ -231,6 +231,9 @@ int setp_moto_rotate(struct _setp_moto_obj * moto_s,uint16_t to_position,void (c
         }
         int need_num = setp_moto_num_to_setp(moto_s,to_position);
         if(need_num == 0) {
+            if(call_back != null) {
+                call_back(&moto.position_now);
+            }
             return SM_OK;
         } else if(need_num > 0) {
             moto.run_bit = E_ENABLE;

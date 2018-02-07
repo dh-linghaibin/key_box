@@ -1585,6 +1585,9 @@
       <name>$PROJ_DIR$\..\device\electromagnet.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\device\iwdg.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\device\led.c</name>
     </file>
     <file>

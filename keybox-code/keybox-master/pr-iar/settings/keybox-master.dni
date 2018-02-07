@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-1913903415
+Checksum=1540512938
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -59,20 +59,19 @@ Fmt5=usart_tx_packet_obj-flag	4	0
 [array_types]
 Fmt0=uint8_t[20]	4	0
 [watch_formats]
-Fmt0={W}0:data	4	0
-Fmt1={W}0:need_num	3	0
-Fmt2={W}0:time	3	0
-Fmt3={W}42:linghaibin	4	0
-Fmt4={W}42:rs485_address	4	0
+Fmt0={W}0:check_id	3	0
+Fmt1={W}0:data	4	0
+Fmt2={W}0:need_num	3	0
+Fmt3={W}0:time	3	0
+Fmt4={W}42:agan_num	4	0
+Fmt5={W}42:check_con	4	0
+Fmt6={W}42:linghaibin	4	0
+Fmt7={W}42:rs485_address	4	0
 [DataSample]
 LogEnabled=0
 GraphEnabled=0
 ShowTimeLog=1
 ShowTimeSum=1
-[Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\user\main.c}.57.5" 1 0 0 0 "" 0 ""
-Bp1=_ "STD_CODE" "{$PROJ_DIR$\..\frame\event.c}.39.17" 1 0 0 0 "" 0 ""
-Count=2
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -80,6 +79,10 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
+[Breakpoints]
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\user\main.c}.40.5" 1 0 0 0 "" 0 ""
+Bp1=_ "STD_CODE" "{$PROJ_DIR$\..\user\door_count.c}.121.25" 1 0 0 0 "" 0 ""
+Count=2
 [Aliases]
 Count=0
 SuppressDialog=0

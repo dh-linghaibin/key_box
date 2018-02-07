@@ -27,6 +27,12 @@ typedef enum _usart_packet_e{
     UP_WAIT = 1,
 }usart_packet_e;
 
+typedef enum _usart_pc_cmd_e {
+    RESET = 0x12,
+    OPEN_DRAW = 0xf1,
+    CLOSE_DRAW = 0xf2,
+} usart_pc_cmd_e;
+
 #define BEST_TX_PACK 20
 
 typedef struct _rs485_adr_obj {

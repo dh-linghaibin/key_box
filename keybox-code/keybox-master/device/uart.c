@@ -128,32 +128,40 @@ void uart_send_draw(struct _usart_obj * uart,
 
 void uart_send_pc(struct _usart_obj * uart,
                   usart_tx_msg_obj msg) {
-    if(msg.len+5 <= BEST_TX_PACK){
-        pc_tx_packet.data[0] = 0x3a;
-        pc_tx_packet.data[1] = msg.id;
-        pc_tx_packet.data[2] = msg.len;
-        pc_tx_packet.data[3] = msg.cmd;
-        register int i = 0;
-        for(i = 0;i < msg.len;i++) {
-            pc_tx_packet.data[4+i] = msg.data[i];
-        }
-        pc_tx_packet.len = msg.len+6;
-        pc_tx_packet.data[pc_tx_packet.len-2] = 0x00;
-        for(i = 0;i < pc_tx_packet.len-2;i++) {
-            pc_tx_packet.data[pc_tx_packet.len-2] += (uint8_t)pc_tx_packet.data[i];
-        }
-        pc_tx_packet.data[pc_tx_packet.len-1] = 0x0a;
-        pc_tx_packet.flag = 0;
-        pc_tx_packet.ts_flag = E_DISABLE;
-        event_create("s_s_p",&pc_tx_packet.ts_flag,
-                     ET_ONCE,
-                     msg.call_back,
-                     null,
-                     null);
-        UART3_CR2_TEN=1;//打开发送
-        UART3_CR2_TIEN=1;//打开发送中断
-        RS485_DR_3 = 1;
+    pc_tx_packet.data[0] = 0x3a;
+//        pc_tx_packet.data[1] = msg.id;
+//        pc_tx_packet.data[2] = msg.len;
+    pc_tx_packet.data[1] = msg.cmd;
+    for(register int i = 0;i < 9;i++) {
+        pc_tx_packet.data[2+i] = msg.data[i];
     }
+    pc_tx_packet.data[13] = ( pc_tx_packet.data[1] +  pc_tx_packet.data[2]);
+    for(int i = 3;i < 13;i++) {
+         pc_tx_packet.data[14] +=  pc_tx_packet.data[i];
+    }
+    pc_tx_packet.data[15] = 0x0a;
+    
+    pc_tx_packet.len = 16;
+//        register int i = 0;
+//        for(i = 0;i < msg.len;i++) {
+//            pc_tx_packet.data[4+i] = msg.data[i];
+//        }
+//        pc_tx_packet.len = msg.len+6;
+//        pc_tx_packet.data[pc_tx_packet.len-2] = 0x00;
+//        for(i = 0;i < pc_tx_packet.len-2;i++) {
+//            pc_tx_packet.data[pc_tx_packet.len-2] += (uint8_t)pc_tx_packet.data[i];
+//        }
+//        pc_tx_packet.data[pc_tx_packet.len-1] = 0x0a;
+    pc_tx_packet.flag = 0;
+    pc_tx_packet.ts_flag = E_DISABLE;
+    event_create("s_s_p",&pc_tx_packet.ts_flag,
+                 ET_ONCE,
+                 msg.call_back,
+                 null,
+                 null);
+    UART3_CR2_TEN=1;//打开发送
+    UART3_CR2_TIEN=1;//打开发送中断
+    RS485_DR_3 = 1;
 }
 
 void uart_receive_draw(struct _usart_obj * uart,
@@ -244,7 +252,9 @@ __interrupt void UART3_RX_IRQHandler(void) {
             } break;
             case 1:{
                 if(data == rs485_address) {
-                    pc_rx_packet.flag = 2;
+                    pc_rx_packet.len = 12;
+                    get_len = 0;
+                    pc_rx_packet.flag = 4; //4
                 } else {
                     pc_rx_packet.flag = 0;
                 }
@@ -262,6 +272,7 @@ __interrupt void UART3_RX_IRQHandler(void) {
                 pc_rx_packet.data[get_len] = data;
                 get_len++;
                 if(pc_rx_packet.len+2 <= get_len) {
+                    pc_rx_packet.cmd = pc_rx_packet.data[0];//获取命令
                     if(data == 0x0a) {
                         pc_rx_packet.ts_flag = E_ENABLE;
                     } else {
