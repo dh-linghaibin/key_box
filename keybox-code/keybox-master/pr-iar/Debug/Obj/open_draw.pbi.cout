@@ -1,4 +1,4 @@
-"D:\03-project\44-Meter_cabinet_new\keybox-code\keybox-master\device\vocie.c"
+"D:\03-project\44-Meter_cabinet_new\keybox-code\keybox-master\user\open_draw.c"
 -std=c99
 -ferror-limit=100
 -I
@@ -7,6 +7,8 @@
 ..\frame\include
 -I
 ..\os\include
+-I
+..\user\include
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 6.5\stm8\inc
 -I
@@ -17,6 +19,8 @@ C:\WINDOWS\device\include
 C:\WINDOWS\frame\include
 -I
 C:\WINDOWS\os\include
+-I
+C:\WINDOWS\user\include
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0
@@ -225,8 +229,8 @@ C:\WINDOWS\os\include
 -D__HAS_LOCATED_DECLARATION__=1
 -D__HAS_LOCATED_WITH_INIT__=1
 -D__IAR_COMPILERBASE__=593160
--D__DATE__="Jan 23 2018"
--D__TIME__="15:12:14"
+-D__DATE__="Feb  8 2018"
+-D__TIME__="18:06:30"
 -D__STDC__=1
 -D__STDC_VERSION__=199901L
 -D__STDC_HOSTED__=1

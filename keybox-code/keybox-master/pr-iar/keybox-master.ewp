@@ -1580,6 +1580,9 @@
       <name>$PROJ_DIR$\..\user\main.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\user\open_draw.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\user\register_device.c</name>
     </file>
   </group>

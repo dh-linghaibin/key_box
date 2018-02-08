@@ -5,6 +5,7 @@
 *
 */
 
+#include "door_count.h"
 #include "stime.h"
 #include "register_device.h"
 #include "uart.h"
@@ -15,11 +16,12 @@
 #include "setp_moto.h"
 #include "lcd.h"
 
+#define BEST_DOOR_NUMBER 8
+
 static void(*check_ok)(void *); //检测成功回掉
 static uint16_t check_con = 0x00;
 
 static uint8_t check_id = 1; //设备地址 1 - 10
-static uint8_t id = 0;
 static uint8_t agan_id = 0;
 static uint8_t agan_num = 0;
 static void send_ask_pos_time(void);
@@ -29,11 +31,11 @@ static void send_ask_pos(uint8_t d_id);
 
 //查询位置发送完成 回掉
 static void send_ask_pos_ok(void *p) {
-   id = stime_create(50,ST_ONCE,send_ask_pos_time); /* 超时检测 */   
+   stime_create("check_o",180,ST_ONCE,send_ask_pos_time); /* 超时检测 */   
 }
 
 static void send_ask_close_ok(void *p) {
-   id = stime_create(2500,ST_ONCE,send_ask_close_time); /* 超时检测 */   
+   stime_create("check_o",2500,ST_ONCE,send_ask_close_time); /* 超时检测 */   
 }
 
 //查询位置 超时重发
@@ -43,7 +45,7 @@ static void send_ask_pos_time(void) {
             agan_num++;
         } else {
             agan_num = 0;
-            if(check_id < 10) {
+            if(check_id < BEST_DOOR_NUMBER) {
                 check_con |= ( 0x01 << (check_id-1) );
                 check_id++;
             } else { /* 完成一次检测 */
@@ -67,7 +69,7 @@ static void send_ask_close_time(void) {
             agan_num++;
         } else {
             agan_num = 0;
-            if(check_id < 10) {
+            if(check_id < BEST_DOOR_NUMBER) {
                 check_con |= ( 0x01 << (check_id-1) );
                 check_id++;
             } else { /* 完成一次检测 */
@@ -84,15 +86,22 @@ static void send_ask_close_time(void) {
     send_ask_pos(check_id);
 }
 
-//查询位置
-static void send_ask_pos(uint8_t d_id) {
+uint8_t check_id_s = 0;
+
+static void draw_check(void) {
     usart_obj *usart = device_get("usart"); //获取串口
     usart_tx_msg_obj msg;
-    msg.id = d_id;
+    msg.id = check_id_s;
     msg.cmd = 0x01; /* 查询位置 */
     msg.len = 0x00;
     msg.call_back = send_ask_pos_ok;
     usart->draw_send(usart,msg);
+}
+
+//查询位置
+static void send_ask_pos(uint8_t d_id) {
+    check_id_s = d_id;
+    stime_create("check",80,ST_ONCE,draw_check); /* 超时检测 */   
 }
 
 //关闭抽屉
@@ -109,11 +118,19 @@ static void send_ask_close(uint8_t d_id) {
 //接收回调
 static void usart_draw_rec_callback_c(void *pd) {
     usart_rx_packet_obj *dat = (usart_rx_packet_obj *)pd;
+    stime_delet("check_o");
     switch(dat->cmd) {
         case 0x01: { /* 位置返回 */
-            stime_delet(id);
+//            if(check_id < BEST_DOOR_NUMBER) {
+//                    check_id++;
+//                    send_ask_pos(check_id);
+//                } else { /* 完成一次检测 */
+//                    if(check_ok != null) {
+//                        check_ok((void *)check_con);
+//                    }
+//                }
             if(dat->data[0] == 1) {
-                if(check_id < 10) {
+                if(check_id < BEST_DOOR_NUMBER) {
                     check_id++;
                     send_ask_pos(check_id);
                 } else { /* 完成一次检测 */
@@ -126,9 +143,8 @@ static void usart_draw_rec_callback_c(void *pd) {
             }
         } break;
         case 0x03: {
-            stime_delet(id);
             if(dat->data[0] == 0) {  /* 关门成功 */
-                if(check_id < 10) {
+                if(check_id < BEST_DOOR_NUMBER) {
                     check_id++;
                     send_ask_pos(check_id);
                 } else { /* 完成一次检测 */
@@ -139,6 +155,9 @@ static void usart_draw_rec_callback_c(void *pd) {
             } else { /* 关门失败 */
                 send_ask_close(check_id);
             }
+        } break;
+        default : {
+            send_ask_pos(check_id);
         } break;
     }
 }

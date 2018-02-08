@@ -36,7 +36,7 @@ ActionState=1
 Enabled=0
 ShowSource=1
 [DebugChecksum]
-Checksum=1953500221
+Checksum=485754822
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -49,6 +49,9 @@ Fmt3=usart_rx_packet_obj-ts_flag	4	0
 Fmt4=usart_tx_packet_obj-len	3	0
 [array_types]
 Fmt0=uint8_t[20]	4	0
+[watch_formats]
+Fmt0={W}0:address	3	0
+Fmt1={W}42:rs485_address	4	0
 [DataSample]
 LogEnabled=0
 GraphEnabled=0

@@ -16,16 +16,20 @@ static uint8_t rs485_address;
 
 static uint8_t read_adr(void) {
     uint8_t address = 0;
-    if(PC_IDR_IDR2) address = 10; 
-    if(PC_IDR_IDR5) address = 9; 
-    if(PD_IDR_IDR0) address = 8; 
-    if(PD_IDR_IDR2) address = 7; 
-    if(PD_IDR_IDR3) address = 6; 
-    if(PD_IDR_IDR4) address = 5; 
-    if(PC_IDR_IDR7) address = 4; 
-    if(PC_IDR_IDR6) address = 3; 
-    if(PC_IDR_IDR4) address = 2; 
-    if(PC_IDR_IDR3) address = 1; 
+    if(!PC_IDR_IDR2) {
+        address = 1; 
+    }
+    if(!PC_IDR_IDR5) {
+        address = 2;
+    }
+    if(!PD_IDR_IDR0) address = 3; 
+    if(!PD_IDR_IDR2) address = 4; 
+    if(!PD_IDR_IDR3) address = 5; 
+    if(!PD_IDR_IDR4) address = 6; 
+    if(!PC_IDR_IDR7) address = 7; 
+    if(!PC_IDR_IDR6) address = 8; 
+    if(!PC_IDR_IDR4) address = 9; 
+    if(!PC_IDR_IDR3) address = 10; 
     
     return address;
 }
@@ -142,7 +146,7 @@ __interrupt void UART1_RX_IRQHandler(void) {
             case 0:{
                 if(data == 0x3a) {
                     draw_rx_packet.flag = 1;
-                    overtime_id = stime_create(80,ST_ONCE,draw_rx_overtime);
+                    overtime_id = stime_create(40,ST_ONCE,draw_rx_overtime);
                 }
             } break;
             case 1:{

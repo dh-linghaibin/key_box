@@ -8,7 +8,7 @@
 #include "receipt.h"
 #include "stime.h"
 
-#define REC PA_ODR_ODR2
+#define REC PC_ODR_ODR2
 static void(*receipt_call_back)(void *);
 static uint8_t is_run = 0;
 
@@ -24,7 +24,7 @@ void receipt_init(struct _receipt_obj * receipt) {
     PC_CR1 |= BIT(2); 
     PC_CR2 |= BIT(2);
     
-    PA_ODR_ODR2 = 0;
+    PC_ODR_ODR2 = 0;
 }
 
 static receipt_bit_e receipt_read_bit(uint8_t layer) {
@@ -69,7 +69,7 @@ static void receipt_read_call_back(void) {
     for(i = 0; i < 10; i++) {
         receipt_bit.layer[i] = receipt_read_bit(i);
     }
-    PA_ODR_ODR2 = 0;
+    PC_ODR_ODR2 = 0;
     is_run = 0;
     if(receipt_call_back != null) {
         receipt_call_back(&receipt_bit);
@@ -81,8 +81,8 @@ void receipt_get(struct _receipt_obj * receipt,
                  void(*call_back)(void *)) {
     if(is_run == 0) {
         receipt_call_back = call_back;
-        if(stime_create(100,ST_ONCE,receipt_read_call_back) > 0) {
-            PA_ODR_ODR2 = 1;
+        if(stime_create("re_j",100,ST_ONCE,receipt_read_call_back) > 0) {
+            PC_ODR_ODR2 = 1;
             is_run = 1;
         }
     }

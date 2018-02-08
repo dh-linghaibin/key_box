@@ -193,14 +193,13 @@ static void draw_rx_overtime(void) {
 #pragma vector=0x14
 __interrupt void UART1_RX_IRQHandler(void) {
     static uint8_t get_len = 0; /* 接收标记 */
-    static uint8_t overtime_id = 0; /* 定时器id */
     if(UART1_SR_RXNE == 1) {
         uint8_t data = UART1_DR;
         switch(draw_rx_packet.flag) {
             case 0:{
                 if(data == 0x3a) {
                     draw_rx_packet.flag = 1;
-                    overtime_id = stime_create(30,ST_ONCE,draw_rx_overtime);
+                    stime_create("u1_c",80,ST_ONCE,draw_rx_overtime);
                 }
             } break;
             case 1:{
@@ -228,7 +227,7 @@ __interrupt void UART1_RX_IRQHandler(void) {
                     } else {
                         draw_rx_packet.ts_flag = E_DISABLE;
                     }
-                    stime_delet(overtime_id);
+                    stime_delet("u1_c");
                     draw_rx_packet.flag = 0;
                 }
             } break;
@@ -239,14 +238,13 @@ __interrupt void UART1_RX_IRQHandler(void) {
 #pragma vector=0x17
 __interrupt void UART3_RX_IRQHandler(void) {
     static uint8_t get_len = 0; /* 接收标记 */
-    static uint8_t overtime_id = 0; /* 定时器id */
     if(UART3_SR_RXNE == 1) {
         uint8_t data = UART3_DR;
         switch(pc_rx_packet.flag) {
             case 0:{
                 if(data == 0x3a) {
                     pc_rx_packet.flag = 1;
-                    overtime_id = stime_create(30,ST_ONCE,pc_rx_overtime);
+                    stime_create("u3_c",80,ST_ONCE,pc_rx_overtime);
                 }
                 pc_rx_packet.ts_flag = E_DISABLE;
             } break;
@@ -278,7 +276,7 @@ __interrupt void UART3_RX_IRQHandler(void) {
                     } else {
                         pc_rx_packet.ts_flag = E_DISABLE;
                     }
-                    stime_delet(overtime_id);
+                    stime_delet("u3_c");
                     pc_rx_packet.flag = 0;
                 }
             } break;

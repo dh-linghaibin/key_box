@@ -21,10 +21,7 @@ typedef struct _moto_obj {
     uint16_t sleep;
     uint8_t even_flag;
     uint8_t run_bit;     
-    uint8_t sleep_time_id;
     uint8_t zero_flag;
-    uint8_t zero_even_id;
-    uint8_t zero_even_id2;
     void (*zero_call_back)(uint8_t flag);
 }moto_obj;
 
@@ -147,7 +144,7 @@ static void zero_time(void * p) {
             moto.zero_call_back(0);
         }
     } else {
-        moto.zero_even_id = event_create("z_f_y",null,
+        event_create("z_f_y",null,
                      ET_CUSTOM,
                      find_reset,
                      null,
@@ -155,7 +152,7 @@ static void zero_time(void * p) {
         setp_moto_set_sleep(65000);
         moto.position_to = 350;/* 暂时100布 */
         moto.even_flag = E_DISABLE;
-        moto.sleep_time_id = event_create("z_f_s_b",&moto.even_flag, /* 不一定会运行到 需要删除 */
+        event_create("z_f_s_b",&moto.even_flag, /* 不一定会运行到 需要删除 */
                      ET_ONCE,
                      zero_back_error,
                      null,
@@ -170,7 +167,7 @@ static void speed_sub_task(void) {
         moto.sleep += 50;
         setp_moto_set_sleep(moto.sleep);
     } else {
-        stime_delet(moto.sleep_time_id); /* 删除加速度时间 */
+        stime_delet("sleep"); /* 删除加速度时间 */
         zero_time(null); /* 减速完成 换向 */
     }
 }
@@ -178,9 +175,9 @@ static void speed_sub_task(void) {
 /* 大走找到位置 */
 static void find_reset_big(void *p) {
     event_delet("z_z_b");//moto.zero_even_id2);
-    stime_delet(moto.sleep_time_id); /* 删除加速度时间 */
+    stime_delet("sleep"); /* 删除加速度时间 */
     moto.position_to = 1000;
-    moto.sleep_time_id = stime_create(5,ST_ALWAYS,speed_sub_task); /* 开始减速 */
+    stime_create("sleep",5,ST_ALWAYS,speed_sub_task); /* 开始减速 */
 }
 
 int setp_moto_zero(struct _setp_moto_obj * motox,void (*call_back)(uint8_t flag)) {
@@ -203,14 +200,14 @@ int setp_moto_zero(struct _setp_moto_obj * motox,void (*call_back)(uint8_t flag)
     } else {
         moto.position_to = 65535;//一圈的脉冲
         
-        moto.zero_even_id = event_create("z_z_b",null,
+        event_create("z_z_b",null,
                      ET_CUSTOM,
                      find_reset_big,
                      null,
                      reset_sign_read);
         
         moto.even_flag = E_DISABLE;
-        moto.zero_even_id2 = event_create("z_f_s_b",&moto.even_flag, /* 不一定会运行到 需要删除 */
+        event_create("z_f_s_b",&moto.even_flag, /* 不一定会运行到 需要删除 */
                      ET_ONCE,
                      zero_back_error,
                      null,
@@ -219,7 +216,7 @@ int setp_moto_zero(struct _setp_moto_obj * motox,void (*call_back)(uint8_t flag)
         dif_pos = moto.position_to/2;
         TIM3_CR1 = 0x01;
         moto.sleep = 65000;
-        moto.sleep_time_id = stime_create(5,ST_ALWAYS,speed_task);
+        stime_create("sleep",5,ST_ALWAYS,speed_task);
     }
     return SM_OK;
 }
@@ -250,7 +247,7 @@ int setp_moto_rotate(struct _setp_moto_obj * moto_s,uint16_t to_position,void (c
             dif_pos = moto.position_to/2;
             TIM3_CR1 = 0x01;
             moto.sleep = 65000;
-            moto.sleep_time_id = stime_create(5,ST_ALWAYS,speed_task);
+            stime_create("sleep",5,ST_ALWAYS,speed_task);
             return SM_WAIT;
         } else if(need_num < 0) {            
             moto.run_bit = E_ENABLE;
@@ -267,7 +264,7 @@ int setp_moto_rotate(struct _setp_moto_obj * moto_s,uint16_t to_position,void (c
             dif_pos = moto.position_to/2;
             TIM3_CR1 = 0x01;
             moto.sleep = 65000;
-            moto.sleep_time_id = stime_create(5,ST_ALWAYS,speed_task);
+            stime_create("sleep",5,ST_ALWAYS,speed_task);
             return SM_WAIT;
         }
         return SM_ERROR;
@@ -281,7 +278,7 @@ void setp_moto_test(void) {
     dif_pos = moto.position_to/2;
     TIM3_CR1 = 0x01;
     moto.sleep = 65000;
-    moto.sleep_time_id = stime_create(5,ST_ALWAYS,speed_task);
+    stime_create("sleep",5,ST_ALWAYS,speed_task);
 }
 
 #pragma vector=0x11
@@ -295,7 +292,7 @@ __interrupt void TIM3_UPD_OVF_BRK_IRQHandler(void) {
     if(moto.position_to == 0) { /* 结束 */
         TIM3_CR1 = 0x00;
         if(moto.zero_flag == 0) {
-            stime_delet(moto.sleep_time_id);
+            stime_delet("sleep");
             moto.run_bit = E_DISABLE;
         } else {
             //moto.even_flag = E_ENABLE;
