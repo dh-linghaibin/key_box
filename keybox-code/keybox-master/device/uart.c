@@ -135,8 +135,9 @@ void uart_send_pc(struct _usart_obj * uart,
     for(register int i = 0;i < 9;i++) {
         pc_tx_packet.data[2+i] = msg.data[i];
     }
-    pc_tx_packet.data[13] = ( pc_tx_packet.data[1] +  pc_tx_packet.data[2]);
-    for(int i = 3;i < 13;i++) {
+    pc_tx_packet.data[13] = ( pc_tx_packet.data[1] );//+  pc_tx_packet.data[2]);
+    pc_tx_packet.data[14] = 0x00;
+    for(int i = 2;i < 12;i++) {
          pc_tx_packet.data[14] +=  pc_tx_packet.data[i];
     }
     pc_tx_packet.data[15] = 0x0a;

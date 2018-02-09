@@ -1,3 +1,5 @@
+[DebugChecksum]
+Checksum=-1548273366
 [Stack]
 FillEnabled=0
 OverflowWarningsEnabled=1
@@ -8,8 +10,6 @@ UseTrigger=1
 TriggerName=main
 LimitSize=0
 ByteLimit=50
-[DebugChecksum]
-Checksum=1179980140
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -45,7 +45,7 @@ Category=_ 0
 LoggingEnabled=_ 0
 LogFile=_ ""
 [Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\device\receipt.c}.21.5" 1 0 0 0 "" 0 ""
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\user\open_draw.c}.204.5" 1 0 0 0 "" 0 ""
 Count=1
 [Aliases]
 Count=0

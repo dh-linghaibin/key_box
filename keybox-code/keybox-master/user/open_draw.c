@@ -50,8 +50,6 @@ static void door_check_ok(void *p) {
         usart->receive_draw(usart,usart_draw_rec_callback);   
         setp_moto_obj *setp_moto = device_get("setp_moto");
         setp_moto->rotate(setp_moto,need_r_num,setp_moto_ok);
-//        uint16_t k = 0;
-//        setp_moto_ok(&k);
     } else { //·µ»Ø´íÎó
         
     }
@@ -192,12 +190,14 @@ static void close_draw_rec_callback(void *pd) {
 static void receipt_back(void *p) {
     usart_obj *usart = device_get("usart");
     usart_tx_msg_obj msg;
-    
+    for(register int i = 0;i < 10;i++) {
+        msg.data[i] = 0;
+    }
     receipt_bit_obj *receipt_bit = ( receipt_bit_obj *)p;
-    if(receipt_bit->layer[need_draw_num] == RB_HAVE) {
-        msg.data[0] = 1;
-    } else {
+    if(receipt_bit->layer[need_draw_num-1] == RB_HAVE) {
         msg.data[0] = 0;
+    } else {
+        msg.data[0] = 1;
     }
     msg.cmd = 0x21;
     msg.call_back = close_pc_sen_ack_ok;
