@@ -43,8 +43,7 @@ static void usart_pc_rec_callback(void *pd) {
          
         } break;
         case RESET: { //回零
-            setp_moto_obj *setp_moto = device_get("setp_moto");
-//            setp_moto->reset(setp_moto,moto_call_reset);
+            draw_zero();
         } break;
         case OPEN_DRAW: { // 1 检查门有没有关上 2旋转 3开门
             open_draw(pcdat->data[1],pcdat->data[2]);

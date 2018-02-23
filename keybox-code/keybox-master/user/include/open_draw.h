@@ -18,6 +18,7 @@ extern "C" {
 
 void open_draw(uint8_t r_num,uint8_t draw_num);
 void close_draw(uint8_t r_num,uint8_t draw_num);
+void draw_zero(void);
 
 #ifdef __cplusplus
 }
