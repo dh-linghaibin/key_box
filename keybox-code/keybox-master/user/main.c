@@ -9,6 +9,7 @@
 #include "register_device.h"
 #include "uart.h"
 #include "event.h"
+#include "button.h"
 #include "led.h"
 #include "voice.h"
 #include "eprom.h"
@@ -51,6 +52,14 @@ static void usart_pc_rec_callback(void *pd) {
         case CLOSE_DRAW: {
             close_draw(pcdat->data[1],pcdat->data[2]);
         } break;
+    }
+}
+
+void button_click(void * p) {
+    int i = 0;
+    i++;
+    if(i == 2) {
+        
     }
 }
 

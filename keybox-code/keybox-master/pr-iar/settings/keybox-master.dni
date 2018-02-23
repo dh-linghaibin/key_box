@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=-1548273366
+Checksum=-1329985836
 [Stack]
 FillEnabled=0
 OverflowWarningsEnabled=1
@@ -37,6 +37,8 @@ LogEnabled=0
 GraphEnabled=0
 ShowTimeLog=1
 ShowTimeSum=1
+[Breakpoints]
+Count=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -44,9 +46,6 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
-[Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\user\open_draw.c}.204.5" 1 0 0 0 "" 0 ""
-Count=1
 [Aliases]
 Count=0
 SuppressDialog=0

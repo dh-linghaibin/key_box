@@ -24,10 +24,12 @@ typedef enum _button_e{
 typedef struct _button_obj {
     void (*init)(struct _button_obj *);
     void (*read)(struct _button_obj *,void(*call_back)(void *));
+    void (*del_read)(struct _button_obj *);
 }button_obj;
 
 void init(struct _button_obj *);
 void read(struct _button_obj *,void(*call_back)(void *));
+void button_del_read(struct _button_obj * button);
 
 #ifdef __cplusplus
 }

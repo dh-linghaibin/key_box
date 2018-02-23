@@ -17,6 +17,7 @@
 #include "lcd.h"
 #include "door_count.h"
 #include "receipt.h"
+#include "button.h"
 
 static void door_check_ok(void *p);
 static void usart_draw_rec_callback(void *pd);
@@ -24,6 +25,7 @@ static void setp_moto_ok(void * p);
 static void send_ask_open_ok(void *pd);
 static void open_out_time(void);
 static void pc_sen_ack_ok(void *p);
+static void button_click(void *p);
 
 static void close_draw_rec_callback(void *pd);
 static void pc_sen_ack_ok(void *p);
@@ -121,11 +123,21 @@ static void usart_draw_rec_callback(void *pd) {
 
 //5 发送完成
 static void pc_sen_ack_ok(void *p) {
-    //close_draw(1,1);
+    button_obj *button = device_get("button");
+    button->read(button,button_click);
+}
+
+//6 检测案件
+static void button_click(void *p) {
+    close_draw(need_r_num,need_draw_num);
 }
 
 // 1 关门
 void close_draw(uint8_t r_num,uint8_t draw_num) {
+    
+    button_obj *button = device_get("button");
+    button->del_read(button);
+    
     need_r_num = r_num;
     need_draw_num = draw_num;
     usart_obj *usart = device_get("usart");

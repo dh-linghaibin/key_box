@@ -41,6 +41,7 @@ static receipt_obj receipt = {
 static button_obj button = {
     .init       = init,
     .read       = read,
+    .del_read   = button_del_read,
 };
 
 static const uint16_t draw_pos[52] = {
