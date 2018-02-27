@@ -17,7 +17,7 @@ extern "C" {
 #include <assert.h>  
 #include "fsm.h"
 
-void door_check_task(void(*check_ok_h)(void *));
+void door_check_task(uint16_t rep,void(*check_ok_h)(void *));
 
 #ifdef __cplusplus
 }

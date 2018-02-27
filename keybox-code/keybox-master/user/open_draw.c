@@ -41,14 +41,14 @@ static uint8_t need_r_num = 0;//需要徐传到位置
 static uint8_t need_draw_num = 0;//抽屉位置
 
 //1 检查
-void open_draw(uint8_t r_num,uint8_t draw_num) {
+void open_draw(uint8_t r_num,uint8_t draw_num,uint16_t rep) {
     need_r_num = r_num;
     need_draw_num = draw_num;
     
     button_obj *button = device_get("button");
     button->del_read(button);
     
-    door_check_task(door_check_ok);
+    door_check_task(rep,door_check_ok);
 }
 
 //2 检查完成回掉
@@ -60,7 +60,15 @@ static void door_check_ok(void *p) {
         setp_moto_obj *setp_moto = device_get("setp_moto");
         setp_moto->rotate(setp_moto,need_r_num,setp_moto_ok);
     } else { //返回错误
+        usart_obj *usart = device_get("usart");
+        usart_tx_msg_obj msg;
+        for(register int i = 0;i < 10;i++) {
+            msg.data[i] = 0;
+        }
+        msg.cmd = 0x22;
         
+        msg.call_back = close_pc_sen_ack_ok;
+        usart->pc_send(usart,msg);
     }
 }
 
@@ -230,11 +238,11 @@ static void close_pc_sen_ack_ok(void *p) {
 }
 
 //1 检查
-void draw_zero(void) {
+void draw_zero(uint16_t rep) {
     button_obj *button = device_get("button");
     button->del_read(button);
     
-    door_check_task(door_check_ok_zero);
+    door_check_task(rep,door_check_ok_zero);
 }
 
 //2 检查完成回掉
@@ -246,7 +254,15 @@ static void door_check_ok_zero(void *p) {
         setp_moto_obj *setp_moto = device_get("setp_moto");
         setp_moto->reset(setp_moto,moto_call_reset);
     } else { //返回错误
+        usart_obj *usart = device_get("usart");
+        usart_tx_msg_obj msg;
+        for(register int i = 0;i < 10;i++) {
+            msg.data[i] = 0;
+        }
+        msg.cmd = 0x22;
         
+        msg.call_back = close_pc_sen_ack_ok;
+        usart->pc_send(usart,msg);
     }
 }
 

@@ -75,6 +75,7 @@ typedef struct _usart_obj {
     void (*receive_draw)(struct _usart_obj *,void(*call_back)(void *));
     void (*pc_send)(struct _usart_obj *,usart_tx_msg_obj);
     void (*receive_pc)(struct _usart_obj *,void(*call_back)(void *));
+    uint8_t (*get_id)(struct _usart_obj *);
 }usart_obj;
 
 void usart_init(struct _usart_obj * uart);
@@ -86,6 +87,8 @@ void uart_receive_draw(struct _usart_obj * uart,
                        void(*call_back)(void *));
 void uart_receive_pc(struct _usart_obj * uart,
                      void(*call_back)(void *));
+
+uint8_t uart_get_id(struct _usart_obj *);
 
 #ifdef __cplusplus
 }

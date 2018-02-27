@@ -16,7 +16,7 @@
 #include "setp_moto.h"
 #include "lcd.h"
 
-#define BEST_DOOR_NUMBER 8
+#define BEST_DOOR_NUMBER 9
 
 static void(*check_ok)(void *); //检测成功回掉
 static uint16_t check_con = 0x00;
@@ -24,6 +24,8 @@ static uint16_t check_con = 0x00;
 static uint8_t check_id = 1; //设备地址 1 - 10
 static uint8_t agan_id = 0;
 static uint8_t agan_num = 0;
+static uint16_t door_rep = 0;
+
 static void send_ask_pos_time(void);
 static void send_ask_close_time(void);
 static void usart_draw_rec_callback_c(void *pd);
@@ -101,7 +103,16 @@ static void draw_check(void) {
 //查询位置
 static void send_ask_pos(uint8_t d_id) {
     check_id_s = d_id;
-    stime_create("check",80,ST_ONCE,draw_check); /* 超时检测 */   
+    uint8_t bit = ( ( door_rep >> (check_id_s-1) ) & 0x0001 );
+    if(bit == 0x00) {
+        stime_create("check",80,ST_ONCE,draw_check); /* 超时检测 */   
+    } else {
+        if(check_id_s == BEST_DOOR_NUMBER) {
+            check_ok((void *)check_con);
+        } else {
+            send_ask_pos(d_id+1);
+        }
+    }
 }
 
 //关闭抽屉
@@ -163,12 +174,13 @@ static void usart_draw_rec_callback_c(void *pd) {
 }
 
 //开始检测循环
-void door_check_task(void(*check_ok_h)(void *)) {
+void door_check_task(uint16_t rep,void(*check_ok_h)(void *)) {
     usart_obj *usart = device_get("usart"); //获取串口
     usart->receive_draw(usart,usart_draw_rec_callback_c); //设置回掉
     if(check_ok_h != null) {
         check_ok = check_ok_h;
     }
+    door_rep = rep;
     check_id = 1;
     check_con = 0x00;
     send_ask_pos(check_id);

@@ -14,6 +14,7 @@
 #include "button.h"
 #include "setp_moto.h"
 #include "eprom.h"
+#include "lcd.h"
 
 static usart_obj usart = {
     .init               = usart_init,
@@ -21,6 +22,7 @@ static usart_obj usart = {
     .receive_draw       = uart_receive_draw,
     .pc_send            = uart_send_pc,
     .receive_pc         = uart_receive_pc,
+    .get_id             = uart_get_id,
 };
 
 static led_obj led = {
@@ -63,6 +65,12 @@ static eprom_obj eprom = {
     .read       = eprom_read,
 };
 
+static lcd_obj lcd = {
+    .init       = lcd_init,
+    .show_string = lcd_show_string,
+    .show_int   = lcd_show_int,
+};
+
 void device_init(void) {
     usart.init(&usart);
     led.init(&led);
@@ -71,6 +79,7 @@ void device_init(void) {
     button.init(&button);
     setp_moto.init(&setp_moto);
     eprom.init(&eprom);
+    lcd.init(&lcd);
 }
 
 void * device_get(const char * name) {
@@ -88,6 +97,8 @@ void * device_get(const char * name) {
         return &setp_moto;
     } else if(strcmp(name,"eprom")==0) {
         return &eprom;
+    } else if(strcmp(name,"lcd")==0) {
+        return &lcd;
     }
     return null;
 }

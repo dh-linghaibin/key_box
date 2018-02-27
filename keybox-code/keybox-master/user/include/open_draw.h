@@ -16,9 +16,9 @@ extern "C" {
 #include <assert.h>  
 #include "fsm.h"
 
-void open_draw(uint8_t r_num,uint8_t draw_num);
+void open_draw(uint8_t r_num,uint8_t draw_num,uint16_t rep);
 void close_draw(uint8_t r_num,uint8_t draw_num);
-void draw_zero(void);
+void draw_zero(uint16_t rep);
 
 #ifdef __cplusplus
 }

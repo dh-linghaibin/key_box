@@ -91,17 +91,19 @@ void setp_moto_init(struct _setp_moto_obj * motox) {
     moto.zero_flag = 0;
 }
 
+#define BEST_SLEEP 5100
+
 static uint16_t dif_pos = 0;
 static void speed_task(void) {
     int dif = moto.position_to;
     if(dif > dif_pos) { /* 提速 */
-        if(moto.sleep > 5000) {
-            moto.sleep -= 50;
+        if(moto.sleep > BEST_SLEEP) {
+            moto.sleep -= 150;
             setp_moto_set_sleep(moto.sleep);
         }
-    } else if( (dif < dif_pos)  && (dif < 4300) ) { /* 降速  */ 
+    } else if( (dif < dif_pos)  && (dif < 1000) ) { /* 降速  */ 
         if(moto.sleep < 65000) {
-            moto.sleep += 50;
+            moto.sleep += 150;
             setp_moto_set_sleep(moto.sleep);
         }
     }
@@ -116,15 +118,25 @@ static event_e reset_sign_read(void *p) {
     }
 } 
 
-/* 找到位置 */
-static void find_reset(void *p) {
-    moto.zero_flag = 0;
+static void zhaodao(void) {
     TIM3_CR1 = 0x00;
     moto.zero_flag = 0;
     event_delet("z_f_y");//moto.sleep_time_id);/* 删除走布时间 */
     if(moto.zero_call_back != null) { /* 完成回掉 */
         moto.zero_call_back(1);
     }
+}
+
+/* 找到位置 */
+static void find_reset(void *p) {
+    moto.zero_flag = 0;
+//    TIM3_CR1 = 0x00;
+//    moto.zero_flag = 0;
+//    event_delet("z_f_y");//moto.sleep_time_id);/* 删除走布时间 */
+//    if(moto.zero_call_back != null) { /* 完成回掉 */
+//        moto.zero_call_back(1);
+//    }
+    stime_create("dzjb",120,ST_ONCE,zhaodao);
 }
 /* 120 布 没有找到位置错误 */
 static void zero_back_error(void *p) {
@@ -150,7 +162,7 @@ static void zero_time(void * p) {
                      null,
                      reset_sign_read);
         setp_moto_set_sleep(65000);
-        moto.position_to = 350;/* 暂时100布 */
+        moto.position_to = 2000;/* 暂时100布 */
         moto.even_flag = E_DISABLE;
         event_create("z_f_s_b",&moto.even_flag, /* 不一定会运行到 需要删除 */
                      ET_ONCE,
@@ -164,7 +176,7 @@ static void zero_time(void * p) {
 
 static void speed_sub_task(void) {
     if(moto.sleep < 65000) {
-        moto.sleep += 50;
+        moto.sleep += 100;
         setp_moto_set_sleep(moto.sleep);
     } else {
         stime_delet("sleep"); /* 删除加速度时间 */
@@ -176,8 +188,8 @@ static void speed_sub_task(void) {
 static void find_reset_big(void *p) {
     event_delet("z_z_b");//moto.zero_even_id2);
     stime_delet("sleep"); /* 删除加速度时间 */
-    moto.position_to = 1000;
-    stime_create("sleep",5,ST_ALWAYS,speed_sub_task); /* 开始减速 */
+    moto.position_to = 1500;
+    stime_create("sleep",3,ST_ALWAYS,speed_sub_task); /* 开始减速 */
 }
 
 int setp_moto_zero(struct _setp_moto_obj * motox,void (*call_back)(uint8_t flag)) {
@@ -222,6 +234,7 @@ int setp_moto_zero(struct _setp_moto_obj * motox,void (*call_back)(uint8_t flag)
 }
 
 int setp_moto_rotate(struct _setp_moto_obj * moto_s,uint16_t to_position,void (call_back)(void *)) {
+    to_position -= 1;
     if(moto.run_bit == E_DISABLE) {
         if(to_position > BEST_DRAW) {
             return SM_ERROR;

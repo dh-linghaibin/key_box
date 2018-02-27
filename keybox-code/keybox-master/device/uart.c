@@ -94,6 +94,13 @@ void usart_init(struct _usart_obj * uart) {
     
     draw_tx_packet.flag = 0;
     pc_tx_packet.flag = 0;
+    
+//    lcd_obj *lcd = device_get("lcd");
+//    lcd->show_int(lcd,0,0,rs485_address);
+}
+
+uint8_t uart_get_id(struct _usart_obj *uart) {
+    return rs485_address;
 }
 
 void uart_send_draw(struct _usart_obj * uart,

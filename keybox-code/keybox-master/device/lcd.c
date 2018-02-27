@@ -6,6 +6,8 @@
 */
 
 #include "lcd.h"
+#include <stdio.h>
+#include <string.h>
 
 #define CS_H PE_ODR_ODR5=1 
 #define CS_L PE_ODR_ODR5=0
@@ -72,7 +74,48 @@ void Draw_PM(void)
     }  
 }
 
-void lcd_init(void) {
+void lcd_set_xy(uint8_t x,uint8_t y) {
+    uint8_t pos;
+    switch(x) {
+        case 0: x=0x80;break;
+        case 1: x=0x90;break;
+        case 2: x=0x88;break;
+        case 3: x=0x98;break;
+    }
+    pos=x+y;
+    write_cmd(pos);
+}
+
+void lcd_show_string(struct _lcd_obj *lcd,uint8_t x,uint8_t y,uint8_t *p) {
+    lcd_set_xy(x,y);
+    for(;*p!='\0';p++) {
+        write_dat(*p);
+        delay_ms(5);
+    }
+}
+
+void lcd_show_int(struct _lcd_obj *lcd,uint8_t x,uint8_t y,int num) {
+    lcd_set_xy(x,y);
+    int n, i = 0;
+    char str[20], tmp[20];
+    n = num % 10;
+    while (n > 0) { /* 求长度 */
+        tmp[i++] = n + '0';
+        num = (num - n) / 10;
+        n = num % 10;
+    }
+    tmp[i] = '\0';
+    for (i=0; i <= strlen(tmp)-1; i++) {
+        str[i] = tmp[strlen(tmp)-i-1];
+    }
+    str[i] = '\0';
+    for(int i = 0;str[i]!='\0';i++) {
+        write_dat(str[i]);
+        delay_ms(5);
+    }
+}
+
+void lcd_init(struct _lcd_obj *lcd) {
     PC_DDR |= ( BIT(6)|BIT(5) ); //6-SPI_MOSI，主设备输出从
     PC_CR1 |= ( BIT(6)|BIT(5) ); 
     PC_CR2 |= ( BIT(6)|BIT(5) );
@@ -82,22 +125,21 @@ void lcd_init(void) {
     PE_CR2 |= BIT(5);
     
     SPI_CR1 = 0x04;
-   // SPI_CR1_BR = 0x01;
     SPI_CR2 = 0x03; 
     SPI_CRCPR = 0x07; 
     SPI_ICR = 0x00; 
     SPI_CR1 |= 0x40;
-   
-    delay_ms(500);
     
-    write_cmd(0x30);//30--基本指令动作
-    delay_ms(5);
-    write_cmd(0x0c);//光标右移画面不动
-    delay_ms(5);
-    write_cmd(0x06);//显示打开，光标开，反白关
+    delay_ms(800);
+    write_cmd(0x30);  //30--基本指令动作
+    delay_ms(15);
+    write_cmd(0x0c);  //光标右移画面不动
+    delay_ms(15);
+    write_cmd(0x01);  //清屏
+    delay_ms(15);              //清屏时间较长
+    write_cmd(0x06);  //显示打开，光标开，反白关
     delay_ms(10);
-    write_cmd(0x34);//打开扩展指令集
-    write_cmd(0x36);//打开绘图显示
-    Draw_PM();
+    //lcd->show_string(lcd,0,0,"测试");
+   ///lcd->show_int(lcd,0,0,133);
 }
 

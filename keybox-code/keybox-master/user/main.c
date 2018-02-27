@@ -43,10 +43,14 @@ static void usart_pc_rec_callback(void *pd) {
          
         } break;
         case RESET: { //回零
-            draw_zero();
+            int rep = pcdat->data[3];
+            rep |= pcdat->data[4] << 8;
+            draw_zero(rep);
         } break;
         case OPEN_DRAW: { // 1 检查门有没有关上 2旋转 3开门
-            open_draw(pcdat->data[1],pcdat->data[2]);
+            int rep = pcdat->data[3];
+            rep |= pcdat->data[4] << 8;
+            open_draw(pcdat->data[1],pcdat->data[2],rep);
         } break;
         case CLOSE_DRAW: {
             close_draw(pcdat->data[1],pcdat->data[2]);
@@ -54,26 +58,24 @@ static void usart_pc_rec_callback(void *pd) {
     }
 }
 
-void button_click(void * p) {
-    int i = 0;
-    i++;
-    if(i == 2) {
-        
-    }
+void moto_call_reset(uint8_t flag) {
+
 }
 
 int main( void ) {
     stime_init();  
     event_init();
     device_init();
-    //lcd_init();
+    
     usart_obj *usart = device_get("usart");
-
     usart->receive_pc(usart,usart_pc_rec_callback);
     
     setp_moto_obj *setp_moto = device_get("setp_moto");
     eprom_obj *eprom = device_get("eprom");
     eprom->read(eprom, EP_MOTO_POS, (uint8_t*)&setp_moto->now_position,2);
+    
+    lcd_obj *lcd = device_get("lcd");
+    lcd->show_int(lcd,0,0,usart->get_id(usart));
     
     //setp_moto->rotate(setp_moto,1,setp_moto_ok);
     //setp_moto->reset(setp_moto,moto_call_reset);

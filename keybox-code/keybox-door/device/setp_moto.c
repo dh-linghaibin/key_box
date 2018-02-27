@@ -111,7 +111,7 @@ void setp_moto_init(struct _setp_moto_obj * moto) {
 }
 
 static void sleep_task(void) {
-    if(sleep < 700) sleep += 5; else stime_delet(sleep_time_id);
+    if(sleep < 500) sleep += 5; else stime_delet(sleep_time_id);
     setp_moto_set_sleep(sleep);
 }
 
@@ -143,7 +143,7 @@ static void moto_ok_task(void) {
 }
 
 static void out_call(void * pd) {
-    stime_create(10,ST_ONCE,moto_ok_task);
+    stime_create(15,ST_ONCE,moto_ok_task);
 }
 
 void setp_moto_open(struct _setp_moto_obj * moto,void (*open_call)(setp_moto_ask_e pd)) {
