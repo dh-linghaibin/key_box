@@ -37,7 +37,7 @@
       <WATCH_1>
         <expressions>
           
-        <item>check</item><item>check_id</item><item>agan_num</item><item>check_id</item><item>pc_tx_packet</item><item>receipt_bit</item><item>pcdat</item><item>rep</item><item>door_rep</item><item>check_id_s</item><item>bit</item><item>str</item><item></item></expressions>
+        <item>check</item><item>check_id</item><item>agan_num</item><item>check_id</item><item>pc_tx_packet</item><item>receipt_bit</item><item>pcdat</item><item>rep</item><item>door_rep</item><item>check_id_s</item><item>bit</item><item>str</item><item/></expressions>
         <col-names>
           
           

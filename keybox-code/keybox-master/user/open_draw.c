@@ -39,9 +39,16 @@ static void moto_call_reset(uint8_t flag);
 
 static uint8_t need_r_num = 0;//需要徐传到位置
 static uint8_t need_draw_num = 0;//抽屉位置
+static door_bit door_flag = D_OPEN;//门是否关闭
+
+door_bit get_door_bit(void) {
+    return door_flag;
+}
 
 //1 检查
 void open_draw(uint8_t r_num,uint8_t draw_num,uint16_t rep) {
+    door_flag = D_OPEN;
+    
     need_r_num = r_num;
     need_draw_num = draw_num;
     
@@ -223,8 +230,10 @@ static void receipt_back(void *p) {
     receipt_bit_obj *receipt_bit = ( receipt_bit_obj *)p;
     if(receipt_bit->layer[need_draw_num-1] == RB_HAVE) {
         msg.data[0] = 0;
+        door_flag = D_CLOSE_NO;/* 关门成功没有回单 */
     } else {
         msg.data[0] = 1;
+        door_flag = D_CLOSE_HAVA;/* 关门成功有回单 */
     }
     msg.cmd = 0x21;
     msg.call_back = close_pc_sen_ack_ok;

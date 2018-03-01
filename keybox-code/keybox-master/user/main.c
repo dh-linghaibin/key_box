@@ -55,6 +55,9 @@ static void usart_pc_rec_callback(void *pd) {
         case CLOSE_DRAW: {
             close_draw(pcdat->data[1],pcdat->data[2]);
         } break;
+        case BUTTON_ASK: {
+            
+        } break;
     }
 }
 
