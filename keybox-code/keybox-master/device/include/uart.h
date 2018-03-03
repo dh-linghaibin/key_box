@@ -32,6 +32,7 @@ typedef enum _usart_pc_cmd_e {
     OPEN_DRAW = 0xf1,
     CLOSE_DRAW = 0xf2,
     BUTTON_ASK = 0x23,
+    RECEIPT_CHECK = 0x18,
 } usart_pc_cmd_e;
 
 #define BEST_TX_PACK 20

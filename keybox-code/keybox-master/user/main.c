@@ -17,18 +17,80 @@
 #include "lcd.h"
 #include "door_count.h"
 #include "open_draw.h"
+#include "receipt.h"
+
+//4 查询回单
+static void receipt_back(void *p);
 
 static void led_task(void) {
     led_obj *led = device_get("led");
     led->blank(led);
 }
 
-static void pc_sen_ack_ok_l(void *p) {
+static void pc_sen_ack_ok(void *p) {
 
 }
 
+/* 发送完成回调 */
+static usart_rx_packet_obj spcdat;
+static void pc_sen_ack_ok_l(void *p) {
+    switch(spcdat.cmd) {
+        case 0x01: {
+         
+        } break;
+        case RESET: { //回零
+            int rep = spcdat.data[3];
+            rep |= spcdat.data[4] << 8;
+            draw_zero(rep);
+        } break;
+        case OPEN_DRAW: { // 1 检查门有没有关上 2旋转 3开门
+            int rep = spcdat.data[3];
+            rep |= spcdat.data[4] << 8;
+            open_draw(spcdat.data[1],spcdat.data[2],rep);
+        } break;
+        case CLOSE_DRAW: {
+            close_draw(spcdat.data[1],spcdat.data[2]);
+        } break;
+        case BUTTON_ASK: {
+            usart_obj *usart = device_get("usart");
+            usart_tx_msg_obj msg;
+            for(register int i = 0;i < 10;i++) {
+                msg.data[i] = 0;
+            }
+            msg.data[0] = get_door_bit();
+            msg.cmd = 0x21;
+            msg.call_back = pc_sen_ack_ok;
+            usart->pc_send(usart,msg);
+        } break;
+        case RECEIPT_CHECK: {
+            receipt_obj *receipt = device_get("receipt");
+            receipt->get(receipt,spcdat.data[0],receipt_back);
+        } break;
+    }
+}
+
+//4 查询回单
+static void receipt_back(void *p) {
+    usart_obj *usart = device_get("usart");
+    usart_tx_msg_obj msg;
+    for(register int i = 0;i < 10;i++) {
+        msg.data[i] = 0;
+    }
+    receipt_bit_obj *receipt_bit = ( receipt_bit_obj *)p;
+    if(receipt_bit->layer[spcdat.data[0]-1] == RB_HAVE) {
+        msg.data[0] = 0;
+    } else {
+        msg.data[0] = 1;
+    }
+    msg.cmd = RECEIPT_CHECK;
+    msg.call_back = pc_sen_ack_ok;
+    usart->pc_send(usart,msg);
+}
+
+/* 接收到命令 */
 static void usart_pc_rec_callback(void *pd) {
     usart_rx_packet_obj * pcdat = (usart_rx_packet_obj *)pd;
+    spcdat = *pcdat;
     usart_tx_msg_obj msg;
     msg.cmd = 0x88;
     for(register int i = 0;i < 10;i++) {
@@ -37,28 +99,6 @@ static void usart_pc_rec_callback(void *pd) {
     msg.call_back = pc_sen_ack_ok_l;
     usart_obj *usart = device_get("usart");
     usart->pc_send(usart,msg);
-    
-    switch(pcdat->cmd) {
-        case 0x01: {
-         
-        } break;
-        case RESET: { //回零
-            int rep = pcdat->data[3];
-            rep |= pcdat->data[4] << 8;
-            draw_zero(rep);
-        } break;
-        case OPEN_DRAW: { // 1 检查门有没有关上 2旋转 3开门
-            int rep = pcdat->data[3];
-            rep |= pcdat->data[4] << 8;
-            open_draw(pcdat->data[1],pcdat->data[2],rep);
-        } break;
-        case CLOSE_DRAW: {
-            close_draw(pcdat->data[1],pcdat->data[2]);
-        } break;
-        case BUTTON_ASK: {
-            
-        } break;
-    }
 }
 
 void moto_call_reset(uint8_t flag) {

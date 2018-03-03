@@ -132,14 +132,6 @@ static void usart_draw_rec_callback_c(void *pd) {
     stime_delet("check_o");
     switch(dat->cmd) {
         case 0x01: { /* 位置返回 */
-//            if(check_id < BEST_DOOR_NUMBER) {
-//                    check_id++;
-//                    send_ask_pos(check_id);
-//                } else { /* 完成一次检测 */
-//                    if(check_ok != null) {
-//                        check_ok((void *)check_con);
-//                    }
-//                }
             if(dat->data[0] == 1) {
                 if(check_id < BEST_DOOR_NUMBER) {
                     check_id++;
