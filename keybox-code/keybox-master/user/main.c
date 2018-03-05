@@ -21,6 +21,7 @@
 
 //4 查询回单
 static void receipt_back(void *p);
+static void button_ask_task(void);
 
 static void led_task(void) {
     led_obj *led = device_get("led");
@@ -49,24 +50,33 @@ static void pc_sen_ack_ok_l(void *p) {
             open_draw(spcdat.data[1],spcdat.data[2],rep);
         } break;
         case CLOSE_DRAW: {
-            close_draw(spcdat.data[1],spcdat.data[2]);
+            od_close_draw(spcdat.data[1],spcdat.data[2]);
         } break;
         case BUTTON_ASK: {
-            usart_obj *usart = device_get("usart");
-            usart_tx_msg_obj msg;
-            for(register int i = 0;i < 10;i++) {
-                msg.data[i] = 0;
-            }
-            msg.data[0] = get_door_bit();
-            msg.cmd = 0x21;
-            msg.call_back = pc_sen_ack_ok;
-            usart->pc_send(usart,msg);
+            stime_create("button_ask",20,ST_ONCE,button_ask_task);  
         } break;
         case RECEIPT_CHECK: {
             receipt_obj *receipt = device_get("receipt");
             receipt->get(receipt,spcdat.data[0],receipt_back);
         } break;
     }
+}
+
+/* 检查按钮返回 */
+static void button_ask_task(void) {
+    usart_obj *usart = device_get("usart");
+    usart_tx_msg_obj msg;
+    for(register int i = 0;i < 10;i++) {
+        msg.data[i] = 0;
+    }
+    msg.data[0] = get_door_bit();
+    if(D_OPEN == get_door_bit()) {
+        msg.cmd = 0x22;
+    } else {
+        msg.cmd = 0x21;
+    }
+    msg.call_back = pc_sen_ack_ok;
+    usart->pc_send(usart,msg);
 }
 
 //4 查询回单

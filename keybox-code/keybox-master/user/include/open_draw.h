@@ -23,7 +23,7 @@ typedef enum _door_bit {
 } door_bit;
     
 void open_draw(uint8_t r_num,uint8_t draw_num,uint16_t rep);
-void close_draw(uint8_t r_num,uint8_t draw_num);
+void od_close_draw(uint8_t r_num,uint8_t draw_num);
 void draw_zero(uint16_t rep);
 door_bit get_door_bit(void);
 

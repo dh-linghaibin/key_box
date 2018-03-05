@@ -27,6 +27,7 @@ static void open_out_time(void);
 static void pc_sen_ack_ok(void *p);
 static void button_click(void *p);
 
+static void close_draw(uint8_t r_num,uint8_t draw_num) ;
 static void close_draw_rec_callback(void *pd);
 static void pc_sen_ack_ok(void *p);
 static void close_draw_back(void *pd);
@@ -40,6 +41,7 @@ static void moto_call_reset(uint8_t flag);
 static uint8_t need_r_num = 0;//需要徐传到位置
 static uint8_t need_draw_num = 0;//抽屉位置
 static door_bit door_flag = D_OPEN;//门是否关闭
+static uint8_t ask_rep = 0;//是否需要返回回单
 
 door_bit get_door_bit(void) {
     return door_flag;
@@ -145,6 +147,7 @@ static void usart_draw_rec_callback(void *pd) {
 
 //5 发送完成
 static void pc_sen_ack_ok(void *p) {
+    ask_rep = 0;
     button_obj *button = device_get("button");
     button->read(button,button_click);
 }
@@ -154,9 +157,14 @@ static void button_click(void *p) {
     close_draw(need_r_num,need_draw_num);
 }
 
+/* 关门接口 */
+void od_close_draw(uint8_t r_num,uint8_t draw_num) {
+    ask_rep = 1;
+    close_draw(r_num,draw_num);
+}
+
 // 1 关门
-void close_draw(uint8_t r_num,uint8_t draw_num) {
-    
+static void close_draw(uint8_t r_num,uint8_t draw_num) {
     button_obj *button = device_get("button");
     button->del_read(button);
     
@@ -237,7 +245,9 @@ static void receipt_back(void *p) {
     }
     msg.cmd = 0x21;
     msg.call_back = close_pc_sen_ack_ok;
-    usart->pc_send(usart,msg);
+    if(ask_rep == 1) { /* 是否需要返回 */
+        usart->pc_send(usart,msg);
+    }
 }
 
 //5 发送完成
@@ -292,3 +302,5 @@ static void moto_call_reset(uint8_t flag) {
     msg.call_back = close_pc_sen_ack_ok;
     usart->pc_send(usart,msg);
 }
+
+
