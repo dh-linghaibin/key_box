@@ -17,3 +17,6 @@ void led_tager(struct _led_obj * led) {
     PC_ODR_ODR1=~PC_IDR_IDR1;
 }
 
+void led_set(struct _led_obj * led,led_val val) {
+    PC_ODR_ODR1 = val;
+}

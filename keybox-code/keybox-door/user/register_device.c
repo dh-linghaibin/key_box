@@ -23,6 +23,7 @@ static usart_obj usart = {
 static led_obj led = {
     .init       = led_init,
     .tager      = led_tager,
+    .set        = led_set,
 };
 
 static light_obj light = {
