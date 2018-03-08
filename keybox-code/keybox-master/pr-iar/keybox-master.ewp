@@ -1607,9 +1607,6 @@
       <name>$PROJ_DIR$\..\device\setp_moto.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\..\device\uart.c</name>
-    </file>
-    <file>
       <name>$PROJ_DIR$\..\device\voice.c</name>
     </file>
   </group>
@@ -1620,6 +1617,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\frame\stime.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\device\uart.c</name>
     </file>
   </group>
   <group>

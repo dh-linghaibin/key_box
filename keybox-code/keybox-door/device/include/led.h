@@ -17,8 +17,8 @@ extern "C" {
 #include "event.h"
     
 typedef enum _led_val {
-    LV_OPEN = 1,
-    LV_CLOSE = 0,
+    LV_OPEN = 0,
+    LV_CLOSE = 1,
 } led_val;
     
 typedef struct _led_obj {

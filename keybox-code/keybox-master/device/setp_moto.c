@@ -91,20 +91,32 @@ void setp_moto_init(struct _setp_moto_obj * motox) {
     moto.zero_flag = 0;
 }
 
+
+const uint16_t timerlow[40]={
+    65000,58000,56000,54000,52000,50000,48000,46000,44000,42000,
+    40000,38000,36000,34000,24000,23000,22000,21000,19000,17500,
+    16000,15500,14500,14000,13500,13000,12500,12000,11500,11000,
+    10500,10000,9500,9000,8500,8000,7500,7000,7000,7000,
+};
+
 #define BEST_SLEEP 5100
 
 static uint16_t dif_pos = 0;
 static void speed_task(void) {
     int dif = moto.position_to;
     if(dif > dif_pos) { /* 提速 */
-        if(moto.sleep > BEST_SLEEP) {
-            moto.sleep -= 150;
-            setp_moto_set_sleep(moto.sleep);
+        if(moto.sleep < 39) {
+            moto.sleep ++;
+            setp_moto_set_sleep(timerlow[moto.sleep]);
+        } else {
+             moto.sleep = 39;
         }
-    } else if( (dif < dif_pos)  && (dif < 1000) ) { /* 降速  */ 
-        if(moto.sleep < 65000) {
-            moto.sleep += 150;
-            setp_moto_set_sleep(moto.sleep);
+    } else if( (dif < dif_pos)  && (dif < 2900) ) { /* 降速  */ 
+        if(moto.sleep > 0) {
+            moto.sleep --;
+            setp_moto_set_sleep(timerlow[moto.sleep]);
+        } else {
+             moto.sleep = 0;
         }
     }
 }
@@ -175,9 +187,9 @@ static void zero_time(void * p) {
 }
 
 static void speed_sub_task(void) {
-    if(moto.sleep < 65000) {
-        moto.sleep += 100;
-        setp_moto_set_sleep(moto.sleep);
+    if(moto.sleep > 0) {
+        moto.sleep--;
+        setp_moto_set_sleep(timerlow[moto.sleep]);
     } else {
         stime_delet("sleep"); /* 删除加速度时间 */
         zero_time(null); /* 减速完成 换向 */
@@ -189,7 +201,7 @@ static void find_reset_big(void *p) {
     event_delet("z_z_b");//moto.zero_even_id2);
     stime_delet("sleep"); /* 删除加速度时间 */
     moto.position_to = 1500;
-    stime_create("sleep",3,ST_ALWAYS,speed_sub_task); /* 开始减速 */
+    stime_create("sleep",70,ST_ALWAYS,speed_sub_task); /* 开始减速 */
 }
 
 int setp_moto_zero(struct _setp_moto_obj * motox,void (*call_back)(uint8_t flag)) {
@@ -227,8 +239,9 @@ int setp_moto_zero(struct _setp_moto_obj * motox,void (*call_back)(uint8_t flag)
         MOTO_DR = 0;
         dif_pos = moto.position_to/2;
         TIM3_CR1 = 0x01;
-        moto.sleep = 65000;
-        stime_create("sleep",5,ST_ALWAYS,speed_task);
+        moto.sleep = 0;
+        setp_moto_set_sleep(timerlow[0]);
+        stime_create("sleep",70,ST_ALWAYS,speed_task);
     }
     return SM_OK;
 }
@@ -259,8 +272,9 @@ int setp_moto_rotate(struct _setp_moto_obj * moto_s,uint16_t to_position,void (c
             moto.position_to = need_num;
             dif_pos = moto.position_to/2;
             TIM3_CR1 = 0x01;
-            moto.sleep = 65000;
-            stime_create("sleep",5,ST_ALWAYS,speed_task);
+            moto.sleep = 0;
+            setp_moto_set_sleep(timerlow[0]);
+            stime_create("sleep",70,ST_ALWAYS,speed_task);
             return SM_WAIT;
         } else if(need_num < 0) {            
             moto.run_bit = E_ENABLE;
@@ -276,8 +290,9 @@ int setp_moto_rotate(struct _setp_moto_obj * moto_s,uint16_t to_position,void (c
             moto.position_to = (0 - need_num);
             dif_pos = moto.position_to/2;
             TIM3_CR1 = 0x01;
-            moto.sleep = 65000;
-            stime_create("sleep",5,ST_ALWAYS,speed_task);
+            moto.sleep = 0;
+            setp_moto_set_sleep(timerlow[0]);
+            stime_create("sleep",70,ST_ALWAYS,speed_task);
             return SM_WAIT;
         }
         return SM_ERROR;
@@ -287,11 +302,12 @@ int setp_moto_rotate(struct _setp_moto_obj * moto_s,uint16_t to_position,void (c
 }
 
 void setp_moto_test(void) {
-    moto.position_to = 3000;
+    moto.position_to = 1200;
     dif_pos = moto.position_to/2;
     TIM3_CR1 = 0x01;
-    moto.sleep = 65000;
-    stime_create("sleep",5,ST_ALWAYS,speed_task);
+    moto.sleep = 0;
+    setp_moto_set_sleep(timerlow[0]);
+    stime_create("sleep",70,ST_ALWAYS,speed_task);
 }
 
 #pragma vector=0x11

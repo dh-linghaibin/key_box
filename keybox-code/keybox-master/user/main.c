@@ -115,6 +115,10 @@ void moto_call_reset(uint8_t flag) {
 
 }
 
+void setp_moto_ok(void *p) {
+    
+}
+
 int main( void ) {
     stime_init();  
     event_init();
@@ -130,8 +134,9 @@ int main( void ) {
     lcd_obj *lcd = device_get("lcd");
     lcd->show_int(lcd,0,0,usart->get_id(usart));
     
-    //setp_moto->rotate(setp_moto,1,setp_moto_ok);
-    //setp_moto->reset(setp_moto,moto_call_reset);
+   //setp_moto_test();
+    //setp_moto->rotate(setp_moto,2,setp_moto_ok);
+    setp_moto->reset(setp_moto,moto_call_reset);
     //door_check_task(door_check_ok);
     //open_draw(1,1);
     

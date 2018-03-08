@@ -19,6 +19,8 @@ void led_task(void) {
     if(led->flash > 0) {
         led->flash--;
         led->tager(led);
+    } else {
+        led->set(led,LV_CLOSE);
     }
     iwdg_obj *iwdg = device_get("iwdg");
     iwdg->wdt(iwdg);
@@ -89,7 +91,7 @@ void close_call_light(setp_moto_ask_e pd) {
 void usart_rec_callback(void *pd) {
     usart_rx_packet_obj *dat = (usart_rx_packet_obj *)pd;
     led_obj *led = device_get("led");
-    led->flash = dat->len;
+    led->flash = dat->len + 2;
     switch(dat->cmd) {
         case 0x01: {
             stime_create(5,ST_ONCE,ask_pos_task);
@@ -138,6 +140,9 @@ int main( void ) {
     stime_create(500,ST_ALWAYS,led_task);
     usart_obj *usart = device_get("usart");
     usart->receive_draw(usart,usart_rec_callback);    
+    
+    led_obj *led = device_get("led");
+    led->flash = 2;
     while(1) {
         stime_loop();
         event_loop();
