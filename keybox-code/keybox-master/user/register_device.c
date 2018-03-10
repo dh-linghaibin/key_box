@@ -15,6 +15,7 @@
 #include "setp_moto.h"
 #include "eprom.h"
 #include "lcd.h"
+#include "iwdg.h"
 
 static usart_obj usart = {
     .init               = usart_init,
@@ -71,6 +72,13 @@ static lcd_obj lcd = {
     .show_int   = lcd_show_int,
 };
 
+
+static iwdg_obj iwdg = {
+    .init       = iwdg_init,
+    .wdt        = iwdg_wdt,
+};
+
+
 void device_init(void) {
     usart.init(&usart);
     led.init(&led);
@@ -99,6 +107,8 @@ void * device_get(const char * name) {
         return &eprom;
     } else if(strcmp(name,"lcd")==0) {
         return &lcd;
+    } else if(strcmp(name,"iwdg")==0) {
+        return &iwdg;
     }
     return null;
 }

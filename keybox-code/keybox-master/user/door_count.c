@@ -43,7 +43,7 @@ static void send_ask_close_ok(void *p) {
 //查询位置 超时重发
 static void send_ask_pos_time(void) {   
     if(agan_id == check_id) {
-        if(agan_num < 1) {
+        if(agan_num < 3) {
             agan_num++;
         } else {
             agan_num = 0;
@@ -67,7 +67,7 @@ static void send_ask_pos_time(void) {
 //关门 超时重发
 static void send_ask_close_time(void) {  
     if(agan_id == check_id) {
-        if(agan_num < 1) {
+        if(agan_num < 3) {
             agan_num++;
         } else {
             agan_num = 0;

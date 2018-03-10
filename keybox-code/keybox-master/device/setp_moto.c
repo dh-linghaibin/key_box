@@ -188,7 +188,7 @@ static void zero_time(void * p) {
 
 static void speed_sub_task(void) {
     if(moto.sleep > 0) {
-        moto.sleep--;
+        moto.sleep --;
         setp_moto_set_sleep(timerlow[moto.sleep]);
     } else {
         stime_delet("sleep"); /* 删除加速度时间 */
@@ -201,7 +201,7 @@ static void find_reset_big(void *p) {
     event_delet("z_z_b");//moto.zero_even_id2);
     stime_delet("sleep"); /* 删除加速度时间 */
     moto.position_to = 1500;
-    stime_create("sleep",70,ST_ALWAYS,speed_sub_task); /* 开始减速 */
+    stime_create("sleep",15,ST_ALWAYS,speed_sub_task); /* 开始减速 */
 }
 
 int setp_moto_zero(struct _setp_moto_obj * motox,void (*call_back)(uint8_t flag)) {

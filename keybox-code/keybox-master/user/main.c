@@ -18,6 +18,7 @@
 #include "door_count.h"
 #include "open_draw.h"
 #include "receipt.h"
+#include "iwdg.h"
 
 //4 ²éÑ¯»Øµ¥
 static void receipt_back(void *p);
@@ -26,6 +27,8 @@ static void button_ask_task(void);
 static void led_task(void) {
     led_obj *led = device_get("led");
     led->blank(led);
+    iwdg_obj *iwdg = device_get("iwdg");
+    iwdg->wdt(iwdg);
 }
 
 static void pc_sen_ack_ok(void *p) {
@@ -134,9 +137,10 @@ int main( void ) {
     lcd_obj *lcd = device_get("lcd");
     lcd->show_int(lcd,0,0,usart->get_id(usart));
     
+    //draw_zero(0xffff);
    //setp_moto_test();
     //setp_moto->rotate(setp_moto,2,setp_moto_ok);
-    setp_moto->reset(setp_moto,moto_call_reset);
+    //setp_moto->reset(setp_moto,moto_call_reset);
     //door_check_task(door_check_ok);
     //open_draw(1,1);
     

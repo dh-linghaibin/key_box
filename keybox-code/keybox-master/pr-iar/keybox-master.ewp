@@ -1595,6 +1595,9 @@
       <name>$PROJ_DIR$\..\device\eprom.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\..\device\iwdg.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\..\device\lcd.c</name>
     </file>
     <file>

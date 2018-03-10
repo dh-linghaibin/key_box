@@ -63,22 +63,22 @@ void open_draw(uint8_t r_num,uint8_t draw_num,uint16_t rep) {
 //2 检查完成回掉
 static void door_check_ok(void *p) {
     uint16_t *check = (uint16_t *)p;
-    if(check == 0x0000) { //继续旋转
+//    if(check == 0x0000) { //继续旋转
         usart_obj *usart = device_get("usart");
         usart->receive_draw(usart,usart_draw_rec_callback);   
         setp_moto_obj *setp_moto = device_get("setp_moto");
         setp_moto->rotate(setp_moto,need_r_num,setp_moto_ok);
-    } else { //返回错误
-        usart_obj *usart = device_get("usart");
-        usart_tx_msg_obj msg;
-        for(register int i = 0;i < 10;i++) {
-            msg.data[i] = 0;
-        }
-        msg.cmd = 0x22;
-        
-        msg.call_back = close_pc_sen_ack_ok;
-        usart->pc_send(usart,msg);
-    }
+//    } else { //返回错误
+//        usart_obj *usart = device_get("usart");
+//        usart_tx_msg_obj msg;
+//        for(register int i = 0;i < 10;i++) {
+//            msg.data[i] = 0;
+//        }
+//        msg.cmd = 0x22;
+//        
+//        msg.call_back = close_pc_sen_ack_ok;
+//        usart->pc_send(usart,msg);
+//    }
 }
 
 //3 旋转完成回掉
