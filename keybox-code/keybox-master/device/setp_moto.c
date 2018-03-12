@@ -142,6 +142,7 @@ static void zhaodao(void) {
 /* 找到位置 */
 static void find_reset(void *p) {
     moto.zero_flag = 0;
+    event_delet("z_f_s_b");
 //    TIM3_CR1 = 0x00;
 //    moto.zero_flag = 0;
 //    event_delet("z_f_y");//moto.sleep_time_id);/* 删除走布时间 */
@@ -153,6 +154,7 @@ static void find_reset(void *p) {
 /* 120 布 没有找到位置错误 */
 static void zero_back_error(void *p) {
     moto.zero_flag = 0;
+    event_delet("z_z_b");
     event_delet("z_f_s_b");//moto.zero_even_id); /* 删除寻找位置事件 */
     if(moto.zero_call_back != null) { /* 完成回掉 */
         moto.zero_call_back(0);
@@ -199,6 +201,7 @@ static void speed_sub_task(void) {
 /* 大走找到位置 */
 static void find_reset_big(void *p) {
     event_delet("z_z_b");//moto.zero_even_id2);
+    event_delet("z_f_s_b");
     stime_delet("sleep"); /* 删除加速度时间 */
     moto.position_to = 1500;
     stime_create("sleep",15,ST_ALWAYS,speed_sub_task); /* 开始减速 */

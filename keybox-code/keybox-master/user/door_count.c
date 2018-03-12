@@ -37,7 +37,7 @@ static void send_ask_pos_ok(void *p) {
 }
 
 static void send_ask_close_ok(void *p) {
-   stime_create("check_o",2500,ST_ONCE,send_ask_close_time); /* 超时检测 */   
+   stime_create("check_o",4500,ST_ONCE,send_ask_close_time); /* 超时检测 */   
 }
 
 //查询位置 超时重发

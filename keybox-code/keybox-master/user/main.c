@@ -137,7 +137,8 @@ int main( void ) {
     lcd_obj *lcd = device_get("lcd");
     lcd->show_int(lcd,0,0,usart->get_id(usart));
     
-    //draw_zero(0xffff);
+    //open_draw(2,1,0x00);
+    //draw_zero(0x00);
    //setp_moto_test();
     //setp_moto->rotate(setp_moto,2,setp_moto_ok);
     //setp_moto->reset(setp_moto,moto_call_reset);
