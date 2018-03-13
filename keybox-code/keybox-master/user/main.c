@@ -122,6 +122,7 @@ void setp_moto_ok(void *p) {
     
 }
 
+
 int main( void ) {
     stime_init();  
     event_init();
@@ -137,6 +138,8 @@ int main( void ) {
     lcd_obj *lcd = device_get("lcd");
     lcd->show_int(lcd,0,0,usart->get_id(usart));
     
+   // receipt_obj *receipt = device_get("receipt");
+    //receipt->get(receipt,0,receipt_back);
     //open_draw(2,1,0x00);
     //draw_zero(0x00);
    //setp_moto_test();

@@ -237,6 +237,7 @@ static void receipt_back(void *p) {
     }
     receipt_bit_obj *receipt_bit = ( receipt_bit_obj *)p;
     if(receipt_bit->layer[need_draw_num-1] == RB_HAVE) {
+    //if(receipt_bit->layer[] == RB_HAVE) {
         msg.data[0] = 0;
         door_flag = D_CLOSE_NO;/* 关门成功没有回单 */
     } else {
