@@ -24,10 +24,12 @@ typedef enum _light_e{
 typedef struct _light_obj {
     void (*init)(struct _light_obj *);
     void (*set)(struct _light_obj *,light_e);
+    void (*flash)(struct _light_obj *);
 }light_obj;
     
 void light_init(struct _light_obj * light);
 void light_set(struct _light_obj * light,light_e cmd);
+void light_flash(struct _light_obj * light);
 
 #ifdef __cplusplus
 }

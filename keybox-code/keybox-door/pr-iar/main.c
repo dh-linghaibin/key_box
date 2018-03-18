@@ -26,6 +26,12 @@ void led_task(void) {
     iwdg->wdt(iwdg);
 }
 
+static uint8_t id_light = 0;
+void light_flash_t(void) {
+    light_obj *light = device_get("light");
+    light->flash(light);
+}
+
 void ask_pos_task(void) {
     setp_moto_obj *moto = device_get("moto");
     usart_tx_msg_obj msg;
@@ -75,6 +81,8 @@ void open_call_light(setp_moto_ask_e pd) {
 }
 
 void close_call_light(setp_moto_ask_e pd) {
+    stime_delet(id_light);
+    
     light_obj *light = device_get("light");
     light->set(light,L_CLOSE);
     
@@ -122,6 +130,8 @@ void usart_rec_callback(void *pd) {
         case 0x05:{
             light_obj *light = device_get("light");
             light->set(light,L_OPEN);
+            
+            id_light = stime_create(1000,ST_ALWAYS,led_task);
             
             setp_moto_obj *moto = device_get("moto");
             moto->open(moto,open_call_light);

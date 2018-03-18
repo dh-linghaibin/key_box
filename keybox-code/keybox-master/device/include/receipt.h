@@ -27,10 +27,12 @@ typedef struct _receipt_bit_obj {
 
 typedef struct _receipt_obj {
     void (*init)(struct _receipt_obj *);
+    void (*open)(struct _receipt_obj *);
     void (*get) (struct _receipt_obj *,uint8_t,void(*call_back)(void *));
 }receipt_obj;
 
 void receipt_init(struct _receipt_obj *);
+void receipt_open(struct _receipt_obj * receipt);
 void receipt_get(struct _receipt_obj *,
                  uint8_t layer,
                  void(*call_back)(void *));

@@ -29,6 +29,7 @@ static led_obj led = {
 static light_obj light = {
     .init       = light_init,
     .set        = light_set,
+    .flash      = light_flash,
 };
 
 static setp_moto_obj moto = {

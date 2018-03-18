@@ -25,7 +25,11 @@ void receipt_init(struct _receipt_obj * receipt) {
     PC_CR1 |= BIT(2); 
     PC_CR2 |= BIT(2);
     
-    PC_ODR_ODR2 = 0;
+    PC_ODR_ODR2 = 0;//0
+}
+
+void receipt_open(struct _receipt_obj * receipt) {
+    PC_ODR_ODR2 = 1;
 }
 
 static receipt_bit_e receipt_read_bit(uint8_t layer) {

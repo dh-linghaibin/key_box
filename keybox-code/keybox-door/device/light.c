@@ -20,4 +20,7 @@ void light_set(struct _light_obj * light,light_e cmd) {
     PB_ODR_ODR1 = cmd;
 }
 
+void light_flash(struct _light_obj * light) {
+    PB_ODR_ODR1 = ~PB_ODR_ODR1;
+}
 

@@ -57,6 +57,9 @@ void open_draw(uint8_t r_num,uint8_t draw_num,uint16_t rep) {
     button_obj *button = device_get("button");
     button->del_read(button);
     
+    receipt_obj *receipt = device_get("receipt");
+    receipt->open(receipt);
+    
     door_check_task(rep,door_check_ok);
 }
 

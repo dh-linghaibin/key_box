@@ -56,7 +56,7 @@
           
           
           
-        <item>draw_rx_packet</item><item>pcdat</item><item>but_delay</item><item>check_id_s</item><item>moto</item><item>spcdat</item><item></item></expressions>
+        <item>draw_rx_packet</item><item>pcdat</item><item>but_delay</item><item>check_id_s</item><item>moto</item><item>spcdat</item><item/></expressions>
         <col-names>
           
           

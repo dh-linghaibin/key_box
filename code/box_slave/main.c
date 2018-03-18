@@ -109,7 +109,7 @@ int main(void)
                     eeprom_count(2);
                     break;
                     case Drawer_out_place:/*机械手出去是否到位*/
-                        if(out_seat == 1) {
+                        if( (out_seat == 1) && (back_seat == 0) ){
                             UART1_Send(R_TsBuffer,0x01,addre);
                         } else {
                             UART1_Send(R_TsBuffer,0x03,addre);
@@ -140,7 +140,7 @@ int main(void)
                         eeprom_count(2);
                     break;
                     case Drawer_back_place:/*机械手回来是否到位*/
-                        if(back_seat == 1)
+                        if( (back_seat == 1) && (out_seat == 0) )
                         {
                             UART1_Send(R_TsBuffer,0x01,addre);
                         }

@@ -38,6 +38,7 @@ static voice_obj voice = {
 
 static receipt_obj receipt = {
     .init       = receipt_init,
+    .open       = receipt_open,
     .get        = receipt_get,       
 };
 

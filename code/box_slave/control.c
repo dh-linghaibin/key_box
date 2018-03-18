@@ -268,14 +268,18 @@ u8 robot_mode(u8 mode) {
     WDT();//Çå¿´ÃÅ¹·
     en_seat = 1;
     delayms(10);
+    if( (back_seat == 1) && (out_seat == 1) ){
+        moto_en
+        return 0x02;
+    }
     if(mode == 0) {
-        if(back_seat == 1) {
+        if( (back_seat == 1) && (out_seat == 0) ){
             moto_en
             return 0x01;
         }
          moto_dir = 0;
     } else {
-        if(out_seat == 1) {
+        if((out_seat == 1) && (back_seat == 0)){
             moto_en
             return 0x01;
         }
