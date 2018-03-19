@@ -148,7 +148,11 @@ static void out_call(void * pd) {
 
 void setp_moto_open(struct _setp_moto_obj * moto,void (*open_call)(setp_moto_ask_e pd)) {
     if(is_run == 0) {
-        if(open_sign_read(null) == E_ENABLE) {
+        if( (open_sign_read(null) == E_ENABLE) && (close_sign_read(null) == E_ENABLE) ){
+            if(open_call != null) {
+                open_call(SA_TIME_OUT);
+            }
+        } else if(open_sign_read(null) == E_ENABLE) {
             if(open_call != null) {
                 open_call(SA_OK);
             }
@@ -175,7 +179,11 @@ void setp_moto_open(struct _setp_moto_obj * moto,void (*open_call)(setp_moto_ask
 
 void setp_moto_close(struct _setp_moto_obj * moto,void (*close_call)(setp_moto_ask_e pd)) {
     if(is_run == 0) {
-        if(close_sign_read(null) == E_ENABLE) {
+        if( (open_sign_read(null) == E_ENABLE) && (close_sign_read(null) == E_ENABLE) ){
+            if(close_call != null) {
+                close_call(SA_TIME_OUT);
+            }
+        } else if(close_sign_read(null) == E_ENABLE) {
             if(close_call != null) {
                 close_call(SA_OK);
             }

@@ -43,6 +43,8 @@ static uint8_t need_draw_num = 0;//抽屉位置
 static door_bit door_flag = D_OPEN;//门是否关闭
 static uint8_t ask_rep = 0;//是否需要返回回单
 
+static uint8_t again_num = 0;/* 重发次数 */
+
 door_bit get_door_bit(void) {
     return door_flag;
 }
@@ -90,6 +92,7 @@ static void setp_moto_ok(void * p) {
     eprom_obj *eprom = device_get("eprom");
     eprom->write(eprom, EP_MOTO_POS, (uint8_t*)position_to,2);
     
+    again_num = 0;
     usart_tx_msg_obj msg;
     msg.id = need_draw_num;
     msg.cmd = 0x05;
@@ -106,13 +109,27 @@ static void send_ask_open_ok(void *pd) {
 
 //4-2-1 超时 重发
 static void open_out_time(void) {
-    usart_tx_msg_obj msg;
-    msg.id = need_draw_num;
-    msg.cmd = 0x05;
-    msg.len = 0x00;
-    msg.call_back = send_ask_open_ok;
-    usart_obj *usart = device_get("usart");
-    usart->draw_send(usart,msg);
+    if(again_num < 5) {
+        again_num++;
+        usart_tx_msg_obj msg;
+        msg.id = need_draw_num;
+        msg.cmd = 0x05;
+        msg.len = 0x00;
+        msg.call_back = send_ask_open_ok;
+        usart_obj *usart = device_get("usart");
+        usart->draw_send(usart,msg);
+    } else {/* 通讯错误 */
+        again_num = 0;
+        usart_obj *usart = device_get("usart");
+        usart_tx_msg_obj msg;
+        for(register int i = 0;i < 10;i++) {
+            msg.data[i] = 0;
+        }
+        msg.cmd = 0x22;
+        
+        msg.call_back = close_pc_sen_ack_ok;
+        usart->pc_send(usart,msg);
+    }
 }
 
 //4-1 发送完成回掉
@@ -171,6 +188,8 @@ static void close_draw(uint8_t r_num,uint8_t draw_num) {
     button_obj *button = device_get("button");
     button->del_read(button);
     
+    again_num = 0;
+    
     need_r_num = r_num;
     need_draw_num = draw_num;
     usart_obj *usart = device_get("usart");
@@ -190,13 +209,25 @@ static void close_draw_back(void *pd) {
 
 //2-1 超时 重发
 static void close_out_time(void) {
-    usart_tx_msg_obj msg;
-    msg.id = need_draw_num;
-    msg.cmd = 0x06;
-    msg.len = 0x00;
-    msg.call_back = close_draw_back;
-    usart_obj *usart = device_get("usart");
-    usart->draw_send(usart,msg);
+    if(again_num < 5) {
+        usart_tx_msg_obj msg;
+        msg.id = need_draw_num;
+        msg.cmd = 0x06;
+        msg.len = 0x00;
+        msg.call_back = close_draw_back;
+        usart_obj *usart = device_get("usart");
+        usart->draw_send(usart,msg);
+    } else { //返回错误
+        usart_obj *usart = device_get("usart");
+        usart_tx_msg_obj msg;
+        for(register int i = 0;i < 10;i++) {
+            msg.data[i] = 0;
+        }
+        msg.cmd = 0x22;
+        
+        msg.call_back = close_pc_sen_ack_ok;
+        usart->pc_send(usart,msg);
+    }
 }
 
 //3 - 返回

@@ -131,7 +131,7 @@ void usart_rec_callback(void *pd) {
             light_obj *light = device_get("light");
             light->set(light,L_OPEN);
             
-            id_light = stime_create(1000,ST_ALWAYS,led_task);
+            id_light = stime_create(1000,ST_ALWAYS,light_flash_t);
             
             setp_moto_obj *moto = device_get("moto");
             moto->open(moto,open_call_light);
